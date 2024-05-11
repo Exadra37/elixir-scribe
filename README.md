@@ -18,9 +18,14 @@ Some of the benefits of using the Scribe tool to start and maintain an Elixir or
 * Quickly find and start debugging a bug because actions aren't entangled in a huge module with several resources for a domain (context). For example, if the bug is about creating a resource on a given domain, it's straightforward to know where to start due to the folder structure.
 * The folder structure is documentation that never lies about what domains (contexts), resources, and actions are available in your project, whether huge or small.
 
-The Scribe tool enables developers craftsmanship and professionalism to reach new levels never imagined before or thought to be easy to achieve.
+The Scribe tool enables developers craftsmanship and professionalism to reach new levels never imagined before or thought to not be easy to achieve.
 
 Don't just be a Developer or Engineer, become a Scribe Developer and Engineer 🚀
+
+
+## Contributing
+
+The Elixir Scribe tool is highly opinionated, therefore I ask you to first [open a discussion](https://github.com/Exadra37/elixir-scribe/discussions/new?category=ideas) to propose your idea to avoid working and then seeing the PR refused.
 
 
 ## Installation
