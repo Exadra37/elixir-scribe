@@ -1,0 +1,11 @@
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` with a `%<%= context.schema.human_singular %>{}` for tracking changes for the given <%= schema.singular %> `id`.
+
+  ## Examples
+
+      iex> <%= action %>_<%= schema.singular %>(123)
+      %Ecto.Changeset{data: %<%= inspect schema.alias %>{id: id}}
+
+  """
+  def <%= action %>_<%= schema.singular %>(id), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>(id)
