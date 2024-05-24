@@ -56,8 +56,6 @@ lib
 │       │   │   ├── create
 │       │   │   ├── delete
 │       │   │   ├── edit
-│       │   │   ├── export
-│       │   │   ├── import
 │       │   │   ├── list
 │       │   │   ├── new
 │       │   │   ├── read
@@ -85,8 +83,6 @@ lib
         │   │   ├── create
         │   │   ├── delete
         │   │   ├── edit
-        │   │   ├── export
-        │   │   ├── import
         │   │   ├── list
         │   │   ├── new
         │   │   ├── read
@@ -158,7 +154,7 @@ by adding `elixir_scribe` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:elixir_scribe, ">= 0.1.0", only: :dev}
+    {:elixir_scribe, ">= 0.1.0", only: :dev, runtime: false}
   ]
 end
 ```
@@ -177,7 +173,7 @@ mix phx.new my_app --database sqlite3
 Now let's use the Elixir Scribe generators to create the domain `Catalog` and add to it the resource `Category` with the default actions:
 
 ```
-mix scribe.gen.html Catalog Category categories name:string desc:string --web Catalog
+mix scribe.gen.html Catalog Category categories name:string desc:string
 ```
 
 > Elixir Scribe default actions: create, delete, edit, list, new, read, update
@@ -186,13 +182,13 @@ mix scribe.gen.html Catalog Category categories name:string desc:string --web Ca
 Let's add to the domain `Catalog` the resource `Product` with custom actions on top of the default actions:
 
 ```
-mix scribe.gen.html Catalog Product products name:string desc:string --web Catalog --actions batch_create,batch_update
+mix scribe.gen.html Catalog Product products name:string desc:string --actions import,export
 ```
 
-Let's add the domain `Warehouse` with the resource `Iventory` without default actions. We will need to provide custom actions:
+Let's add the domain `Warehouse` with the resource `Stock` without default actions. We will need to provide custom actions:
 
 ```
-mix scribe.gen.html Warehouse Inventory inventories name:string desc:string --web Warehouse --actions batch_create,batch_update --no-default-actions
+ mix scribe.gen.html Warehouse Stock stocks product_id:integer quantity:integer --actions import,export --no-default-actions
 ```
 
 [TOC](#toc)
@@ -216,6 +212,8 @@ The Elixir Scribe tool is highly opinionated, therefore I ask you to first [open
 
 ## Roadmap
 
+The roadmap is extensive and due to the continuous high efforts and commitments to develop and maintain everything I may only provide some of the generators to Sponsors and/or as Pro versions that will require a paid license.
+
 ### Elixir Scribe Generators
 
 - [ ] Mix task: `scribe.gen.domain`
@@ -224,6 +222,9 @@ The Elixir Scribe tool is highly opinionated, therefore I ask you to first [open
 - [ ] Mix task: `scribe.gen.home`
   * Removes current default Home page.
   * Adds new Home page with links to each Domain and Resource.
+  * Optimizes default HTMl layout and components for a more clean and usable UI:
+    + Table headers in Bold
+    + Highlight links in blue, not in bold (black).
 - [ ] Mix task: `scribe.gen.ci` 
   * Generates a CI file for Github or Gitlab with at least the following:
     + `mix format --dry-run --check-formatted`
@@ -234,21 +235,34 @@ The Elixir Scribe tool is highly opinionated, therefore I ask you to first [open
     + `mix credo`
     + `mix doctor`
     + `mix test --cover`
-- [ ] Mix task: `scribe.gen.project` -> Generates all Domains, Resources and Actions from an Elixir Scribe spec module `%ElixirScribe.ProjectSpecs{}`. 
+- [ ] Mix task: `scribe.gen.project`
+  * Generates all Domains, Resources and Actions from an Elixir Scribe spec module `%ElixirScribe.ProjectSpecs{}`. 
 - [ ] Mix task: `scribe.gen.api`
+  * Adds a dynamic API key (only valid for one request).
+  * Adds support for fingerprinting the mobile and web app.
+  * Adds support to collect metrics.
+  * Adds a Secure Remote Configuration for mobile apps to avoid a new release:
+    + To rotate certificate pins. This enables dynamic certificate pinning on the mobile app.
+    + To change any settings pre-configured within the release binary (API endpoints, Menus, etc.).
+    + To control feature flags.
+    + To enable a kill-switch to force upgrade to a new version.
+    + To dynamically conduct experiments with user experience, A/B testing.
+- [ ] Mix task: `scribe.gen.auth`
+  * Adds enhanced User Authentication:
+    + fingerprinting of the client enabled by default 
+    + enabled by default to all pages, except Home page.
+- [ ] Mix task: `scribe.gen.oauth`
+  * Adds enhanced OAuth for popular providers:
+    + fingerprinting of the client enabled by default 
+    + enabled by default to all pages, except Home page.
 - [ ] Mix task: `scribe.gen.native`
   * Enables the project to be built for Desktop, Android and Apple.
   * Elixir libraries to build for native targets:
     + [LiveView Native](https://github.com/liveview-native)
     + [Elixir Desktop](https://github.com/elixir-desktop/desktop)
     + [ExTauri](https://github.com/Exadra37/ex_tauri)
+- [ ] Mix task: `scribe.gen.static`
+  * Generates a static website from a current project.
+- [ ] Mix task: `scribe.gen.deploy`
+  * Adds easy deployment to popular hosting providers.
 - [ ] Mix task: `scribe.gen.admin`
-
-### Improvements
-
-- [ ] Optimize default HTMl layout and components for a more clean and usable UI.
-  - [ ] Table headers in Bold
-  - [ ] Highlight links in blue, not in bold (black).
-- [ ] Add Authentication by default to all pages, except Home page.
-- [ ] Add dynamic API key (only valid for one request)
-- [ ] Add Remote Configuration for mobile apps
