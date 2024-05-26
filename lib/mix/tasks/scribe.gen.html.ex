@@ -223,26 +223,34 @@ dbg(args)
   end
 
   @doc false
-  def files_to_be_generated(%Context{schema: schema, context_app: context_app} = context) do
+  def files_to_be_generated(%Context{schema: schema, context_app: _context_app} = context) do
     singular = schema.singular
-    web_prefix = Mix.Phoenix.web_path(context_app)
-    test_prefix = Mix.Phoenix.web_test_path(context_app)
-    web_path = to_string(schema.web_path)
-    controller_pre = Path.join([web_prefix, "domains", context.basename])
-    test_pre = Path.join([test_prefix, "domains", web_path])
+    # web_prefix = Mix.Phoenix.web_path(context_app)
+    # test_prefix = Mix.Phoenix.web_test_path(context_app)
+    # web_path = to_string(schema.web_path)
+    # controller_pre = Path.join([web_prefix, "domains", context.basename])
+    # domains_path = ElixirScribe.get_domains_path(context, :lib_web)
+    resource_path = ElixirScribe.get_resource_path(context, :lib_web)
+    test_pre = ElixirScribe.get_resource_path(context, :test_web)
+
+    # domains_test_path = ElixirScribe.get_domains_path(context, :test_web)
+    # test_pre = Path.join([domains_test_path, resource])
+    dbg(test_pre)
+    # test_pre = Path.join([test_prefix, "domains", web_path])
+    # test_pre = Path.join([test_prefix, web_path])
 
     controller_template_path = ElixirScribe.default_controller_template_path()
     controller_test_template_path = ElixirScribe.default_controller_test_template_path()
     html_template_path = MixGeneratorAPI.build_path_html_template(context)
 
     resource_form_source = Path.join(html_template_path, "resource_form.html.heex")
-    resource_form_target = Path.join([controller_pre, singular, "#{singular}_form.html.heex"])
+    resource_form_target = Path.join([resource_path, "#{singular}_form.html.heex"])
     not_used_action = ""
 
     files = [
       {:eex, resource_form_source, resource_form_target, not_used_action},
       {:eex, Path.join(html_template_path, "html.ex"),
-       Path.join([controller_pre, singular, "#{singular}_html.ex"]), not_used_action}
+       Path.join([resource_path, "#{singular}_html.ex"]), not_used_action}
     ]
 
     default_actions = MixGeneratorAPI.build_actions_from_options(context.opts)
@@ -250,15 +258,22 @@ dbg(args)
     files =
       for action <- default_actions, reduce: files do
         files ->
+          # target = ElixirScribe.get_resource_action_file(context, action, "_controller.ex", :web)
+          # source_filename =
+          #   ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, "controller.ex", "_")
+
+          # source = Path.join(controller_template_path, source_filename)
+
+          # file = {:eex, source, target, action}
+          # [file | files]
           build_file_to_be_generated(
             files,
             context,
             action,
             "_",
-            :eex,
-            controller_pre,
             controller_template_path,
-            "controller.ex"
+            "controller.ex",
+            :lib_web
           )
       end
 
@@ -273,10 +288,9 @@ dbg(args)
               context,
               html_action,
               ".",
-              :eex,
-              controller_pre,
               html_template_path,
-              "html.heex"
+              "html.heex",
+              :lib_web
             )
           else
             files
@@ -290,10 +304,9 @@ dbg(args)
           context,
           action,
           "_",
-          :eex,
-          test_pre,
           controller_test_template_path,
-          "controller_test.exs"
+          "controller_test.exs",
+          :test_web
         )
     end
   end
@@ -303,20 +316,18 @@ dbg(args)
          context,
          action,
          action_suffix,
-         format,
-         root_dir,
          source_base_dir,
-         filename
+         filename,
+         type
        ) do
     file =
       build_action_file(
         context,
         action,
         action_suffix,
-        format,
-        root_dir,
         source_base_dir,
-        filename
+        filename,
+        type
       )
 
     [file | files]
@@ -326,24 +337,26 @@ dbg(args)
          context,
          action,
          action_suffix,
-         format,
-         root_dir,
          source_base_dir,
-         filename
+         filename,
+         type
        ) do
     source_filename =
       ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, filename, action_suffix)
 
     source = Path.join(source_base_dir, source_filename)
 
-    resource =
-      (action in ElixirScribe.default_plural_actions() && context.schema.plural) ||
-        context.schema.singular
 
-    resource_filename = "#{action}_#{resource}#{action_suffix}#{filename}"
-    target = Path.join([root_dir, context.schema.singular, "#{action}", resource_filename])
+    # resource =
+    #   (action in ElixirScribe.default_plural_actions() && context.schema.plural) ||
+    #     context.schema.singular
 
-    {format, source, target, action}
+    # resource_filename = "#{action}_#{resource}#{action_suffix}#{filename}"
+    # target = Path.join([root_dir, context.schema.singular, "#{action}", resource_filename])
+    resource_filename_suffix = "#{action_suffix}#{filename}"
+    target = ElixirScribe.get_resource_action_file(context, action, resource_filename_suffix, type)
+
+    {:eex, source, target, action}
   end
 
   @doc false

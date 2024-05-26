@@ -70,25 +70,25 @@ Blog_Site() {
   Maybe_Create_App
 
   # BLOG SITE PAGES
-  mix scribe.gen.html Blog.Page Home home --no-schema --no-default-actions --actions render
-  mix scribe.gen.html Blog.Page PostsLists posts_lists --no-schema --no-default-actions --actions list
-  mix scribe.gen.html Blog.Page Post posts --no-schema --no-default-actions --actions render
-  mix scribe.gen.html Blog.Page About about --no-schema --no-default-actions --actions render
-  mix scribe.gen.html Blog.Page Portfolio portfolio --no-schema --no-default-actions --actions render
+  mix scribe.gen.html Blog.Site.Page Home home --no-schema --no-default-actions --actions render
+  # mix scribe.gen.html Blog.Page PostsLists posts_lists --no-schema --no-default-actions --actions list
+  # mix scribe.gen.html Blog.Page Post posts --no-schema --no-default-actions --actions render
+  # mix scribe.gen.html Blog.Page About about --no-schema --no-default-actions --actions render
+  # mix scribe.gen.html Blog.Page Portfolio portfolio --no-schema --no-default-actions --actions render
 
 # BLOG ADMIN PAGES
   mix scribe.gen.html Blog.Admin.Page Home home --no-schema --no-default-actions --actions render
-  mix scribe.gen.html Blog.Admin.Page PostsLists posts_lists --no-schema --no-default-actions --actions list
-  mix scribe.gen.html Blog.Admin.Page Post posts --no-schema --no-default-actions --actions render
-  mix scribe.gen.html Blog.Admin.Page About about --no-schema --no-default-actions --actions render
-  mix scribe.gen.html Blog.Admin.Page Portfolio portfolio --no-schema --no-default-actions --actions render
+  # mix scribe.gen.html Blog.Admin.Page PostsLists posts_lists --no-schema --no-default-actions --actions list
+  # mix scribe.gen.html Blog.Admin.Page Post posts --no-schema --no-default-actions --actions render
+  # mix scribe.gen.html Blog.Admin.Page About about --no-schema --no-default-actions --actions render
+  # mix scribe.gen.html Blog.Admin.Page Portfolio portfolio --no-schema --no-default-actions --actions render
 
-  # BLOG CONTENT
-  mix scribe.gen.domain Blog.Admin.Content Author authors name short_bio:text
-  mix scribe.gen.domain Blog.Admin.Content Post posts title description content author_uuid:references:authors
-  mix scribe.gen.domain Blog.Admin.Content FeaturedPost featured_posts post_uuid:references:posts
-  mix scribe.gen.domain Blog.Admin.Content RelatedPost related_posts post_uuid:references:posts
-  mix scribe.gen.domain Blog.Admin.Content PostSequence posts_sequences title description posts_uuids:array:uuid
+  # # BLOG CONTENT
+  # mix scribe.gen.domain Blog.Admin.Content Author authors name short_bio:text
+  # mix scribe.gen.domain Blog.Admin.Content Post posts title description content author_uuid:references:authors
+  # mix scribe.gen.domain Blog.Admin.Content FeaturedPost featured_posts post_uuid:references:posts
+  # mix scribe.gen.domain Blog.Admin.Content RelatedPost related_posts post_uuid:references:posts
+  # mix scribe.gen.domain Blog.Admin.Content PostSequence posts_sequences title description posts_uuids:array:uuid
 
 
 }

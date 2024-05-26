@@ -256,53 +256,81 @@ defmodule ElixirScribe do
   end
 
   @doc false
-  def get_lib_app_dir(%Context{} = context) do
-    app_name = Mix.Project.config() |> Keyword.get(:app) |> Atom.to_string()
+  def get_app_name(), do: Mix.Project.config() |> Keyword.get(:app) |> Atom.to_string()
+
+  @doc false
+  def get_app_path(:lib_core) do
+    app_name = get_app_name()
     Path.join(["lib", app_name])
   end
 
   @doc false
-  def get_domains_base_dir(%Context{} = context) do
-    app_dir = context |> get_lib_app_dir()
-    domains_path = context.dir |> String.replace(app_dir, "")
-    Path.join([app_dir, "domains", domains_path])
+  def get_app_path(:test_core) do
+    app_name = get_app_name()
+    Path.join(["test", app_name])
   end
 
   @doc false
-  def get_test_base_dir(%Context{} = context) do
-    context.test_file |> Path.dirname()
-  end
+  def get_app_path(:lib_web), do: get_app_path(:lib_core) <> "_web"
 
   @doc false
-  def get_domains_test_base_dir(%Context{} = context) do
-    context |> get_test_base_dir() |> Path.join("domains")
+  def get_app_path(:test_web), do: get_app_path(:test_core) <> "_web"
+
+  @doc false
+  def get_domain_path(%Context{} = context, type) do
+    app_lib_core_path = get_app_path(:lib_core)
+    domains_path = context.dir |> String.replace(app_lib_core_path, "")
+    app_dir = get_app_path(type)
+
+    Path.join([app_dir, "domain", domains_path])
   end
+
+  def get_resource_path(%Context{} = context, type) do
+    domains_path = get_domain_path(context, type)
+    resource = context.schema.singular
+
+    Path.join([domains_path, resource])
+  end
+
+  # @doc false
+  # def get_test_app_path(%Context{} = context) do
+  #   # dbg(context)
+  #   context.test_file |> Path.dirname()
+  # end
+
+  # @doc false
+  # def get_domains_test_base_dir(%Context{} = context) do
+  #   context |> get_test_app_path() |> Path.join("domains")
+  # end
 
   @doc false
   def get_schema_file_path(%Context{} = context) do
-    base_dir = context |> get_domains_base_dir()
+    base_dir = context |> get_domain_path(:lib_core)
     resource = context.schema.singular
 
     Path.join([base_dir, resource <> "_schema.ex"])
   end
 
   @doc false
-  def get_resource_action_file(%Context{} = context, action) do
-    base_dir = get_domains_base_dir(context)
-    resource = context.schema.singular
-    filename = get_resource_action_filename(context, action, ".ex")
+  def get_resource_action_file(%Context{} = context, action, suffix, type) do
+    # base_dir = get_domain_path(context, type)
+    # resource = context.schema.singular
+    resource_path = get_resource_path(context, type)
+    filename = get_resource_action_filename(context, action, suffix)
 
-    Path.join([base_dir, resource, "#{action}", filename])
+    Path.join([resource_path, "#{action}", filename])
+    |> dbg()
   end
 
   @doc false
   def get_resource_action_test_file(%Context{} = context, action) do
-    test_dir = get_domains_test_base_dir(context)
-    domain = context.basename
-    resource = context.schema.singular
+    # test_dir = get_domain_path(context, :test_core)
+    # domain = context.basename
+    # resource = context.schema.singular
+    resource_path = get_resource_path(context, :test_core)
     filename = get_resource_action_filename(context, action, "_test.exs")
 
-    Path.join([test_dir, domain, resource, "#{action}", filename])
+    Path.join([resource_path, "#{action}", filename])
   end
 
   @doc false

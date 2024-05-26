@@ -5,6 +5,7 @@ defmodule ElixirScribe.DomainGeneratorFixtures do
   """
 
   alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
 
   @doc """
   Generate a resource.
