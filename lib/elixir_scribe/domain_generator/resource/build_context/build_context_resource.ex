@@ -11,6 +11,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
     opts = Keyword.put(opts, :web, context_name)
 
     schema_module = inspect(Module.concat(context_name, schema_name))
+
     # @TODO Build the Schema without the help variable and without calling the generator directly
     schema = Gen.Schema.build([schema_module, plural | schema_args], opts, help)
 

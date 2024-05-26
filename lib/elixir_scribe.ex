@@ -256,13 +256,16 @@ defmodule ElixirScribe do
   end
 
   @doc false
-  def get_base_dir(%Context{} = context) do
-    context.dir |> Path.dirname()
+  def get_lib_app_dir(%Context{} = context) do
+    app_name = Mix.Project.config() |> Keyword.get(:app) |> Atom.to_string()
+    Path.join(["lib", app_name])
   end
 
   @doc false
   def get_domains_base_dir(%Context{} = context) do
-    context |> get_base_dir() |> Path.join("domains")
+    app_dir = context |> get_lib_app_dir()
+    domains_path = context.dir |> String.replace(app_dir, "")
+    Path.join([app_dir, "domains", domains_path])
   end
 
   @doc false
@@ -277,21 +280,19 @@ defmodule ElixirScribe do
 
   @doc false
   def get_schema_file_path(%Context{} = context) do
-    base_dir = context |> get_base_dir()
-    domain = context.basename
+    base_dir = context |> get_domains_base_dir()
     resource = context.schema.singular
 
-    Path.join([base_dir, "domains", domain, resource <> ".ex"])
+    Path.join([base_dir, resource <> "_schema.ex"])
   end
 
   @doc false
   def get_resource_action_file(%Context{} = context, action) do
     base_dir = get_domains_base_dir(context)
-    domain = context.basename
     resource = context.schema.singular
     filename = get_resource_action_filename(context, action, ".ex")
 
-    Path.join([base_dir, domain, resource, "#{action}", filename])
+    Path.join([base_dir, resource, "#{action}", filename])
   end
 
   @doc false

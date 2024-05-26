@@ -191,8 +191,8 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
         "mix scribe.gen.html must be invoked from within your *_web application root directory"
       )
     end
-
-    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
+dbg(args)
+    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args() |> dbg()
 
     valid_args
     |> ResourceAPI.build_context!(opts, ParseArgsResource)
