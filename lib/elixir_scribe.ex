@@ -229,19 +229,32 @@ defmodule ElixirScribe do
   end
 
   @doc false
-  def capitalize(string) do
+  def rebuild_binding(binding, action) do
+    [{:context, context} | _rest] = binding
+
+    Keyword.merge(binding,
+      action: action,
+      action_first_word: first_word(action),
+      action_capitalized: capitalize(action),
+      action_human_capitalized: human_capitalize(action),
+      module_action_name:
+        MixGeneratorAPI.build_absolute_module_action_name(context, action, from_schema: true)
+    )
+  end
+  @doc false
+  def capitalize(string, joiner \\ "") do
     string
     |> String.split(["_", "-"], trim: true)
-    |> Enum.map(fn part -> String.capitalize(part) end)
-    |> Enum.join()
+    |> Enum.map(fn part -> part |> String.trim() |> String.capitalize() end)
+    |> Enum.join(joiner)
   end
 
   @doc false
   def human_capitalize(string) do
+    joiner = " "
+
     string
-    |> String.split(["_", "-"], trim: true)
-    |> Enum.map(fn part -> String.capitalize(part) end)
-    |> Enum.join(" ")
+    |> capitalize(joiner)
   end
 
   @doc false
@@ -295,18 +308,5 @@ defmodule ElixirScribe do
     Keyword.merge(binding, new_bindings)
   end
 
-  @doc false
-  def rebuild_binding(binding, action) do
-    [{:context, context} | _rest] = binding
-
-    Keyword.merge(binding,
-      action: action,
-      action_first_word: first_word(action),
-      action_capitalized: capitalize(action),
-      action_human_capitalized: human_capitalize(action),
-      module_action_name:
-        MixGeneratorAPI.build_absolute_module_action_name(context, action, from_schema: true)
-    )
-  end
 
 end

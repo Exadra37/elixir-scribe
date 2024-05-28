@@ -260,4 +260,32 @@ defmodule ElixirScribeTest do
     end
   end
 
+  describe "capitalize/1" do
+    test "capitalizes a string" do
+      assert " string " |> ElixirScribe.capitalize() === "String"
+    end
+
+    test "capitalizes a snake_case string" do
+      assert "some_string" |> ElixirScribe.capitalize() === "SomeString"
+    end
+
+    test "capitalizes a kebab-case string" do
+      assert "some-string" |> ElixirScribe.capitalize() === "SomeString"
+    end
+  end
+
+  describe "human_capitalize/1" do
+    test "capitalizes a string" do
+      assert " string " |> ElixirScribe.human_capitalize() === "String"
+    end
+
+    test "capitalizes a snake_case string" do
+      assert "some_string" |> ElixirScribe.human_capitalize() === "Some String"
+    end
+
+    test "capitalizes a kebab-case string" do
+      assert "some-string" |> ElixirScribe.human_capitalize() === "Some String"
+    end
+  end
+
 end
