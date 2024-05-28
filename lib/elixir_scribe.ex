@@ -73,7 +73,7 @@ defmodule ElixirScribe do
 
   ```elixir
   config :elixir_scribe,
-    default_actions_aliases: %{
+    resource_actions_aliases: %{
         "read" => "show",
         "list" => "index",
       }
@@ -89,58 +89,48 @@ defmodule ElixirScribe do
   alias ElixirScribe.MixGeneratorAPI
 
   @doc false
-  def default_base_template_paths() do
-    [".", :elixir_scribe, :phoenix]
-  end
+  def base_template_paths(), do: [".", :elixir_scribe, :phoenix]
+
+  @web_template_path "priv/templates/scribe.gen.html"
+  @doc false
+  def web_template_path(), do: @web_template_path
+
+  @html_template_path @web_template_path |> Path.join("html")
+  @doc false
+  def html_template_path(), do: @html_template_path
+
+  @controller_template_path @web_template_path |> Path.join("controllers")
+  @doc false
+  def controller_template_path(), do: @controller_template_path
+
+  @controller_test_template_path Path.join([@web_template_path, "tests", "controllers"])
+  @doc false
+  def controller_test_template_path(), do: @controller_test_template_path
+
+  @domain_template_path "priv/templates/scribe.gen.domain"
+  @doc false
+  def domain_template_path(), do: @domain_template_path
+
+  @domain_tests_template_path @domain_template_path |> Path.join("tests")
+  @doc false
+  def domain_tests_template_path(), do: @domain_tests_template_path
+
+  @domain_api_template_path @domain_template_path |> Path.join("apis")
+  @doc false
+  def domain_api_template_path(), do: @domain_api_template_path
+
+  @resource_actions_template_path @domain_template_path |> Path.join("actions")
+  @doc false
+  def resource_actions_template_path(), do: @resource_actions_template_path
+
+  # @IMPORTANT: Order of actions MATTERS, otherwise routes will not work as
+  #  expected. Don't allow override from config, but allow to set aliases.
+  @actions ["list", "new", "read", "edit", "create", "update", "delete"]
+  @doc false
+  def resource_actions(), do: @actions
 
   @doc false
-  def default_web_template_path() do
-    "priv/templates/scribe.gen.html"
-  end
-
-  @doc false
-  def default_html_template_path() do
-    default_web_template_path() |> Path.join("html")
-  end
-
-  @doc false
-  def default_controller_template_path() do
-    default_web_template_path() |> Path.join("controllers")
-  end
-
-  @doc false
-  def default_controller_test_template_path() do
-    Path.join([default_web_template_path(), "tests", "controllers"])
-  end
-
-  @default_domain_template_path "priv/templates/scribe.gen.domain"
-  @doc false
-  def default_domain_template_path(), do: @default_domain_template_path
-
-  @doc false
-  def default_domain_api_template_path() do
-    default_domain_template_path() |> Path.join("apis")
-  end
-
-  @doc false
-  def default_domain_actions_template_path() do
-    default_domain_template_path() |> Path.join("actions")
-  end
-
-  @doc false
-  def default_domain_tests_template_path() do
-    default_domain_template_path() |> Path.join("tests")
-  end
-
-  @doc false
-  def default_actions() do
-    # @IMPORTANT: Order of actions MATTERS, otherwise routes will not work as
-    #  expected. Don't allow override from config, but allow to set aliases.
-    ["list", "new", "read", "edit", "create", "update", "delete"]
-  end
-
-  @doc false
-  def default_actions_aliases() do
+  def resource_actions_aliases() do
     # @TODO Get from configuration.
 
     %{
@@ -149,8 +139,8 @@ defmodule ElixirScribe do
   end
 
   @doc false
-  def get_action_alias(action) do
-    default_actions_aliases() |> Map.get(action, action)
+  def get_resource_action_alias(action) do
+    resource_actions_aliases() |> Map.get(action, action)
   end
 
   @doc false
@@ -212,9 +202,9 @@ defmodule ElixirScribe do
   @doc false
   def rebuild_binding_with_action_aliases(binding) do
     new_bindings =
-      default_actions()
+      resource_actions()
       |> Keyword.new(fn action ->
-        action_alias = get_action_alias(action)
+        action_alias = get_resource_action_alias(action)
         action_key = String.to_atom("#{action}_action")
         {action_key, action_alias}
       end)
@@ -222,9 +212,9 @@ defmodule ElixirScribe do
     binding = Keyword.merge(binding, new_bindings)
 
     new_bindings =
-      default_actions()
+      resource_actions()
       |> Keyword.new(fn action ->
-        action_alias = get_action_alias(action) |> String.capitalize()
+        action_alias = get_resource_action_alias(action) |> String.capitalize()
         action_key = String.to_atom("#{action}_action_capitalized")
         {action_key, action_alias}
       end)
@@ -312,29 +302,27 @@ defmodule ElixirScribe do
   end
 
   @doc false
-  def get_resource_action_file(%Context{} = context, action, suffix, type) do
-    # base_dir = get_domain_path(context, type)
-    # resource = context.schema.singular
+  def build_resource_action_file_path(%Context{} = context, action, suffix, type) do
     resource_path = get_resource_path(context, type)
-    filename = get_resource_action_filename(context, action, suffix)
-
-    Path.join([resource_path, "#{action}", filename])
-    |> dbg()
-  end
-
-  @doc false
-  def get_resource_action_test_file(%Context{} = context, action) do
-    # test_dir = get_domain_path(context, :test_core)
-    # domain = context.basename
-    # resource = context.schema.singular
-    resource_path = get_resource_path(context, :test_core)
-    filename = get_resource_action_filename(context, action, "_test.exs")
+    filename = build_resource_action_filename(context, action, suffix)
 
     Path.join([resource_path, "#{action}", filename])
   end
 
   @doc false
-  def get_resource_action_filename(%Context{} = context, action, suffix) do
+  def build_resource_action_test_file_path(%Context{} = context, action, type) do
+    # # test_dir = get_domain_path(context, :test_core)
+    # # domain = context.basename
+    # # resource = context.schema.singular
+    # resource_path = get_resource_path(context, :test_core)
+    # filename = build_resource_action_filename(context, action, "_test.exs")
+
+    # Path.join([resource_path, "#{action}", filename])
+    build_resource_action_file_path(context, action, "_test.exs", type)
+  end
+
+  @doc false
+  def build_resource_action_filename(%Context{} = context, action, suffix) do
     resource =
       (action in default_plural_actions() && context.schema.plural) || context.schema.singular
 

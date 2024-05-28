@@ -202,7 +202,7 @@ dbg(args)
   end
 
   defp generate_new_files(%Context{} = context) do
-    paths = ElixirScribe.default_base_template_paths()
+    paths = ElixirScribe.base_template_paths()
     files = files_to_be_generated(context)
 
     prompt_for_conflicts(context, files)
@@ -239,8 +239,8 @@ dbg(args)
     # test_pre = Path.join([test_prefix, "domains", web_path])
     # test_pre = Path.join([test_prefix, web_path])
 
-    controller_template_path = ElixirScribe.default_controller_template_path()
-    controller_test_template_path = ElixirScribe.default_controller_test_template_path()
+    controller_template_path = ElixirScribe.controller_template_path()
+    controller_test_template_path = ElixirScribe.controller_test_template_path()
     html_template_path = MixGeneratorAPI.build_path_html_template(context)
 
     resource_form_source = Path.join(html_template_path, "resource_form.html.heex")
@@ -258,7 +258,7 @@ dbg(args)
     files =
       for action <- default_actions, reduce: files do
         files ->
-          # target = ElixirScribe.get_resource_action_file(context, action, "_controller.ex", :web)
+          # target = ElixirScribe.build_resource_action_file_path(context, action, "_controller.ex", :web)
           # source_filename =
           #   ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, "controller.ex", "_")
 
@@ -354,7 +354,7 @@ dbg(args)
     # resource_filename = "#{action}_#{resource}#{action_suffix}#{filename}"
     # target = Path.join([root_dir, context.schema.singular, "#{action}", resource_filename])
     resource_filename_suffix = "#{action_suffix}#{filename}"
-    target = ElixirScribe.get_resource_action_file(context, action, resource_filename_suffix, type)
+    target = ElixirScribe.build_resource_action_file_path(context, action, resource_filename_suffix, type)
 
     {:eex, source, target, action}
   end

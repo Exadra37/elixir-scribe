@@ -7,7 +7,7 @@ defmodule ElixirScribe.MixGenerator.Template.BuildPath.BuildPathHtmlTemplate do
   def build(%Context{} = context) do
     template = Keyword.get(context.opts, :template, "default")
 
-    ElixirScribe.default_html_template_path()
+    ElixirScribe.html_template_path()
     |> Path.join(template)
   end
 end

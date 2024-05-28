@@ -15,7 +15,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
   end
 
   defp get_action_test_file(context, action) do
-    ElixirScribe.get_resource_action_test_file(context, action)
+    ElixirScribe.build_resource_action_test_file_path(context, action, :test_core)
   end
 
   @doc false
@@ -29,9 +29,9 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
 
         test_module_path =
           if schema.generate? do
-            ElixirScribe.default_domain_tests_template_path() |> Path.join("action_test.exs")
+            ElixirScribe.domain_tests_template_path() |> Path.join("action_test.exs")
           else
-            ElixirScribe.default_domain_tests_template_path()
+            ElixirScribe.domain_tests_template_path()
             |> Path.join("action_test_no_schema_access.exs")
           end
 
@@ -54,7 +54,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
         action_template_filename =
           MixGeneratorAPI.build_template_action_filename(action, "schema_test.exs", "_")
 
-        tests_path = ElixirScribe.default_domain_tests_template_path()
+        tests_path = ElixirScribe.domain_tests_template_path()
 
         test_action_file_path =
           Path.join([tests_path, "actions", schema_folder, action_template_filename])

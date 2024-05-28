@@ -24,7 +24,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTest
       ) do
     unless Context.pre_existing_test_fixtures?(context) do
       fixtures_module_template_path =
-        ElixirScribe.default_domain_tests_template_path() |> Path.join("fixtures_module.ex")
+        ElixirScribe.domain_tests_template_path() |> Path.join("fixtures_module.ex")
 
       Mix.Generator.create_file(
         test_fixtures_file,
@@ -41,7 +41,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTest
     ensure_test_fixtures_file_exists(context, paths, binding)
 
     fixtures_file_template_path =
-      ElixirScribe.default_domain_tests_template_path() |> Path.join("fixtures.ex")
+      ElixirScribe.domain_tests_template_path() |> Path.join("fixtures.ex")
 
     paths
     |> Mix.Phoenix.eval_from(fixtures_file_template_path, binding)

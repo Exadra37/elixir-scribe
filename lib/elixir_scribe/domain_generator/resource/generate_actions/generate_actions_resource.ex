@@ -31,9 +31,9 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsR
 
   defp build_module_template_path(schema_generate?) do
     if schema_generate? do
-      ElixirScribe.default_domain_actions_template_path() |> Path.join("action_module.ex")
+      ElixirScribe.resource_actions_template_path() |> Path.join("action_module.ex")
     else
-      ElixirScribe.default_domain_actions_template_path()
+      ElixirScribe.resource_actions_template_path()
       |> Path.join("action_module_no_schema_access.ex")
     end
   end

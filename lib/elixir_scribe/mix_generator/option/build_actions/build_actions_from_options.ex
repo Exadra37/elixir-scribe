@@ -7,7 +7,7 @@ defmodule ElixirScribe.MixGenerator.Options.BuildActions.BuildActionsFromOptions
     if no_default_actions do
       actions(opts[:actions])
     else
-      (ElixirScribe.default_actions() ++ actions(opts[:actions]))
+      (ElixirScribe.default_resource_actions() ++ actions(opts[:actions]))
       |> Enum.uniq()
     end
   end

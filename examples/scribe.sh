@@ -107,8 +107,8 @@ Main() {
     esac
   done
 
-  # Online_Shop
-  Blog_Site
+  Online_Shop
+  # Blog_Site
 }
 
 Main "${@}"

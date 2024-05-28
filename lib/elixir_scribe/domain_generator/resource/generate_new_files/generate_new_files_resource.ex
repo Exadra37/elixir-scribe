@@ -17,7 +17,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
       prompt_for_conflicts(context)
     end
 
-    paths = ElixirScribe.default_base_template_paths()
+    paths = ElixirScribe.base_template_paths()
     binding = ElixirScribe.build_binding(context)
 
     schema_file = ElixirScribe.get_schema_file_path(context)

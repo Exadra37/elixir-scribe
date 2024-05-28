@@ -15,10 +15,10 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   end
 
   defp build_action_routes(%Context{schema: schema} = context) do
-    default_actions = ElixirScribe.default_actions()
+    resource_actions = ElixirScribe.resource_actions()
     actions = ElixirScribe.MixGeneratorAPI.build_actions_from_options(context.opts)
 
-    extra_actions = actions -- default_actions
+    extra_actions = actions -- resource_actions
 
     routes =
       for action <- extra_actions, reduce: "" do
@@ -52,7 +52,7 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   end
 
   defp assemble_route_action(method, action, schema) do
-    action_alias = ElixirScribe.get_action_alias(action)
+    action_alias = ElixirScribe.get_resource_action_alias(action)
     action_capitalized = String.capitalize(action_alias)
     endpoint = build_endpoint(action, action_alias, schema.plural)
 

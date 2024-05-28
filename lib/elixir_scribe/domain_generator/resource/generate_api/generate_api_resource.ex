@@ -40,7 +40,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
 
     unless Context.pre_existing?(context) do
       api_module_path =
-        ElixirScribe.default_domain_api_template_path() |> Path.join("api_module.ex")
+        ElixirScribe.domain_api_template_path() |> Path.join("api_module.ex")
 
       Mix.Generator.create_file(
         file,
@@ -59,9 +59,9 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
           action_template_filename =
             MixGeneratorAPI.build_template_action_filename(action, "api_function.ex", "_")
 
-          ElixirScribe.default_domain_api_template_path() |> Path.join(action_template_filename)
+          ElixirScribe.domain_api_template_path() |> Path.join(action_template_filename)
         else
-          ElixirScribe.default_domain_api_template_path()
+          ElixirScribe.domain_api_template_path()
           |> Path.join("api_function_no_schema_access.ex")
         end
 

@@ -3,7 +3,7 @@ defmodule ElixirScribe.MixGenerator.Template.BuildFilename.BuildFilenameActionTe
 
   @doc false
   def build(action, filename, action_suffix) do
-    case action in ElixirScribe.default_actions() do
+    case action in ElixirScribe.resource_actions() do
       true ->
         "#{action}#{action_suffix}#{filename}"
 
