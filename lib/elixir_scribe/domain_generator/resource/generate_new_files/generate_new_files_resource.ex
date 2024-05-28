@@ -20,7 +20,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
     paths = ElixirScribe.base_template_paths()
     binding = ElixirScribe.build_binding(context)
 
-    schema_file = ElixirScribe.get_schema_file_path(context)
+    schema_file = ElixirScribe.build_app_schema_file_path(context)
     schema = Map.put(schema, :file, schema_file)
 
     if schema.generate?, do: Mix.Tasks.Phx.Gen.Schema.copy_new_files(schema, paths, binding)

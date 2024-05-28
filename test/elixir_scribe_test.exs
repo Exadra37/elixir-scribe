@@ -120,17 +120,23 @@ defmodule ElixirScribeTest do
 
   describe "resource_plural_actions/0" do
     test "returns the resource plural actions" do
-      assert ElixirScribe.resource_plural_actions() === ["read", "new", "edit", "list"]
+      assert ElixirScribe.resource_plural_actions() === ["index", "list"]
     end
 
+    # @TODO update test when plural actions from config is implemented
     # test "returns the resource plural actions as per app configuration" do
     #   assert ElixirScribe.resource_plural_actions() === ["read", "new", "edit", "list"]
     # end
   end
 
+  describe "build_app_schema_file_path/1" do
+    test "returns schema file path" do
+      context = fixture(:context)
 
-
-  #@TODO Move to it's own resource action test module
+      assert ElixirScribe.build_app_schema_file_path(context) === "lib/elixir_scribe/domain/site/blog/post_schema.ex"
+    end
+  end
+  # @TODO Move to it's own resource action test module
   describe "build_app_domain_path/2" do
     test "returns domain path for :lib_core" do
       context = fixture(:context)
@@ -157,50 +163,55 @@ defmodule ElixirScribeTest do
     end
   end
 
-
-
-  describe "get_resource_path/2" do
+  describe "build_app_resource_path/2" do
     test "returns resource path for :lib_core" do
       context = fixture(:context)
 
-      assert ElixirScribe.get_resource_path(context, :lib_core) === "lib/elixir_scribe/domain/site/blog/post"
+      assert ElixirScribe.build_app_resource_path(context, :lib_core) === "lib/elixir_scribe/domain/site/blog/post"
     end
 
     test "returns resource path for :lib_web" do
       context = fixture(:context)
 
-      assert ElixirScribe.get_resource_path(context, :lib_web) === "lib/elixir_scribe_web/domain/site/blog/post"
+      assert ElixirScribe.build_app_resource_path(context, :lib_web) === "lib/elixir_scribe_web/domain/site/blog/post"
     end
 
     test "returns resource path for :test_core" do
       context = fixture(:context)
 
-      assert ElixirScribe.get_resource_path(context, :test_core) === "test/elixir_scribe/domain/site/blog/post"
+      assert ElixirScribe.build_app_resource_path(context, :test_core) === "test/elixir_scribe/domain/site/blog/post"
     end
 
     test "returns resource path for :test_web" do
       context = fixture(:context)
 
-      assert ElixirScribe.get_resource_path(context, :test_web) === "test/elixir_scribe_web/domain/site/blog/post"
+      assert ElixirScribe.build_app_resource_path(context, :test_web) === "test/elixir_scribe_web/domain/site/blog/post"
     end
   end
 
-  describe "get_schema_file_path/1" do
-    test "returns schema file path" do
+  describe "schema_template_folder_name/1" do
+    test "returns `schema_access` as the folder template name when schema.generate? is true" do
       context = fixture(:context)
 
-      assert ElixirScribe.get_schema_file_path(context) === "lib/elixir_scribe/domain/site/blog/post_schema.ex"
+      assert ElixirScribe.schema_template_folder_name(context.schema) === "schema_access"
+    end
+
+    test "returns `no_schema_access` as the folder template name when schema.generate? is false" do
+      context = fixture(:context)
+      schema = Map.put(context.schema, :generate?, false)
+
+      assert ElixirScribe.schema_template_folder_name(schema) === "no_schema_access"
     end
   end
 
-  describe "build_resource_action_file_path/4" do
+  describe "build_app_resource_action_file_path/4" do
     test "returns the resource action file path for :lib_core" do
       context = fixture(:context)
       action = "create"
       suffix = ".ex"
       type = :lib_core
 
-      assert ElixirScribe.build_resource_action_file_path(context, action, suffix, type) === "lib/elixir_scribe/domain/site/blog/post/create/create_post.ex"
+      assert ElixirScribe.build_app_resource_action_file_path(context, action, suffix, type) === "lib/elixir_scribe/domain/site/blog/post/create/create_post.ex"
     end
 
     test "returns the resource action file path for :lib_web" do
@@ -209,25 +220,43 @@ defmodule ElixirScribeTest do
       suffix = ".ex"
       type = :lib_web
 
-      assert ElixirScribe.build_resource_action_file_path(context, action, suffix, type) === "lib/elixir_scribe_web/domain/site/blog/post/create/create_post.ex"
+      assert ElixirScribe.build_app_resource_action_file_path(context, action, suffix, type) === "lib/elixir_scribe_web/domain/site/blog/post/create/create_post.ex"
     end
+  end
 
-    test "returns the resource action file path for :test_core" do
+  describe "build_app_resource_action_test_file_path/3" do
+    test "returns the resource action test file path for :test_core" do
       context = fixture(:context)
       action = "create"
-      suffix = ".ex"
       type = :test_core
 
-      assert ElixirScribe.build_resource_action_file_path(context, action, suffix, type) === "test/elixir_scribe/domain/site/blog/post/create/create_post.ex"
+      assert ElixirScribe.build_app_resource_action_test_file_path(context, action, type) === "test/elixir_scribe/domain/site/blog/post/create/create_post_test.exs"
     end
 
-    test "returns the resource action file path for :test_web" do
+    test "returns the resource action test file path for :test_web" do
+      context = fixture(:context)
+      action = "create"
+      type = :test_web
+
+      assert ElixirScribe.build_app_resource_action_test_file_path(context, action, type) === "test/elixir_scribe_web/domain/site/blog/post/create/create_post_test.exs"
+    end
+  end
+
+  describe "build_app_resource_action_filename/3" do
+    test "returns the resource action filename" do
       context = fixture(:context)
       action = "create"
       suffix = ".ex"
-      type = :test_web
 
-      assert ElixirScribe.build_resource_action_file_path(context, action, suffix, type) === "test/elixir_scribe_web/domain/site/blog/post/create/create_post.ex"
+      assert ElixirScribe.build_app_resource_action_filename(context, action, suffix) === "create_post.ex"
+    end
+
+    test "returns the resource action test file path for :test_web" do
+      context = fixture(:context)
+      action = "create"
+      suffix = "_test.exs"
+
+      assert ElixirScribe.build_app_resource_action_filename(context, action, suffix) === "create_post_test.exs"
     end
   end
 

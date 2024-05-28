@@ -173,9 +173,14 @@ defmodule ElixirScribe do
     ["index", "list"]
   end
 
-
-
-
+  @doc false
+  def schema_template_folder_name(%Mix.Phoenix.Schema{} = schema) do
+    if schema.generate? do
+      "schema_access"
+    else
+      "no_schema_access"
+    end
+  end
 
   #@TODO Move to it's own resource action module
   @doc false
@@ -187,7 +192,7 @@ defmodule ElixirScribe do
     Path.join([app_dir, "domain", domains_path])
   end
 
-  def get_resource_path(%Context{} = context, type) do
+  def build_app_resource_path(%Context{} = context, type) do
     domains_path = build_app_domain_path(context, type)
     resource = context.schema.singular
 
@@ -195,11 +200,32 @@ defmodule ElixirScribe do
   end
 
   @doc false
-  def get_schema_file_path(%Context{} = context) do
+  def build_app_schema_file_path(%Context{} = context) do
     base_dir = context |> build_app_domain_path(:lib_core)
     resource = context.schema.singular
 
     Path.join([base_dir, resource <> "_schema.ex"])
+  end
+
+  @doc false
+  def build_app_resource_action_file_path(%Context{} = context, action, suffix, type) do
+    resource_path = build_app_resource_path(context, type)
+    filename = build_app_resource_action_filename(context, action, suffix)
+
+    Path.join([resource_path, "#{action}", filename])
+  end
+
+  @doc false
+  def build_app_resource_action_test_file_path(%Context{} = context, action, type) do
+    build_app_resource_action_file_path(context, action, "_test.exs", type)
+  end
+
+  @doc false
+  def build_app_resource_action_filename(%Context{} = context, action, suffix) do
+    resource =
+      (action in resource_plural_actions() && context.schema.plural) || context.schema.singular
+
+    "#{action}_" <> resource <> suffix
   end
 
   @doc false
@@ -283,40 +309,4 @@ defmodule ElixirScribe do
     )
   end
 
-  @doc false
-  def schema_access_template(%Mix.Phoenix.Schema{} = schema) do
-    if schema.generate? do
-      "schema_access"
-    else
-      "no_schema_access"
-    end
-  end
-
-  @doc false
-  def build_resource_action_file_path(%Context{} = context, action, suffix, type) do
-    resource_path = get_resource_path(context, type)
-    filename = build_resource_action_filename(context, action, suffix)
-
-    Path.join([resource_path, "#{action}", filename])
-  end
-
-  @doc false
-  def build_resource_action_test_file_path(%Context{} = context, action, type) do
-    # # test_dir = build_app_domain_path(context, :test_core)
-    # # domain = context.basename
-    # # resource = context.schema.singular
-    # resource_path = get_resource_path(context, :test_core)
-    # filename = build_resource_action_filename(context, action, "_test.exs")
-
-    # Path.join([resource_path, "#{action}", filename])
-    build_resource_action_file_path(context, action, "_test.exs", type)
-  end
-
-  @doc false
-  def build_resource_action_filename(%Context{} = context, action, suffix) do
-    resource =
-      (action in resource_plural_actions() && context.schema.plural) || context.schema.singular
-
-    "#{action}_" <> resource <> suffix
-  end
 end

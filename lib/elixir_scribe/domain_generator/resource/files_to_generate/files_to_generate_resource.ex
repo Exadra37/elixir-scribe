@@ -11,7 +11,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateR
   defp build_resource_action_files(%Context{} = context) do
     for action <- MixGeneratorAPI.build_actions_from_options(context.opts) do
       source_path = build_source_path(context.schema, action)
-      target_path = ElixirScribe.build_resource_action_file_path(context, action, ".ex", :lib_core)
+      target_path = ElixirScribe.build_app_resource_action_file_path(context, action, ".ex", :lib_core)
 
       {:eex, source_path, target_path, action}
     end
@@ -19,7 +19,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateR
 
   defp build_source_path(schema, action) do
     domain_path = ElixirScribe.resource_actions_template_path()
-    schema_folder = ElixirScribe.schema_access_template(schema)
+    schema_folder = ElixirScribe.schema_template_folder_name(schema)
 
     action_template_filename =
       if schema.generate? do

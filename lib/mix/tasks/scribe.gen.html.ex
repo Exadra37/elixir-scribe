@@ -230,8 +230,8 @@ dbg(args)
     # web_path = to_string(schema.web_path)
     # controller_pre = Path.join([web_prefix, "domains", context.basename])
     # domains_path = ElixirScribe.get_domains_path(context, :lib_web)
-    resource_path = ElixirScribe.get_resource_path(context, :lib_web)
-    test_pre = ElixirScribe.get_resource_path(context, :test_web)
+    resource_path = ElixirScribe.build_app_resource_path(context, :lib_web)
+    test_pre = ElixirScribe.build_app_resource_path(context, :test_web)
 
     # domains_test_path = ElixirScribe.get_domains_path(context, :test_web)
     # test_pre = Path.join([domains_test_path, resource])
@@ -258,7 +258,7 @@ dbg(args)
     files =
       for action <- default_actions, reduce: files do
         files ->
-          # target = ElixirScribe.build_resource_action_file_path(context, action, "_controller.ex", :web)
+          # target = ElixirScribe.build_app_resource_action_file_path(context, action, "_controller.ex", :web)
           # source_filename =
           #   ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, "controller.ex", "_")
 
@@ -277,7 +277,7 @@ dbg(args)
           )
       end
 
-    html_actions = ElixirScribe.default_html_actions()
+    html_actions = ElixirScribe.resource_html_actions()
 
     files =
       for html_action <- html_actions, reduce: files do
@@ -354,7 +354,7 @@ dbg(args)
     # resource_filename = "#{action}_#{resource}#{action_suffix}#{filename}"
     # target = Path.join([root_dir, context.schema.singular, "#{action}", resource_filename])
     resource_filename_suffix = "#{action_suffix}#{filename}"
-    target = ElixirScribe.build_resource_action_file_path(context, action, resource_filename_suffix, type)
+    target = ElixirScribe.build_app_resource_action_file_path(context, action, resource_filename_suffix, type)
 
     {:eex, source, target, action}
   end

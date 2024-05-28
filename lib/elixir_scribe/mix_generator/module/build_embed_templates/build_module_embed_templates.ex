@@ -2,7 +2,7 @@ defmodule ElixirScribe.MixGenerator.Options.BuildEmbedTemplates.BuildModuleEmbed
   @moduledoc false
 
   def build() do
-    for action <- ElixirScribe.default_html_actions(), reduce: "" do
+    for action <- ElixirScribe.resource_html_actions(), reduce: "" do
       embeds -> embeds <> "\n  embed_templates \"#{action}/*\""
     end
   end

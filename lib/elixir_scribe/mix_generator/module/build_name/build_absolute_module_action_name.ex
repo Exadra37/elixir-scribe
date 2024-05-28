@@ -6,7 +6,7 @@ defmodule ElixirScribe.MixGenerator.Module.BuildName.BuildAbsoluteModuleActionNa
   @doc false
   def build(%Context{} = context, action, opts) when is_list(opts) do
     schema =
-      (action in ElixirScribe.default_plural_actions() && context.schema.human_plural) ||
+      (action in ElixirScribe.resource_plural_actions() && context.schema.human_plural) ||
         context.schema.human_singular
 
     from_schema? = opts |> Keyword.get(:from_schema, true)
