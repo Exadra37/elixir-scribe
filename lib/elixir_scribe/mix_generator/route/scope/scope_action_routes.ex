@@ -52,7 +52,7 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   end
 
   defp assemble_route_action(method, action, schema) do
-    action_alias = ElixirScribe.get_resource_action_alias(action)
+    action_alias = ElixirScribe.resource_action_alias(action)
     action_capitalized = String.capitalize(action_alias)
     endpoint = build_endpoint(action, action_alias, schema.plural)
 

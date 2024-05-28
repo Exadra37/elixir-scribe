@@ -82,16 +82,16 @@ defmodule ElixirScribeTest do
     # end
   end
 
-  describe "get_resource_action_alias/1" do
+  describe "resource_action_alias/1" do
     test "returns the same action when no alias is configured for action in the app config" do
-      assert ElixirScribe.get_resource_action_alias("create") === "create"
+      assert ElixirScribe.resource_action_alias("create") === "create"
     end
   end
 
 
-  describe "get_app_name/0" do
+  describe "app_name/0" do
     test "return the app name as a string" do
-      assert ElixirScribe.get_app_name() === "elixir_scribe"
+      assert ElixirScribe.app_name() === "elixir_scribe"
     end
   end
 

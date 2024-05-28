@@ -139,7 +139,7 @@ defmodule ElixirScribe do
   end
 
   @doc false
-  def get_resource_action_alias(action) do
+  def resource_action_alias(action) do
     resource_actions_aliases() |> Map.get(action, action)
   end
 
@@ -204,7 +204,7 @@ defmodule ElixirScribe do
     new_bindings =
       resource_actions()
       |> Keyword.new(fn action ->
-        action_alias = get_resource_action_alias(action)
+        action_alias = resource_action_alias(action)
         action_key = String.to_atom("#{action}_action")
         {action_key, action_alias}
       end)
@@ -214,7 +214,7 @@ defmodule ElixirScribe do
     new_bindings =
       resource_actions()
       |> Keyword.new(fn action ->
-        action_alias = get_resource_action_alias(action) |> String.capitalize()
+        action_alias = resource_action_alias(action) |> String.capitalize()
         action_key = String.to_atom("#{action}_action_capitalized")
         {action_key, action_alias}
       end)
@@ -245,18 +245,19 @@ defmodule ElixirScribe do
     end
   end
 
+  @app_name Mix.Project.config() |> Keyword.get(:app) |> Atom.to_string()
   @doc false
-  def get_app_name(), do: Mix.Project.config() |> Keyword.get(:app) |> Atom.to_string()
+  def app_name(), do: @app_name
 
   @doc false
   def get_app_path(:lib_core) do
-    app_name = get_app_name()
+    app_name = app_name()
     Path.join(["lib", app_name])
   end
 
   @doc false
   def get_app_path(:test_core) do
-    app_name = get_app_name()
+    app_name = app_name()
     Path.join(["test", app_name])
   end
 
