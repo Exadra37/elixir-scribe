@@ -91,6 +91,26 @@ defmodule ElixirScribe do
   @doc false
   def base_template_paths(), do: [".", :elixir_scribe, :phoenix]
 
+  @app_name Mix.Project.config() |> Keyword.get(:app) |> Atom.to_string()
+  @doc false
+  def app_name(), do: @app_name
+
+  @app_lib_core_path Path.join(["lib", @app_name])
+  @doc false
+  def app_path(:lib_core), do: @app_lib_core_path
+
+  @app_test_core_path Path.join(["test", @app_name])
+  @doc false
+  def app_path(:test_core), do: @app_test_core_path
+
+  @app_lib_web_path @app_lib_core_path <> "_web"
+  @doc false
+  def app_path(:lib_web), do: @app_lib_web_path
+
+  @app_test_web_path @app_test_core_path <> "_web"
+  @doc false
+  def app_path(:test_web), do: @app_test_web_path
+
   @web_template_path "priv/templates/scribe.gen.html"
   @doc false
   def web_template_path(), do: @web_template_path
@@ -143,16 +163,43 @@ defmodule ElixirScribe do
     resource_actions_aliases() |> Map.get(action, action)
   end
 
+  @resource_html_actions ["read", "new", "edit", "list"]
   @doc false
-  def default_html_actions() do
+  def resource_html_actions(), do: @resource_html_actions
+
+  @doc false
+  def resource_plural_actions() do
     # @TODO Allow to override from configuration
-    ["read", "new", "edit", "list"]
+    ["index", "list"]
+  end
+
+
+
+
+
+  #@TODO Move to it's own resource action module
+  @doc false
+  def build_app_domain_path(%Context{} = context, type) do
+    app_lib_core_path = ElixirScribe.app_path(:lib_core)
+    domains_path = context.dir |> String.replace(app_lib_core_path, "")
+    app_dir = ElixirScribe.app_path(type)
+
+    Path.join([app_dir, "domain", domains_path])
+  end
+
+  def get_resource_path(%Context{} = context, type) do
+    domains_path = build_app_domain_path(context, type)
+    resource = context.schema.singular
+
+    Path.join([domains_path, resource])
   end
 
   @doc false
-  def default_plural_actions() do
-    # @TODO Allow to override from configuration
-    ["index", "list"]
+  def get_schema_file_path(%Context{} = context) do
+    base_dir = context |> build_app_domain_path(:lib_core)
+    resource = context.schema.singular
+
+    Path.join([base_dir, resource <> "_schema.ex"])
   end
 
   @doc false
@@ -245,63 +292,6 @@ defmodule ElixirScribe do
     end
   end
 
-  @app_name Mix.Project.config() |> Keyword.get(:app) |> Atom.to_string()
-  @doc false
-  def app_name(), do: @app_name
-
-  @doc false
-  def get_app_path(:lib_core) do
-    app_name = app_name()
-    Path.join(["lib", app_name])
-  end
-
-  @doc false
-  def get_app_path(:test_core) do
-    app_name = app_name()
-    Path.join(["test", app_name])
-  end
-
-  @doc false
-  def get_app_path(:lib_web), do: get_app_path(:lib_core) <> "_web"
-
-  @doc false
-  def get_app_path(:test_web), do: get_app_path(:test_core) <> "_web"
-
-  @doc false
-  def get_domain_path(%Context{} = context, type) do
-    app_lib_core_path = get_app_path(:lib_core)
-    domains_path = context.dir |> String.replace(app_lib_core_path, "")
-    app_dir = get_app_path(type)
-
-    Path.join([app_dir, "domain", domains_path])
-  end
-
-  def get_resource_path(%Context{} = context, type) do
-    domains_path = get_domain_path(context, type)
-    resource = context.schema.singular
-
-    Path.join([domains_path, resource])
-  end
-
-  # @doc false
-  # def get_test_app_path(%Context{} = context) do
-  #   # dbg(context)
-  #   context.test_file |> Path.dirname()
-  # end
-
-  # @doc false
-  # def get_domains_test_base_dir(%Context{} = context) do
-  #   context |> get_test_app_path() |> Path.join("domains")
-  # end
-
-  @doc false
-  def get_schema_file_path(%Context{} = context) do
-    base_dir = context |> get_domain_path(:lib_core)
-    resource = context.schema.singular
-
-    Path.join([base_dir, resource <> "_schema.ex"])
-  end
-
   @doc false
   def build_resource_action_file_path(%Context{} = context, action, suffix, type) do
     resource_path = get_resource_path(context, type)
@@ -312,7 +302,7 @@ defmodule ElixirScribe do
 
   @doc false
   def build_resource_action_test_file_path(%Context{} = context, action, type) do
-    # # test_dir = get_domain_path(context, :test_core)
+    # # test_dir = build_app_domain_path(context, :test_core)
     # # domain = context.basename
     # # resource = context.schema.singular
     # resource_path = get_resource_path(context, :test_core)
@@ -325,7 +315,7 @@ defmodule ElixirScribe do
   @doc false
   def build_resource_action_filename(%Context{} = context, action, suffix) do
     resource =
-      (action in default_plural_actions() && context.schema.plural) || context.schema.singular
+      (action in resource_plural_actions() && context.schema.plural) || context.schema.singular
 
     "#{action}_" <> resource <> suffix
   end

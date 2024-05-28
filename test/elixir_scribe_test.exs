@@ -18,6 +18,30 @@ defmodule ElixirScribeTest do
     end
   end
 
+  describe "app_name/0" do
+    test "return the app name as a string" do
+      assert ElixirScribe.app_name() === "elixir_scribe"
+    end
+  end
+
+  describe "app_path/1" do
+    test "returns app path for :lib_core" do
+      assert ElixirScribe.app_path(:lib_core) === "lib/elixir_scribe"
+    end
+
+    test "returns app path for :test_core" do
+      assert ElixirScribe.app_path(:test_core) === "test/elixir_scribe"
+    end
+
+    test "returns app path for :lib_web" do
+      assert ElixirScribe.app_path(:lib_web) === "lib/elixir_scribe_web"
+    end
+
+    test "returns app path for :test_web" do
+      assert ElixirScribe.app_path(:test_web) === "test/elixir_scribe_web"
+    end
+  end
+
   describe "web_template_path/0" do
     test "returns the web template path" do
       assert ElixirScribe.web_template_path() === "priv/templates/scribe.gen.html"
@@ -67,7 +91,7 @@ defmodule ElixirScribeTest do
   end
 
   describe "resource_actions/0" do
-    test "returns the default resource actions in the expected order" do
+    test "returns the resource actions in the expected order" do
       assert ElixirScribe.resource_actions() === ["list", "new", "read", "edit", "create", "update", "delete"]
     end
   end
@@ -88,48 +112,52 @@ defmodule ElixirScribeTest do
     end
   end
 
-
-  describe "app_name/0" do
-    test "return the app name as a string" do
-      assert ElixirScribe.app_name() === "elixir_scribe"
+  describe "resource_html_actions/0" do
+    test "returns the resource html actions in the expected order" do
+      assert ElixirScribe.resource_html_actions() === ["read", "new", "edit", "list"]
     end
   end
 
-  describe "get_app_path/1" do
-    test "returns app core path" do
-      assert ElixirScribe.get_app_path(:lib_core) === "lib/elixir_scribe"
+  describe "resource_plural_actions/0" do
+    test "returns the resource plural actions" do
+      assert ElixirScribe.resource_plural_actions() === ["read", "new", "edit", "list"]
     end
 
-    test "returns app web path" do
-      assert ElixirScribe.get_app_path(:lib_web) === "lib/elixir_scribe_web"
-    end
+    # test "returns the resource plural actions as per app configuration" do
+    #   assert ElixirScribe.resource_plural_actions() === ["read", "new", "edit", "list"]
+    # end
   end
 
-  describe "get_domain_path/2" do
+
+
+  #@TODO Move to it's own resource action test module
+  describe "build_app_domain_path/2" do
     test "returns domain path for :lib_core" do
       context = fixture(:context)
 
-      assert ElixirScribe.get_domain_path(context, :lib_core) === "lib/elixir_scribe/domain/site/blog"
+      assert ElixirScribe.build_app_domain_path(context, :lib_core) === "lib/elixir_scribe/domain/site/blog"
     end
 
     test "returns domain path for :lib_web" do
       context = fixture(:context)
 
-      assert ElixirScribe.get_domain_path(context, :lib_web) === "lib/elixir_scribe_web/domain/site/blog"
+      assert ElixirScribe.build_app_domain_path(context, :lib_web) === "lib/elixir_scribe_web/domain/site/blog"
     end
 
     test "returns domain path for :test_core" do
       context = fixture(:context)
 
-      assert ElixirScribe.get_domain_path(context, :test_core) === "test/elixir_scribe/domain/site/blog"
+      assert ElixirScribe.build_app_domain_path(context, :test_core) === "test/elixir_scribe/domain/site/blog"
     end
 
     test "returns domain path for :test_web" do
       context = fixture(:context)
 
-      assert ElixirScribe.get_domain_path(context, :test_web) === "test/elixir_scribe_web/domain/site/blog"
+      assert ElixirScribe.build_app_domain_path(context, :test_web) === "test/elixir_scribe_web/domain/site/blog"
     end
   end
+
+
 
   describe "get_resource_path/2" do
     test "returns resource path for :lib_core" do

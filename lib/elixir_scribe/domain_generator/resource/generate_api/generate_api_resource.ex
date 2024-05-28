@@ -15,7 +15,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
   end
 
   defp get_api_file(context) do
-    base_dir = ElixirScribe.get_domain_path(context, :lib_core)
+    base_dir = ElixirScribe.build_app_domain_path(context, :lib_core)
 
     Path.join([base_dir, "#{context.schema.singular}_api.ex"])
   end
