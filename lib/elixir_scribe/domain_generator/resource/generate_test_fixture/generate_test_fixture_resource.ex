@@ -7,7 +7,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTest
   @doc false
   def generate(%Context{} = context, paths) do
     if context.schema.generate? do
-      binding = ElixirScribe.build_binding(context)
+      binding = MixGeneratorAPI.build_binding_template(context)
 
       ensure_test_fixtures_file_exists(context, paths, binding)
       inject_test_fixture(context, paths, binding)

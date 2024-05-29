@@ -15,6 +15,7 @@ defmodule ElixirScribe.MixGeneratorAPI do
   alias ElixirScribe.MixGenerator.Options.MaybeAddBinaryId.MaybeAddBinaryIdOption
   alias ElixirScribe.MixGenerator.Template.BuildFilename.BuildFilenameActionTemplate
   alias ElixirScribe.MixGenerator.Template.BuildPath.BuildPathHtmlTemplate
+  alias ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate
 
   @doc """
   Prompts to continue if any files exist.
@@ -57,4 +58,6 @@ defmodule ElixirScribe.MixGeneratorAPI do
     do: BuildFilenameActionTemplate.build(action, filename, action_suffix)
 
   def build_path_html_template(%Context{} = context), do: BuildPathHtmlTemplate.build(context)
+
+  def build_binding_template(%Context{} = context), do: BuildBindingTemplate.build(context)
 end

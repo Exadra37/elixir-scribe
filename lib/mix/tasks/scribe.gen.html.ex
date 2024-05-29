@@ -207,7 +207,7 @@ dbg(args)
 
     prompt_for_conflicts(context, files)
 
-    binding = ElixirScribe.build_binding(context) |> Keyword.merge(inputs: inputs(context.schema))
+    binding = MixGeneratorAPI.build_binding_template(context) |> Keyword.merge(inputs: inputs(context.schema))
 
     MixGeneratorAPI.copy_from(paths, ".", binding, files)
 

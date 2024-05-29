@@ -260,53 +260,8 @@ defmodule ElixirScribe do
   @doc false
   def first_word(string, separators \\ ["_", "-", " "]) do
     string
-    |> String.split(separators, trim: true)
+    |> String.split(separators)
     |> List.first()
   end
-
-  @doc false
-  def create_file_from_template(root_paths, source_path, target_path, binding) do
-    Mix.Generator.create_file(
-      target_path,
-      Mix.Phoenix.eval_from(root_paths, source_path, binding)
-    )
-  end
-
-  @doc false
-  def inject_into_file_from_template(root_paths, source_path, target_path, binding) do
-    root_paths
-    |> Mix.Phoenix.eval_from(source_path, binding)
-    |> MixGeneratorAPI.inject_eex_before_final_end(target_path, binding)
-  end
-
-  @doc false
-  def build_binding(%Context{} = context) do
-    [context: context, schema: context.schema]
-    |> rebuild_binding_with_action_aliases()
-  end
-
-  @doc false
-  def rebuild_binding_with_action_aliases(binding) do
-    new_bindings =
-      resource_actions()
-      |> Keyword.new(fn action ->
-        action_alias = resource_action_alias(action)
-        action_key = String.to_atom("#{action}_action")
-        {action_key, action_alias}
-      end)
-
-    binding = Keyword.merge(binding, new_bindings)
-
-    new_bindings =
-      resource_actions()
-      |> Keyword.new(fn action ->
-        action_alias = resource_action_alias(action) |> String.capitalize()
-        action_key = String.to_atom("#{action}_action_capitalized")
-        {action_key, action_alias}
-      end)
-
-    Keyword.merge(binding, new_bindings)
-  end
-
 
 end

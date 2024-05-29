@@ -18,7 +18,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
     end
 
     paths = ElixirScribe.base_template_paths()
-    binding = ElixirScribe.build_binding(context)
+    binding = MixGeneratorAPI.build_binding_template(context)
 
     schema_file = ElixirScribe.build_app_schema_file_path(context)
     schema = Map.put(schema, :file, schema_file)

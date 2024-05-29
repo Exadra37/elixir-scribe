@@ -6,7 +6,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
 
   @doc false
   def generate(%Context{} = context, paths) do
-    binding = ElixirScribe.build_binding(context)
+    binding = MixGeneratorAPI.build_binding_template(context)
 
     ensure_api_file_exists(context, paths, binding)
     inject_api_functions(context, paths, binding)
@@ -29,7 +29,6 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
           from_schema: true
         )
     )
-    |> ElixirScribe.rebuild_binding_with_action_aliases()
   end
 
   @doc false

@@ -6,7 +6,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
 
   @doc false
   def generate_tests(%Context{} = context, paths) do
-    binding = ElixirScribe.build_binding(context)
+    binding = MixGeneratorAPI.build_binding_template(context)
 
     ensure_test_file_exists(context, paths, binding)
     inject_tests(context, paths, binding)

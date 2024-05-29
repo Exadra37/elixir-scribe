@@ -260,7 +260,7 @@ defmodule ElixirScribeTest do
     end
   end
 
-  describe "capitalize/1" do
+  describe "capitalize/2" do
     test "capitalizes a string" do
       assert " string " |> ElixirScribe.capitalize() === "String"
     end
@@ -272,20 +272,43 @@ defmodule ElixirScribeTest do
     test "capitalizes a kebab-case string" do
       assert "some-string" |> ElixirScribe.capitalize() === "SomeString"
     end
+
+    test "capitalizes a string with the given joiner" do
+      joiner = " "
+
+      assert "some-string" |> ElixirScribe.capitalize(joiner) === "Some String"
+    end
   end
 
   describe "human_capitalize/1" do
-    test "capitalizes a string" do
+    test "capitalizes a string to be human readable" do
       assert " string " |> ElixirScribe.human_capitalize() === "String"
     end
 
-    test "capitalizes a snake_case string" do
+    test "capitalizes a snake_case string to be human readable" do
       assert "some_string" |> ElixirScribe.human_capitalize() === "Some String"
     end
 
-    test "capitalizes a kebab-case string" do
+    test "capitalizes a kebab-case string to be human readable" do
       assert "some-string" |> ElixirScribe.human_capitalize() === "Some String"
     end
   end
 
+  describe "first_word/1" do
+    test "returns first word in a string with more then one word" do
+      assert "This is a string" |> ElixirScribe.first_word() === "This"
+    end
+
+    test "returns the same string when it only has one word" do
+      assert "string" |> ElixirScribe.first_word() === "string"
+    end
+
+    test "returns an empty string when an empty string is given" do
+      assert "" |> ElixirScribe.first_word() === ""
+    end
+
+    test "returns an empty string when a string with white spaces is given" do
+      assert " " |> ElixirScribe.first_word() === ""
+    end
+  end
 end
