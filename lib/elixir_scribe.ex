@@ -91,25 +91,22 @@ defmodule ElixirScribe do
   @doc false
   def base_template_paths(), do: [".", :elixir_scribe, :phoenix]
 
-  @app_name Mix.Project.config() |> Keyword.get(:app) |> Atom.to_string()
   @doc false
-  def app_name(), do: @app_name
+  def app_name() do
+    Mix.Project.config() |> Keyword.get(:app) |> Atom.to_string()
+  end
 
-  @app_lib_core_path Path.join(["lib", @app_name])
   @doc false
-  def app_path(:lib_core), do: @app_lib_core_path
+  def app_path(:lib_core), do: Path.join(["lib", app_name()])
 
-  @app_test_core_path Path.join(["test", @app_name])
   @doc false
-  def app_path(:test_core), do: @app_test_core_path
+  def app_path(:test_core), do: Path.join(["test", app_name()])
 
-  @app_lib_web_path @app_lib_core_path <> "_web"
   @doc false
-  def app_path(:lib_web), do: @app_lib_web_path
+  def app_path(:lib_web), do: app_path(:lib_core) <> "_web"
 
-  @app_test_web_path @app_test_core_path <> "_web"
   @doc false
-  def app_path(:test_web), do: @app_test_web_path
+  def app_path(:test_web), do: app_path(:test_core) <> "_web"
 
   @web_template_path "priv/templates/scribe.gen.html"
   @doc false
