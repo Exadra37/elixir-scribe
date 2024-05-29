@@ -104,11 +104,18 @@ Main() {
         shift 1
         TARGET_DIR="${1}"
         ;;
+
+      blog )
+        Blog_Site
+        exit $?
+        ;;
+
+      shop )
+        Online_Shop
+        exit $?
+        ;;
     esac
   done
-
-  # Online_Shop
-  Blog_Site
 }
 
 Main "${@}"
