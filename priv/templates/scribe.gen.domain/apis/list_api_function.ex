@@ -4,8 +4,8 @@
 
   ## Examples
 
-      iex> <%= action %>_<%= schema.plural %>()
+      iex> <%= schema.human_singular %>API.<%= schema.human_singular %>API.<%= action %>()
       [%<%= inspect schema.alias %>{}, ...]
 
   """
-  def <%= action %>_<%= schema.plural %>, do: <%= action_capitalized %><%= schema.human_plural %>.<%= action_first_word %>()
+  def <%= action %>(), do: <%= action_capitalized %><%= schema.human_plural %>.<%= action_first_word %>()

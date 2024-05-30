@@ -4,8 +4,8 @@
 
   ## Examples
 
-      iex> <%= action %>_<%= schema.singular %>(123)
+      iex> <%= schema.human_singular %>API.<%= action %>(123)
       %Ecto.Changeset{data: %<%= inspect schema.alias %>{id: id}}
 
   """
-  def <%= action %>_<%= schema.singular %>(id), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>(id)
+  def <%= action %>(id), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>(id)

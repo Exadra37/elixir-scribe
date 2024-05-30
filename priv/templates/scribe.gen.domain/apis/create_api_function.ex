@@ -4,11 +4,11 @@
 
   ## Examples
 
-      iex> <%= action %>_<%= schema.singular %>(%{field: value})
+      iex> <%= schema.human_singular %>API.<%= action %>(%{field: value})
       {:ok, %<%= inspect schema.alias %>{}}
 
-      iex> <%= action %>_<%= schema.singular %>(%{field: bad_value})
+      iex> <%= schema.human_singular %>API.<%= action %>(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def <%= action %>_<%= schema.singular %>(attrs), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>(attrs)
+  def <%= action %>(attrs), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>(attrs)

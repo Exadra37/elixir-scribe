@@ -84,7 +84,7 @@ Blog_Site() {
   # mix scribe.gen.html Blog.Admin.Page Portfolio portfolio --no-schema --no-default-actions --actions render
 
   # # BLOG CONTENT
-  # mix scribe.gen.domain Blog.Admin.Content Author authors name short_bio:text
+  mix scribe.gen.domain Blog.Admin.Content Author authors name short_bio:text
   # mix scribe.gen.domain Blog.Admin.Content Post posts title description content author_uuid:references:authors
   # mix scribe.gen.domain Blog.Admin.Content FeaturedPost featured_posts post_uuid:references:posts
   # mix scribe.gen.domain Blog.Admin.Content RelatedPost related_posts post_uuid:references:posts
