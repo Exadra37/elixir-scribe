@@ -25,7 +25,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
       context = %{context | test_file: test_file}
 
       unless Context.pre_existing_tests?(context) do
-        binding = ElixirScribe.rebuild_binding(binding, action)
+        binding = MixGeneratorAPI.rebuild_binding_template(binding, action)
 
         test_module_path =
           if schema.generate? do
@@ -47,7 +47,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
     if schema.generate? do
       for action <- MixGeneratorAPI.build_actions_from_options(context.opts) do
         test_file = get_action_test_file(context, action)
-        binding = ElixirScribe.rebuild_binding(binding, action)
+        binding = MixGeneratorAPI.rebuild_binding_template(binding, action)
 
         schema_folder = ElixirScribe.schema_template_folder_name(context.schema)
 

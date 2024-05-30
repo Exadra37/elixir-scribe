@@ -16,6 +16,7 @@ defmodule ElixirScribe.MixGeneratorAPI do
   alias ElixirScribe.MixGenerator.Template.BuildFilename.BuildFilenameActionTemplate
   alias ElixirScribe.MixGenerator.Template.BuildPath.BuildPathHtmlTemplate
   alias ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate
+  alias ElixirScribe.MixGenerator.Template.RebuildBinding.RebuildBindingTemplate
 
   @doc """
   Prompts to continue if any files exist.
@@ -60,4 +61,6 @@ defmodule ElixirScribe.MixGeneratorAPI do
   def build_path_html_template(%Context{} = context), do: BuildPathHtmlTemplate.build(context)
 
   def build_binding_template(%Context{} = context), do: BuildBindingTemplate.build(context)
+
+  def rebuild_binding_template(binding, action), do: RebuildBindingTemplate.rebuild(binding, action)
 end

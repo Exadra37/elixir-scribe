@@ -51,7 +51,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
   defp inject_api_functions(context, paths, binding) do
     for action <- MixGeneratorAPI.build_actions_from_options(context.opts) do
       file = get_api_file(context)
-      binding = build_api_binding(context, binding) |> ElixirScribe.rebuild_binding(action)
+      binding = build_api_binding(context, binding) |> MixGeneratorAPI.rebuild_binding_template(action)
 
       api_action_template_path =
         if context.schema.generate? do

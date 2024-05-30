@@ -1,6 +1,7 @@
 defmodule ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate do
 
   alias Mix.Phoenix.Context
+  alias ElixirScribe.Utils.StringAPI
 
   @doc false
   def build(%Context{} = context) do
@@ -41,7 +42,7 @@ defmodule ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate d
         action_alias_capitalized =
           action
           |> ElixirScribe.resource_action_alias()
-          |> ElixirScribe.capitalize()
+          |> StringAPI.capitalize()
 
         action_key = String.to_atom("#{action}_action_capitalized")
         {action_key, action_alias_capitalized}
