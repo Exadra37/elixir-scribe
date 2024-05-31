@@ -55,8 +55,8 @@ defmodule ElixirScribe.MixGeneratorAPI do
   def maybe_add_binary_id_option(args) when is_list(args),
     do: MaybeAddBinaryIdOption.maybe_add(args)
 
-  def build_template_action_filename(action, filename, action_suffix),
-    do: BuildFilenameActionTemplate.build(action, filename, action_suffix)
+  def build_template_action_filename(action, action_suffix, file_type, file_extension),
+    do: BuildFilenameActionTemplate.build(action, action_suffix, file_type, file_extension)
 
   def build_path_html_template(%Context{} = context), do: BuildPathHtmlTemplate.build(context)
 

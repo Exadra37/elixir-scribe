@@ -63,7 +63,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
         schema_folder = ElixirScribe.schema_template_folder_name(context.schema)
 
         action_template_filename =
-          MixGeneratorAPI.build_template_action_filename(action, "schema_test.exs", "_")
+          MixGeneratorAPI.build_template_action_filename(action, "_", "schema_test", ".exs")
 
         tests_path = ElixirScribe.domain_tests_template_path()
 

@@ -260,14 +260,6 @@ dbg(args)
     files =
       for action <- default_actions, reduce: files do
         files ->
-          # target = AppApi.build_resource_action_file_path(context, action, "_controller.ex", :web)
-          # source_filename =
-          #   ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, "controller.ex", "_")
-
-          # source = Path.join(controller_template_path, source_filename)
-
-          # file = {:eex, source, target, action}
-          # [file | files]
           build_file_to_be_generated(
             files,
             context,
@@ -351,18 +343,10 @@ dbg(args)
        ) do
 
     source_filename =
-      ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, file_extension, action_suffix)
+      ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, action_suffix, file_type, file_extension)
 
     source = Path.join(source_base_dir, source_filename)
 
-
-    # resource =
-    #   (action in ElixirScribe.default_plural_actions() && context.schema.plural) ||
-    #     context.schema.singular
-
-    # resource_filename = "#{action}_#{resource}#{action_suffix}#{filename}"
-    # target = Path.join([root_dir, context.schema.singular, "#{action}", resource_filename])
-    # resource_filename_suffix = "#{action_suffix}#{filename}"
     api_contract = BuildResourceActionFilePathContract.new!(%{
       context: context,
       action: action,

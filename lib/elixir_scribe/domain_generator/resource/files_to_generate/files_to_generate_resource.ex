@@ -35,7 +35,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateR
 
     action_template_filename =
       if schema.generate? do
-        MixGeneratorAPI.build_template_action_filename(action, "schema.ex", "_")
+        MixGeneratorAPI.build_template_action_filename(action, "_", "schema", ".ex")
       else
         "any_action.ex"
       end

@@ -56,7 +56,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
       api_action_template_path =
         if context.schema.generate? do
           action_template_filename =
-            MixGeneratorAPI.build_template_action_filename(action, "api_function.ex", "_")
+            MixGeneratorAPI.build_template_action_filename(action, "_", "api_function", ".ex")
 
           ElixirScribe.domain_api_template_path() |> Path.join(action_template_filename)
         else

@@ -2,13 +2,13 @@ defmodule ElixirScribe.MixGenerator.Template.BuildFilename.BuildFilenameActionTe
   @moduledoc false
 
   @doc false
-  def build(action, filename, action_suffix) do
+  def build(action, action_suffix, file_type, file_extension) do
     case action in ElixirScribe.resource_actions() do
       true ->
-        "#{action}#{action_suffix}#{filename}"
+        "#{action}#{action_suffix}#{file_type}#{file_extension}"
 
       false ->
-        "default#{action_suffix}#{filename}"
+        "default#{action_suffix}#{file_type}#{file_extension}"
     end
   end
 end
