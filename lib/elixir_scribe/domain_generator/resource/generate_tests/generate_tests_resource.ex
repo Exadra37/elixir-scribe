@@ -3,6 +3,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
 
   alias Mix.Phoenix.Context
   alias ElixirScribe.MixGeneratorAPI
+  alias ElixirScribe.MixGenerator.AppApi
+  alias ElixirScribe.MixGenerator.AppApiContract.BuildResourceActionFilePathContract
 
   @doc false
   def generate_tests(%Context{} = context, paths) do
@@ -15,7 +17,16 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
   end
 
   defp get_action_test_file(context, action) do
-    ElixirScribe.build_app_resource_action_test_file_path(context, action, :test_core)
+    # ElixirScribe.build_app_resource_action_test_file_path(context, action, :test_core)
+    api_contract = BuildResourceActionFilePathContract.new!(%{
+      context: context,
+      action: action,
+      file_extension: ".exs",
+      file_type: "_test",
+      path_type: :test_core
+    })
+
+    AppApi.build_resource_action_file_path(api_contract)
   end
 
   @doc false

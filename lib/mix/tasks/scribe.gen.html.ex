@@ -182,6 +182,8 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   alias ElixirScribe.DomainGenerator.ResourceAPI
 
   alias ElixirScribe.MixGeneratorAPI
+  alias ElixirScribe.MixGenerator.AppApi
+  alias ElixirScribe.MixGenerator.AppApiContract.BuildResourceActionFilePathContract
   alias ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource
 
   @doc false
@@ -258,7 +260,7 @@ dbg(args)
     files =
       for action <- default_actions, reduce: files do
         files ->
-          # target = ElixirScribe.build_app_resource_action_file_path(context, action, "_controller.ex", :web)
+          # target = AppApi.build_resource_action_file_path(context, action, "_controller.ex", :web)
           # source_filename =
           #   ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, "controller.ex", "_")
 
@@ -272,7 +274,8 @@ dbg(args)
             action,
             "_",
             controller_template_path,
-            "controller.ex",
+            ".ex",
+            "controller",
             :lib_web
           )
       end
@@ -290,6 +293,7 @@ dbg(args)
               ".",
               html_template_path,
               "html.heex",
+              "",
               :lib_web
             )
           else
@@ -305,7 +309,8 @@ dbg(args)
           action,
           "_",
           controller_test_template_path,
-          "controller_test.exs",
+          ".exs",
+          "controller_test",
           :test_web
         )
     end
@@ -317,8 +322,9 @@ dbg(args)
          action,
          action_suffix,
          source_base_dir,
-         filename,
-         type
+         file_extension,
+         file_type,
+         path_type
        ) do
     file =
       build_action_file(
@@ -326,8 +332,9 @@ dbg(args)
         action,
         action_suffix,
         source_base_dir,
-        filename,
-        type
+        file_extension,
+         file_type,
+         path_type
       )
 
     [file | files]
@@ -338,11 +345,13 @@ dbg(args)
          action,
          action_suffix,
          source_base_dir,
-         filename,
-         type
+         file_extension,
+         file_type,
+         path_type
        ) do
+
     source_filename =
-      ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, filename, action_suffix)
+      ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, file_extension, action_suffix)
 
     source = Path.join(source_base_dir, source_filename)
 
@@ -353,8 +362,16 @@ dbg(args)
 
     # resource_filename = "#{action}_#{resource}#{action_suffix}#{filename}"
     # target = Path.join([root_dir, context.schema.singular, "#{action}", resource_filename])
-    resource_filename_suffix = "#{action_suffix}#{filename}"
-    target = ElixirScribe.build_app_resource_action_file_path(context, action, resource_filename_suffix, type)
+    # resource_filename_suffix = "#{action_suffix}#{filename}"
+    api_contract = BuildResourceActionFilePathContract.new!(%{
+      context: context,
+      action: action,
+      file_extension: file_extension,
+      file_type: file_type,
+      path_type: path_type
+    })
+
+    target = AppApi.build_resource_action_file_path(api_contract)
 
     {:eex, source, target, action}
   end

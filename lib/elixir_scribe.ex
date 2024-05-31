@@ -178,6 +178,15 @@ defmodule ElixirScribe do
     end
   end
 
+  @app_file_extensions [".ex", ".exs", "html.eex"]
+  def app_file_extensions(), do: @app_file_extensions
+
+  @app_file_types [".controller", "controller_test"]
+  def app_file_types(), do: @app_file_types
+
+  @app_path_types [:lib_core, :lib_web, :test_core, :test_web]
+  def app_path_types(), do: @app_path_types
+
   #@TODO Move to it's own resource action module
   @doc false
   def build_app_domain_path(%Context{} = context, type) do
@@ -203,24 +212,24 @@ defmodule ElixirScribe do
     Path.join([base_dir, resource <> "_schema.ex"])
   end
 
-  @doc false
-  def build_app_resource_action_file_path(%Context{} = context, action, suffix, type) do
-    resource_path = build_app_resource_path(context, type)
-    filename = build_app_resource_action_filename(context, action, suffix)
+  # @doc false
+  # def build_app_resource_action_file_path(%Context{} = context, action, suffix, type) do
+  #   resource_path = build_app_resource_path(context, type)
+  #   filename = build_app_resource_action_filename(context, action, suffix)
 
-    Path.join([resource_path, "#{action}", filename])
-  end
+  #   Path.join([resource_path, "#{action}", filename])
+  # end
 
-  @doc false
-  def build_app_resource_action_test_file_path(%Context{} = context, action, type) do
-    build_app_resource_action_file_path(context, action, "_test.exs", type)
-  end
+  # @doc false
+  # def build_app_resource_action_test_file_path(%Context{} = context, action, type) do
+  #   build_app_resource_action_file_path(context, action, "_test.exs", type)
+  # end
 
-  @doc false
-  def build_app_resource_action_filename(%Context{} = context, action, suffix) do
-    resource =
-      (action in resource_plural_actions() && context.schema.plural) || context.schema.singular
+  # @doc false
+  # def build_app_resource_action_filename(%Context{} = context, action, suffix) do
+  #   resource =
+  #     (action in resource_plural_actions() && context.schema.plural) || context.schema.singular
 
-    "#{action}_" <> resource <> suffix
-  end
+  #   "#{action}_" <> resource <> suffix
+  # end
 end
