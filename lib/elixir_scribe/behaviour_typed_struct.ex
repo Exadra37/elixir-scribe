@@ -1,5 +1,7 @@
 defmodule ElixirScribe.Behaviour.NormTypedStruct do
 
+  # @TODO Optional fields not working.
+
   @doc """
   Returns the typed specification for the struct.
 
@@ -49,6 +51,13 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
       import Norm
 
       @behaviour ElixirScribe.Behaviour.NormTypedStruct
+
+      @struct_keys Keyword.get(opts, :keys, [])
+      @enforce_keys @struct_keys.required
+      @optional_keys @struct_keys.optional ++ [self: __MODULE__]
+      @all_keys @enforce_keys ++ @optional_keys
+
+      defstruct @all_keys
 
       @impl true
       def new(attrs) when is_map(attrs) do

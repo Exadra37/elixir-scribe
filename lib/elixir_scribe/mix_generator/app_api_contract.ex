@@ -1,12 +1,9 @@
 defmodule ST do
-
-  @enforce_keys [:action]
-  @optional_keys [:file_type, self: __MODULE__]
-  @all_keys @enforce_keys ++ @optional_keys
-
-  defstruct @all_keys
-
-  use ElixirScribe.Behaviour.NormTypedStruct
+  @keys %{
+    required: [:action],
+    optional: [:file_type]
+  }
+  use ElixirScribe.Behaviour.NormTypedStruct, keys: @keys
 
   def type_spec(), do: schema(%__MODULE__{
       action: is_binary() |> spec(),
@@ -25,7 +22,7 @@ defmodule ElixirScribe.MixGenerator.AppApiContract do
 
     defstruct @all_keys
 
-    use ElixirScribe.Behaviour.NormTypedStruct
+    # use ElixirScribe.Behaviour.NormTypedStruct
 
     @impl true
     def type_spec(), do: schema(%__MODULE__{
