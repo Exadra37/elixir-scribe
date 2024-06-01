@@ -1,7 +1,7 @@
 defmodule ST do
 
   @enforce_keys [:action]
-  @optional_keys [:file_type]
+  @optional_keys [:file_type, self: __MODULE__]
   @all_keys @enforce_keys ++ @optional_keys
 
   defstruct @all_keys
