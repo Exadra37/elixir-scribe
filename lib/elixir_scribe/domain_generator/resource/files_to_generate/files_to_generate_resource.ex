@@ -13,7 +13,6 @@ defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateR
   defp build_resource_action_files(%Context{} = context) do
     for action <- MixGeneratorAPI.build_actions_from_options(context.opts) do
       source_path = build_source_path(context.schema, action)
-      # target_path = ElixirScribe.build_app_resource_action_file_path(context, action, ".ex", :lib_core)
 
       api_contract = BuildResourceActionFilePathContract.new!(%{
         context: context,
