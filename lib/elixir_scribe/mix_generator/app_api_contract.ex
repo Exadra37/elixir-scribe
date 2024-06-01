@@ -1,36 +1,40 @@
+defmodule ST do
+
+  @enforce_keys [:action]
+  @optional_keys [:file_type]
+  @all_keys @enforce_keys ++ @optional_keys
+
+  defstruct @all_keys
+
+  use ElixirScribe.Behaviour.NormTypedStruct
+
+  def type_spec(), do: schema(%__MODULE__{
+      action: is_binary() |> spec(),
+      file_type: is_binary() |> spec(),
+    })
+end
+
 defmodule ElixirScribe.MixGenerator.AppApiContract do
   import Norm
   alias Mix.Phoenix.Context
 
   defmodule BuildResourceActionFilePathContract do
-    @behaviour ElixirScribe.Behaviour.TypedStruct
-
     @enforce_keys [:action, :context, :file_extension, :path_type]
     @optional_keys [:file_type]
     @all_keys @enforce_keys ++ @optional_keys
 
     defstruct @all_keys
 
+    use ElixirScribe.Behaviour.NormTypedStruct
+
     @impl true
-    def s(), do: schema(%__MODULE__{
+    def type_spec(), do: schema(%__MODULE__{
         action: is_binary() |> spec(),
         context: context?() |> spec(),
         file_extension: app_file_extension?() |> spec(),
         file_type: app_file_type?() |> spec(),
         path_type: app_path_type?() |> spec(),
       })
-
-    @impl true
-    def new(attrs) when is_map(attrs) do
-      struct(__MODULE__, attrs)
-      |> conform(__MODULE__.s())
-    end
-
-    @impl true
-    def new!(attrs) when is_map(attrs) do
-      struct(__MODULE__, attrs)
-      |> conform!(__MODULE__.s())
-    end
 
     defp context?(%Context{}), do: true
     defp context?(_context), do: false
