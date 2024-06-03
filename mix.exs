@@ -63,7 +63,10 @@ defmodule ElixirScribe.MixProject do
       {:phoenix, "~> 1.7.11"},
       {:dialyxir, "~> 1.3", only: [:dev], runtime: false},
       {:assertions, "~> 0.5", only: :test},
-      {:norm, "~> 0.13"}
+      {:norm, "~> 0.13"},
+      {:type_check, "~> 0.13.3"},
+      {:bond, "~> 0.1.0"},
+      {:typed_struct, "~> 0.3.0"}
     ]
   end
 end

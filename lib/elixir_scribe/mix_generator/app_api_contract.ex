@@ -16,15 +16,20 @@ defmodule ElixirScribe.MixGenerator.AppApiContract do
   alias Mix.Phoenix.Context
 
   defmodule BuildResourceActionFilePathContract do
-    @enforce_keys [:action, :context, :file_extension, :path_type]
-    @optional_keys [:file_type]
-    @all_keys @enforce_keys ++ @optional_keys
+    # @enforce_keys [:action, :context, :file_extension, :path_type]
+    # @optional_keys [:file_type]
+    # @all_keys @enforce_keys ++ @optional_keys
 
-    defstruct @all_keys
+    # defstruct @all_keys
 
-    # use ElixirScribe.Behaviour.NormTypedStruct
+    @keys %{
+      required: [:action, :context, :file_extension, :path_type],
+      optional: [:file_type]
+    }
 
-    @impl true
+    use ElixirScribe.Behaviour.NormTypedStruct, keys: @keys
+
+    # @impl true
     def type_spec(), do: schema(%__MODULE__{
         action: is_binary() |> spec(),
         context: context?() |> spec(),
