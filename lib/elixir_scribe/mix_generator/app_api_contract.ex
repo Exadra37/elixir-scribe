@@ -1,14 +1,25 @@
-defmodule ST do
+defmodule Person do
   @keys %{
-    required: [:action],
-    optional: [:file_type]
+    required: [:name],
+    optional: [age: nil, email: nil]
   }
+
   use ElixirScribe.Behaviour.NormTypedStruct, keys: @keys
 
-  def type_spec(), do: schema(%__MODULE__{
-      action: is_binary() |> spec(),
-      file_type: is_binary() |> spec(),
+  @impl true
+  def type_spec() do
+     schema(%__MODULE__{
+      name: is_binary() |> spec(),
+      age: spec(is_integer() or is_nil()),
+      email: spec(email?())
     })
+  end
+
+  # A very simplistic email validation for demo purposes.
+  defp email?(email) when is_binary(email), do: String.contains?(email, "@")
+  # email is optional, therefore it conforms with it's default value of nil.
+  defp email?(nil), do: true
+  defp email?(_email), do: false
 end
 
 defmodule ElixirScribe.MixGenerator.AppApiContract do
@@ -16,20 +27,14 @@ defmodule ElixirScribe.MixGenerator.AppApiContract do
   alias Mix.Phoenix.Context
 
   defmodule BuildResourceActionFilePathContract do
-    # @enforce_keys [:action, :context, :file_extension, :path_type]
-    # @optional_keys [:file_type]
-    # @all_keys @enforce_keys ++ @optional_keys
-
-    # defstruct @all_keys
-
     @keys %{
       required: [:action, :context, :file_extension, :path_type],
-      optional: [:file_type]
+      optional: [file_type: ".ex"]
     }
 
     use ElixirScribe.Behaviour.NormTypedStruct, keys: @keys
 
-    # @impl true
+    @impl true
     def type_spec(), do: schema(%__MODULE__{
         action: is_binary() |> spec(),
         context: context?() |> spec(),
