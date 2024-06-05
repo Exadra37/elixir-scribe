@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Behaviour.NormTypedStruct do
+defmodule ElixirScribe.Behaviour.TypedContract do
   @moduledoc """
   The Elixir Scribe Typed Struct guarantees the shape of your data throughout your codebase.
 
@@ -141,7 +141,7 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
   The `:self` field is an extra added at compile time by the typed struct macro to allow you to self reference the typed struct like you already noticed in the above examples.
   """
 
-  alias ElixirScribe.Behaviour.NormTypedStruct
+  alias ElixirScribe.Behaviour.TypedContract
 
   @doc """
   Returns the typed specification for the struct.
@@ -220,7 +220,7 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
         @moduledoc """
 
         > #### INFO {: .info}
-        > This module doesn't have docs, but implements the behaviour `ElixirScribe.Behaviour.NormTypedStruct` which provides the following docs.
+        > This module doesn't have docs, but implements the behaviour `ElixirScribe.Behaviour.TypedContract` which provides the following docs.
 
         #{moduledocs}
         """
@@ -228,11 +228,11 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
 
       import Norm
 
-      @behaviour ElixirScribe.Behaviour.NormTypedStruct
+      @behaviour ElixirScribe.Behaviour.TypedContract
 
       @struct_keys Keyword.get(opts, :keys, %{}) |> Map.put(:extra, [self: __MODULE__])
 
-      optional_fields = NormTypedStruct.__optional_fields__(@struct_keys, __MODULE__)
+      optional_fields = TypedContract.__optional_fields__(@struct_keys, __MODULE__)
 
       @enforce_keys @struct_keys.required
 

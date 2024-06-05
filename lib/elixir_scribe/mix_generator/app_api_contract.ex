@@ -10,7 +10,7 @@ defmodule ElixirScribe.MixGenerator.AppApiContract do
       optional: [file_type: ".ex"]
     }
 
-    use ElixirScribe.Behaviour.NormTypedStruct, keys: @keys
+    use ElixirScribe.Behaviour.TypedContract, keys: @keys
 
     @impl true
     def type_spec(), do: schema(%__MODULE__{

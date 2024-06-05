@@ -6,7 +6,7 @@ defmodule Persona do
     optional: [role: nil]
   }
 
-  use ElixirScribe.Behaviour.NormTypedStruct, keys: @keys
+  use ElixirScribe.Behaviour.TypedContract, keys: @keys
 
   @impl true
   def type_spec() do
