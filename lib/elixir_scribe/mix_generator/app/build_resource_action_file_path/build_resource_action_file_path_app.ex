@@ -1,9 +1,9 @@
 defmodule ElixirScribe.MixGenerator.App.BuildResourceActionFilePath.BuildResourceActionFilePathApp do
+  @moduledoc false
 
   # alias Mix.Phoenix.Context
   alias  ElixirScribe.MixGenerator.AppApiContract.BuildResourceActionFilePathContract
 
-  @doc false
   # def build(%Context{} = context, action, suffix, type) do
   def build(%BuildResourceActionFilePathContract{} = contract) do
     resource_path = ElixirScribe.build_app_resource_path(contract.context, contract.path_type)

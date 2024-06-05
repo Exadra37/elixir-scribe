@@ -1,4 +1,5 @@
 defmodule ElixirScribe.Utils.StringAPI do
+  @moduledoc false
 
   alias ElixirScribe.Utils.String.Capitalize.CapitalizeString
   alias ElixirScribe.Utils.String.HumanCapitalize.HumanCapitalizeString

@@ -1,46 +1,24 @@
 defmodule ElixirScribe.Behaviour.NormTypedStruct do
   @moduledoc """
-  The Elixir Scribe Typed Struct built on top of Norm.
+  The Elixir Scribe Typed Struct guarantees the shape of your data throughout your codebase.
+
+  Use it as a contract for your data shape to eliminate potential bugs that may be caused by creating the data with the wrong type. This leads to more robust code and fewer tests needed to guarantee data correctness, compared to when a struct or a plain map was previously used.
 
   ## Typed Struct
 
   Let's define a Person typed struct:
 
   ```
-  defmodule Person do
-    @keys %{
-      required: [:name],
-      optional: [age: nil, email: nil]
-    }
-
-    use ElixirScribe.Behaviour.NormTypedStruct, keys: @keys
-
-    @impl true
-    def type_spec() do
-       schema(%__MODULE__{
-        name: is_binary() |> spec(),
-        age: spec(is_integer() or is_nil()),
-        email: spec(email?())
-      })
-    end
-
-    # A very simplistic email validation for demo purposes.
-    defp email?(email) when is_binary(email), do: String.contains?(email, "@")
-
-    # email is optional, therefore it conforms with it's default value of nil.
-    defp email?(nil), do: true
-
-    defp email?(_email), do: false
-  end
+  #{File.read! "test/support/behaviours/person.ex"}
   ```
 
   A typed struct needs to declare the required and optional keys, plus a type spec for them. The type spec can use built-in specs from Norm or your own ones.
 
-  To take advantage of the safety guarantees of the typed struct you MUST not create or update it directly, as allowed by Elixir, instead you need to use the built-in functions `new/1`, `new!/1`, `update/3` or `update!/3` that will guarantee it conforms with the type specs when one is created or updated.
+  To take advantage of the safety guarantees of the typed struct, you **MUST** not create or update it directly, as allowed by Elixir. Instead, you need to use the built-in functions `new/1`, `new!/1`, `update/3`, or `update!/3` that will guarantee it conforms with the type specs when one is created or updated.
 
-  Use `conforms?/1` at the place you gonna use the typed struct to guarantee that you still have a struct that conforms with the type spec, because it may have been manipulated directly between the point it was created and where you will use it.
+  Use the `conforms?/1` function at the place you use the typed struct to ensure that you still have a struct that conforms with the type spec, because it may have been manipulated directly between the point it was created and where you are using it.
 
-  For introspection the `fields/0` and `type_spec/0` are provided.
+  For introspection, the `fields/0` and `type_spec/0` functions are provided.
 
 
   ## Usage Examples
@@ -55,6 +33,7 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
   To update the Person:
 
   ```
+  iex> person = Person.new! %{name: "Paulo", age: 10}
   iex> person.self.update! person, :email, "me@gmail.com"
   %Person{name: "Paulo", age: 10, email: "me@gmail.com", self: Person}
   ```
@@ -62,6 +41,7 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
   To confirm the Person still conforms with the type spec:
 
   ```
+  iex> person = Person.new! %{name: "Paulo", age: 10}
   iex> person.self.conforms? person
   true
   ```
@@ -69,16 +49,6 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
   To introspect the fields used to define the typed struct at compile time:
 
   ```
-  iex> person.self.fields
-  %{
-    config: %{
-      extra: [self: Person],
-      required: [:name],
-      optional: [age: nil, email: nil]
-    },
-    defstruct: [:name, {:age, nil}, {:email, nil}, {:self, Person}]
-  }
-
   iex> Person.fields
   %{
     config: %{
@@ -88,6 +58,18 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
     },
     defstruct: [:name, {:age, nil}, {:email, nil}, {:self, Person}]
   }
+  ```
+
+  To introspect the Norm type spec:
+
+  ```
+  iex> Person.type_spec
+  #Norm.Schema<%Person{
+    name: #Norm.Spec<is_binary()>,
+    age: #Norm.Spec<is_integer() or is_nil()>,
+    email: #Norm.Spec<email?()>,
+    self: Person
+  }>
   ```
 
   The `:self` field is an extra added at compile time by the typed struct macro to allow you to self reference the typed struct like you already noticed in the above examples.
@@ -104,18 +86,6 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
 
   @doc """
   Returns the fields definition used to define the struct at compile time.
-
-  ## Usage Examples
-
-  To know which fields are required and optional in the typed struct:
-
-      iex> person = Person.fields
-      %{
-        config: %{extra: [self: Person], required: [:name], optional: [age: nil]},
-        defstruct: [:name, {:age, nil}, {:self, Person}]
-      }
-
-
   """
   @callback fields() :: map()
 
@@ -179,9 +149,16 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
     moduledocs = @moduledoc
 
     quote location: :keep, bind_quoted: [opts: opts, moduledocs: moduledocs] do
-      @moduledoc """
-      #{moduledocs}
-      """
+
+      unless Module.has_attribute?(__MODULE__, @moduledoc) do
+        @moduledoc """
+
+        > #### INFO {: .info}
+        > This module doesn't have docs, but implements the behaviour `ElixirScribe.Behaviour.NormTypedStruct` which provides the following docs.
+
+        #{moduledocs}
+        """
+      end
 
       import Norm
 
@@ -201,11 +178,10 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
 
       defstruct @all_keys
 
-      # @impl true
+      @impl true
       def fields(), do: @fields
 
       @impl true
-      @doc
       def new(attrs) when is_map(attrs) do
         struct(__MODULE__, attrs)
         |> conform(type_spec())

@@ -1,4 +1,5 @@
 defmodule ElixirScribe.MixGenerator.Template.RebuildBinding.RebuildBindingTemplate do
+  @moduledoc false
 
   alias ElixirScribe.MixGeneratorAPI
   alias ElixirScribe.Utils.StringAPI

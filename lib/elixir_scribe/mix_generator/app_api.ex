@@ -1,4 +1,5 @@
 defmodule ElixirScribe.MixGenerator.AppApi do
+  @moduledoc false
 
   alias ElixirScribe.MixGenerator.AppApiContract.BuildResourceActionFilePathContract
   alias ElixirScribe.MixGenerator.App.BuildResourceActionFilePath.BuildResourceActionFilePathApp
