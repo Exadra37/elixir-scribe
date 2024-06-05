@@ -1,13 +1,15 @@
 defmodule PersonaValidator do
+  @moduledoc false
 
-  # A very simplistic email validation for demo purposes.
+  # A very simplistic set o validations for demo purposes.
+
   @email_providers ["gmail.com", "yahoo.com", "hotmail.com"]
   def corporate_email?(email) when is_binary(email) do
     case String.split(email, "@", trim: true) do
       [_one_part] ->
         false
 
-      [_, tld] when tld not in @email_providers ->
+      [_, email_provider] when email_provider not in @email_providers ->
         true
 
       _ ->

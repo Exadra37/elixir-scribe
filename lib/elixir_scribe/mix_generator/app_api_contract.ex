@@ -5,6 +5,8 @@ defmodule ElixirScribe.MixGenerator.AppApiContract do
   alias Mix.Phoenix.Context
 
   defmodule BuildResourceActionFilePathContract do
+    @moduledoc false
+
     @keys %{
       required: [:action, :context, :file_extension, :path_type],
       optional: [file_type: ".ex"]
@@ -37,7 +39,6 @@ defmodule ElixirScribe.MixGenerator.AppApiContract do
     defp app_file_type?(_action), do: false
 
     @app_path_types ElixirScribe.app_path_types()
-
     defp app_path_type?(path_type) when path_type in @app_path_types, do: true
     defp app_path_type?(_action), do: false
   end

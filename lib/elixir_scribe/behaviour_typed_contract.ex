@@ -1,17 +1,17 @@
 defmodule ElixirScribe.Behaviour.TypedContract do
   @moduledoc """
-  The Elixir Scribe Typed Struct guarantees the shape of your data throughout your codebase.
+  The Elixir Scribe Typed Contract guarantees the shape of your data throughout your codebase.
 
   Use it as a contract for your data shape to eliminate potential bugs that may be caused by creating the data with the wrong type. This leads to more robust code and fewer tests needed to guarantee data correctness, compared to when a struct or a plain map was previously used.
 
 
-  ## Typed Struct
+  ## Typed Contract
 
   Let's imagine that the Business requested a new feature, a Marketing funnel where they only want to allow personas who have a company email to enter the funnel, and they require them to provide a name, email and optionally their role in the company.
 
-  We can use a Typed Struct to translate these business rules into a contract that guarantees data correctness across all our code base.
+  We can use a Typed Contract to translate these business rules into a contract that guarantees data correctness across all our code base.
 
-  For simplicity of the usage examples let's call it `Persona`:
+  For example:
 
   ```
   #{File.read! "lib/docs/modules/behaviours/persona.ex"}
@@ -22,12 +22,12 @@ defmodule ElixirScribe.Behaviour.TypedContract do
 
 
   > ### Required and Optional Keys {: .warning}
-  > - A typed struct needs to declare the required and optional keys, plus a type spec for them.
+  > - A typed contract needs to declare the required and optional keys, plus a type spec for them.
   > - The optional keys **MUST** have a default value.
 
   > ### Contract Guarantees {: .error}
-  > - To take advantage of the safety guarantees of the typed struct contract, you **MUST** not create or update it directly, as allowed by Elixir. Instead, you need to use the built-in functions `new/1`, `new!/1`, `update/3`, or `update!/3` that will guarantee it conforms with the type specs when one is created or updated.
-  > - Use the `conforms?/1` function at the place you use the typed struct to ensure that you still have a struct that conforms with the type spec, because it may have been manipulated directly between the point it was created and where you are using it.
+  > - To take advantage of the safety guarantees offered by the Elixir Scribe Typed Contract, you **MUST** not create or update it directly, as allowed by Elixir. Instead, you need to use the built-in functions `new/1`, `new!/1`, `update/3`, or `update!/3` that will guarantee it conforms with the type specs when one is created or updated.
+  > - Use the `conforms?/1` function at the place you use the typed contract to ensure that you still have a struct that conforms with the type spec, because it may have been manipulated directly between the point it was created and where you are using it.
   > - For introspection, the `fields/0` and `type_spec/0` functions are provided.
 
 
@@ -101,13 +101,13 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   Invoking `update/3` and `update!/3` will output similar results.
 
   > ### Less Tests and Fewer Bugs {: .tip}
-  > - The Elixir Scribe typed struct acts as a contract for the businesse rules to guarantee data correctness at anypoint it's used in the code base.
+  > - The Elixir Scribe typed contract acts as a contract for the businesse rules to guarantee data correctness at anypoint it's used in the code base.
   > - Now the developer only needs to test that a Persona complies with this business rules in the test for this contract, because everywhere the Persona contract is used it's guaranteed that the data is in the expected shape.
   > - This translates to fewer bugs, less technical debt creeping in and a more robust code base.
 
   ### Introspection
 
-  To introspect the fields used to define the typed struct at compile time:
+  To introspect the fields used to define the typed contract at compile time:
 
   ```
   iex> Persona.fields
@@ -138,57 +138,57 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   }>
   ```
 
-  The `:self` field is an extra added at compile time by the typed struct macro to allow you to self reference the typed struct like you already noticed in the above examples.
+  The `:self` field is an extra added at compile time by the typed contract macro to allow you to self reference the typed contract like you already noticed in the above examples.
   """
 
   alias ElixirScribe.Behaviour.TypedContract
 
   @doc """
-  Returns the typed specification for the struct.
+  Returns the type specification for the Elixir Scribe Typed Contract.
 
   Used internally by all this behaviour callbacks, but may also be useful in the case more advanced usage of Norm is required outside this struct.
   """
   @callback type_spec() :: struct()
 
   @doc """
-  Returns the fields definition used to define the struct at compile time.
+  Returns the fields definition used to define the struct for the Elixir Scribe Typed Contract at compile time.
   """
   @callback fields() :: map()
 
   @doc """
-  Accepts a map with the attributes to create a typed struct.
+  Accepts a map with the attributes to create an Elixir Scribe Typed Contract.
 
   Returns `{:ok, struct}` on successful creation, otherwise returns `{:error, reason}`.
   """
   @callback new(map()) :: {:ok, struct()} | {:error, list(map())}
 
   @doc """
-  Accepts a map with the attributes to create a typed struct.
+  Accepts a map with the attributes to create an ELixir Scribe Typed Contract.
 
-  Returns the typed struct on successful creation, otherwise raises an error.
+  Returns the typed contract on successful creation, otherwise raises an error.
   """
   @callback new!(map()) :: struct()
 
   @doc """
-  Updates the typed struct for the given key and value.
+  Updates the Elixir Scribe Typed Contract for the given key and value.
 
   Returns `{:ok, struct}` on successful update, otherwise returns `{:error, reason}`.
   """
   @callback update(struct(), atom(), any()) :: {:ok, struct()} | {:error, list(map())}
 
   @doc """
-  Updates the typed struct for the given key and value.
+  Updates the Elixir Scribe Typed Contract for the given key and value.
 
-  Returns the typed struct on successful update, otherwise raises an error.
+  Returns the typed contract on successful update, otherwise raises an error.
   """
   @callback update!(struct(), atom(), any()) :: struct()
 
   @doc """
-  Accepts the struct itself to check it still conforms with the specs.
+  Accepts the Elixir Scribe Typed Contract itself to check it still conforms with the specs.
 
   Creating or modifying the struct directly can cause it to not be conformant anymore with the specs.
 
-  Useful to use by modules operating on the struct that need to ensure it wasn't directly modified after being created with `new/1` or `new!/1`.
+  Useful to use by modules operating on the Typed Contract to ensure it wasn't directly modified after being created with `new/1` or `new!/1`.
   """
   @callback conforms?(struct()) :: boolean()
 
@@ -196,7 +196,7 @@ defmodule ElixirScribe.Behaviour.TypedContract do
     Keyword.keyword?(optional) || raise """
       #{module}
 
-          All optional fields in a Struct MUST have a default value:
+          All optional fields in the Typed Contract MUST have a default value:
 
             * Incorrect: [:a, :b] or [:a, b: :default]
 
@@ -216,13 +216,13 @@ defmodule ElixirScribe.Behaviour.TypedContract do
 
     quote location: :keep, bind_quoted: [opts: opts, moduledocs: moduledocs] do
 
-      unless Module.has_attribute?(__MODULE__, @moduledoc) do
+      # unless Module.has_attribute?(__MODULE__, @moduledoc) do
+      unless Module.get_attribute __MODULE__, :moduledoc, false do
         @moduledoc """
+        Module visible without docs.
 
         > #### INFO {: .info}
-        > This module doesn't have docs, but implements the behaviour `ElixirScribe.Behaviour.TypedContract` which provides the following docs.
-
-        #{moduledocs}
+        > This module doesn't have docs, but you can read instead the docs for the behaviour it implements: `ElixirScribe.Behaviour.TypedContract`
         """
       end
 
@@ -260,21 +260,21 @@ defmodule ElixirScribe.Behaviour.TypedContract do
       end
 
       @impl true
-      def update(%__MODULE__{} = struct, key, value) do
-        struct
+      def update(%__MODULE__{} = typed_contract, key, value) do
+        typed_contract
         |> Map.put(key, value)
         |> conform(type_spec())
       end
 
       @impl true
-      def update!(%__MODULE__{} = struct, key, value) do
-        struct
+      def update!(%__MODULE__{} = typed_contract, key, value) do
+        typed_contract
         |> Map.put(key, value)
         |> conform!(type_spec())
       end
 
       @impl true
-      def conforms?(%__MODULE__{} = struct), do: struct |> valid?(type_spec())
+      def conforms?(%__MODULE__{} = typed_contract), do: typed_contract |> valid?(type_spec())
       def conforms?(_), do: false
 
       defoverridable new: 1, new!: 1, update: 3, update!: 3, conforms?: 1

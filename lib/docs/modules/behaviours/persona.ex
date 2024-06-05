@@ -1,4 +1,6 @@
 defmodule Persona do
+  @moduledoc false
+
   require PersonaValidator
 
   @keys %{
