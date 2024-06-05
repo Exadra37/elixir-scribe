@@ -4,71 +4,137 @@ defmodule ElixirScribe.Behaviour.NormTypedStruct do
 
   Use it as a contract for your data shape to eliminate potential bugs that may be caused by creating the data with the wrong type. This leads to more robust code and fewer tests needed to guarantee data correctness, compared to when a struct or a plain map was previously used.
 
+
   ## Typed Struct
 
-  Let's define a Person typed struct:
+  Let's imagine that the Business requested a new feature, a Marketing funnel where they only want to allow personas who have a company email to enter the funnel, and they require them to provide a name, email and optionally their role in the company.
+
+  We can use a Typed Struct to translate these business rules into a contract that guarantees data correctness across all our code base.
+
+  For simplicity of the usage examples let's call it `Persona`:
 
   ```
-  #{File.read! "test/support/behaviours/person.ex"}
+  #{File.read! "lib/docs/modules/behaviours/persona.ex"}
   ```
+  > ### Specs {: .info}
+  > - When defining the `type_spec/0` the schema can use the built-in specs from [Norm](https://hexdocs.pm/norm/Norm.html#module-validation-and-conforming-values) or your own ones.
+  > - All specs defined with `PersonaValidator.*` are custom ones.
 
-  A typed struct needs to declare the required and optional keys, plus a type spec for them. The type spec can use built-in specs from Norm or your own ones.
 
-  To take advantage of the safety guarantees of the typed struct, you **MUST** not create or update it directly, as allowed by Elixir. Instead, you need to use the built-in functions `new/1`, `new!/1`, `update/3`, or `update!/3` that will guarantee it conforms with the type specs when one is created or updated.
+  > ### Required and Optional Keys {: .warning}
+  > - A typed struct needs to declare the required and optional keys, plus a type spec for them.
+  > - The optional keys **MUST** have a default value.
 
-  Use the `conforms?/1` function at the place you use the typed struct to ensure that you still have a struct that conforms with the type spec, because it may have been manipulated directly between the point it was created and where you are using it.
-
-  For introspection, the `fields/0` and `type_spec/0` functions are provided.
+  > ### Contract Guarantees {: .error}
+  > - To take advantage of the safety guarantees of the typed struct contract, you **MUST** not create or update it directly, as allowed by Elixir. Instead, you need to use the built-in functions `new/1`, `new!/1`, `update/3`, or `update!/3` that will guarantee it conforms with the type specs when one is created or updated.
+  > - Use the `conforms?/1` function at the place you use the typed struct to ensure that you still have a struct that conforms with the type spec, because it may have been manipulated directly between the point it was created and where you are using it.
+  > - For introspection, the `fields/0` and `type_spec/0` functions are provided.
 
 
   ## Usage Examples
 
+  To run the usage examples:
+
+  ```
+  iex -S mix
+  ```
+
+  ### With Valid Data Types
+
   To create a new Person:
 
   ```
-  iex> person = Person.new! %{name: "Paulo", age: 10}
-  %Person{name: "Paulo", age: 10, email: nil, self: Person}
+  iex> Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
   ```
 
   To update the Person:
 
   ```
-  iex> person = Person.new! %{name: "Paulo", age: 10}
-  iex> person.self.update! person, :email, "me@gmail.com"
-  %Person{name: "Paulo", age: 10, email: "me@gmail.com", self: Person}
+  iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
+  iex> persona.self.update! persona, :role, "Elixir Scribe Engineer"
+  %Persona{
+    name: "Paulo",
+    email: "exadra37@company.com",
+    role: "Elixir Scribe Engineer",
+    self: Persona
+  }
   ```
 
-  To confirm the Person still conforms with the type spec:
+  Later, some layers deep in the code we can confirm that the Persona still conforms with the type spec defined in the contract:
 
   ```
-  iex> person = Person.new! %{name: "Paulo", age: 10}
-  iex> person.self.conforms? person
+  iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
+  iex> persona.self.conforms? persona
   true
   ```
+
+  Alternatively, you can use `new/1` and `update/3` which will return a `{:ok, result}` or `{:error, reason}` tuple.
+
+
+  ### With Invalid Data Types
+
+  Passing the role as an atom, instead of the expected string:
+
+  ```
+  iex> Persona.new %{name: "Paulo", email: "exadra37@company.com", role: :cto}
+  {:error, [%{input: :cto, path: [:role], spec: "PersonaValidator.role?()"}]}
+  ```
+
+  The same as above, but using `new!/1` which will raise:
+
+  ```
+  Persona.new! %{name: "Paulo", email: "exadra37@company.com", role: :cto}
+  ```
+
+  It will raise the following:
+
+  ```
+  ** (Norm.MismatchError) Could not conform input:
+  val: :cto in: :role fails: PersonaValidator.role?()
+      (norm 0.13.0) lib/norm.ex:65: Norm.conform!/2
+      iex:6: (file)
+  ```
+
+  Invoking `update/3` and `update!/3` will output similar results.
+
+  > ### Less Tests and Fewer Bugs {: .tip}
+  > - The Elixir Scribe typed struct acts as a contract for the businesse rules to guarantee data correctness at anypoint it's used in the code base.
+  > - Now the developer only needs to test that a Persona complies with this business rules in the test for this contract, because everywhere the Persona contract is used it's guaranteed that the data is in the expected shape.
+  > - This translates to fewer bugs, less technical debt creeping in and a more robust code base.
+
+  ### Introspection
 
   To introspect the fields used to define the typed struct at compile time:
 
   ```
-  iex> Person.fields
+  iex> Persona.fields
   %{
     config: %{
-      extra: [self: Person],
-      required: [:name],
-      optional: [age: nil, email: nil]
+      extra: [self: Persona],
+      required: [:name, :email],
+      optional: [role: nil]
     },
-    defstruct: [:name, {:age, nil}, {:email, nil}, {:self, Person}]
+    defstruct: [:name, :email, {:role, nil}, {:self, Persona}]
   }
   ```
 
   To introspect the Norm type spec:
 
   ```
-  iex> Person.type_spec
-  #Norm.Schema<%Person{
+  iex> Persona.type_spec
+  ```
+
+  The output:
+
+  ```
+  #Norm.Schema<%Persona{
     name: #Norm.Spec<is_binary()>,
-    age: #Norm.Spec<is_integer() or is_nil()>,
-    email: #Norm.Spec<email?()>,
-    self: Person
+    email: #Norm.Spec<PersonaValidator.corporate_email?()>,
+    role: #Norm.Spec<PersonaValidator.role?()>,
+    self: Persona
   }>
   ```
 

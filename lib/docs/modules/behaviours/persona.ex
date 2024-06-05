@@ -1,0 +1,20 @@
+defmodule Persona do
+  require PersonaValidator
+
+  @keys %{
+    required: [:name, :email],
+    optional: [role: nil]
+  }
+
+  use ElixirScribe.Behaviour.NormTypedStruct, keys: @keys
+
+  @impl true
+  def type_spec() do
+     schema(%__MODULE__{
+      name: is_binary() |> spec(),
+      email: PersonaValidator.corporate_email?() |> spec(),
+      role: PersonaValidator.role?() |> spec()
+    })
+  end
+end
+
