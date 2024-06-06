@@ -23,6 +23,7 @@ defmodule ElixirScribe.MixProject do
       source_url: @scm_url,
       description: @description,
       package: package(),
+      docs: docs(),
       deps: deps()
     ]
   end
@@ -39,8 +40,17 @@ defmodule ElixirScribe.MixProject do
       maintainers: ["Paulo Renato (Exadra37)"],
       licenses: ["MIT"],
       links: %{"GitHub" => @scm_url},
-      files:
-        ~w(lib priv LICENSE.md mix.exs README.md .formatter.exs)
+      files: ~w(lib priv LICENSE.md mix.exs README.md .formatter.exs)
+    ]
+  end
+
+  defp docs() do
+    [
+      main: "readme",
+      extras: ["README.md"]
+      # groups_for_extras: [
+      #   Examples: ~r"test/examples"
+      # ],
     ]
   end
 
