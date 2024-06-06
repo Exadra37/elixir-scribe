@@ -40,7 +40,8 @@ defmodule ElixirScribe.MixProject do
       maintainers: ["Paulo Renato (Exadra37)"],
       licenses: ["MIT"],
       links: %{"GitHub" => @scm_url},
-      files: ~w(lib priv LICENSE.md mix.exs README.md .formatter.exs)
+      files: ~w(lib priv LICENSE.md mix.exs README.md .formatter.exs),
+      exclude_patterns: [".local"]
     ]
   end
 
