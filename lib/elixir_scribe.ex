@@ -85,7 +85,7 @@ defmodule ElixirScribe do
 
   """
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
 
   @doc false
   def base_template_paths(), do: [".", :elixir_scribe, :phoenix]
@@ -198,11 +198,12 @@ defmodule ElixirScribe do
 
   @doc false
   def build_app_schema_file_path(%Context{} = context) do
-    contract = ElixirScribe.MixGenerator.AppAPIContract.BuildDomainPathContract.new!(%{app_lib_dir: context.dir, path_type: :lib_core})
-    domains_path = ElixirScribe.MixGenerator.AppAPI.build_domain_path(contract)
+    _contract = ElixirScribe.MixGenerator.AppAPIContract.BuildDomainPathContract.new!(%{app_lib_dir: context.lib_domain_dir, path_type: :lib_core})
+    # domains_path = ElixirScribe.MixGenerator.AppAPI.build_domain_path(contract)
 
-    resource = context.schema.singular
+    resource = context.resource_name_singular
+    filename = context.resource_name_singular <> "_schema.ex"
 
-    Path.join([domains_path, resource <> "_schema.ex"])
+    Path.join([context.lib_domain_dir, resource, filename])
   end
 end

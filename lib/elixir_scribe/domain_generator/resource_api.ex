@@ -1,8 +1,8 @@
 defmodule ElixirScribe.DomainGenerator.ResourceAPI do
   @moduledoc false
 
-  alias Mix.Phoenix.Context
-  alias Mix.Phoenix.Schema
+  alias Mix.Scribe.Context
+  alias Mix.Scribe.Schema
   alias ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource
   alias ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResource

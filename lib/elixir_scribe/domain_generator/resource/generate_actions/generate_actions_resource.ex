@@ -3,7 +3,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsR
 
   alias ElixirScribe.MixGeneratorAPI
   alias ElixirScribe.DomainGenerator.ResourceAPI
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
 
   @doc false
   def generate(%Context{} = context, root_paths) do

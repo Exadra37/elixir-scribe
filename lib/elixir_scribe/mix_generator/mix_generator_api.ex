@@ -1,7 +1,7 @@
 defmodule ElixirScribe.MixGeneratorAPI do
   @moduledoc false
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
   alias ElixirScribe.MixGenerator.Template.Conflicts.MixPromptFileConflicts
   alias ElixirScribe.MixGenerator.Template.Copy.CopyFile
   alias ElixirScribe.MixGenerator.Template.Inject.InjectContentBeforeFinalEnd

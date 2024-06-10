@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResource do
   @moduledoc false
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
   alias ElixirScribe.DomainGenerator.ResourceAPI
 
   alias ElixirScribe.MixGeneratorAPI
@@ -22,6 +22,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
 
     schema_file = ElixirScribe.build_app_schema_file_path(context)
     schema = Map.put(schema, :file, schema_file)
+    attrs = Map.from_struct(schema)
+    schema = struct(Mix.Phoenix.Schema, attrs)
 
     if schema.generate?, do: Mix.Tasks.Phx.Gen.Schema.copy_new_files(schema, paths, binding)
 

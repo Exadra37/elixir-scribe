@@ -1,7 +1,7 @@
 defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   @moduledoc false
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
 
   @doc false
   def scope(%Context{schema: schema} = context) do
@@ -15,10 +15,11 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   end
 
   defp build_action_routes(%Context{schema: schema} = context) do
-    resource_actions = ElixirScribe.resource_actions()
-    actions = ElixirScribe.MixGeneratorAPI.build_actions_from_options(context.opts)
+    default_resource_actions = ElixirScribe.resource_actions()
 
-    extra_actions = actions -- resource_actions
+    resource_actions = context.opts |> Keyword.get(:resource_actions)
+
+    extra_actions = resource_actions -- default_resource_actions
 
     routes =
       for action <- extra_actions, reduce: "" do
@@ -26,7 +27,7 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
           routes <> build_route_action(action, schema)
       end
 
-    actions = actions -- extra_actions
+    actions = resource_actions -- extra_actions
 
     for action <- actions, reduce: routes do
       routes ->

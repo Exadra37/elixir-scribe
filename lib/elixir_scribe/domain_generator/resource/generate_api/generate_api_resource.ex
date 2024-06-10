@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource do
   @moduledoc false
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
   alias ElixirScribe.MixGeneratorAPI
 
   @doc false
@@ -15,10 +15,10 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
   end
 
   defp get_api_file(context) do
-    contract = ElixirScribe.MixGenerator.AppAPIContract.BuildDomainPathContract.new!(%{app_lib_dir: context.dir, path_type: :lib_core})
-    domains_path = ElixirScribe.MixGenerator.AppAPI.build_domain_path(contract)
+    # contract = ElixirScribe.MixGenerator.AppAPIContract.BuildDomainPathContract.new!(%{app_lib_dir: context.dir, path_type: :lib_core})
+    # domains_path = ElixirScribe.MixGenerator.AppAPI.build_domain_path(contract)
 
-    Path.join([domains_path, "#{context.schema.singular}_api.ex"])
+    Path.join([context.lib_domain_dir, "#{context.resource_name_singular}_api.ex"])
   end
 
   defp build_api_binding(context, binding) do
@@ -50,7 +50,9 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
   end
 
   defp inject_api_functions(context, paths, binding) do
-    for action <- MixGeneratorAPI.build_actions_from_options(context.opts) do
+    resource_actions = context.opts |> Keyword.get(:resource_actions)
+
+    for action <- resource_actions do
       file = get_api_file(context)
       binding = build_api_binding(context, binding) |> MixGeneratorAPI.rebuild_binding_template(action)
 

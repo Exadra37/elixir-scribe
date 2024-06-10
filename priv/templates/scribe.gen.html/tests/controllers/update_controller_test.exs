@@ -16,7 +16,7 @@ defmodule <%= inspect context.web_module %>.<%= schema.web_namespace %>.<%= insp
     assert redirected_to(conn) == ~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}"
 
     conn = get(conn, ~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}")<%= if schema.string_attr do %>
-    assert html_response(conn, 200) =~ <%= inspect Mix.Phoenix.Schema.default_param(schema, :update) %><% else %>
+    assert html_response(conn, 200) =~ <%= inspect Mix.Scribe.Schema.default_param(schema, :update) %><% else %>
     assert html_response(conn, 200)<% end %>
   end
 

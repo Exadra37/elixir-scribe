@@ -159,7 +159,7 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
 
   use Mix.Task
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
   alias Mix.Tasks.Phx.Gen
   alias ElixirScribe.DomainGenerator.ResourceAPI
 
@@ -184,6 +184,9 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
   @doc false
   def print_shell_instructions(%Context{schema: schema}) do
     if schema.generate? do
+      attrs = Map.from_struct(schema)
+      schema = struct(Mix.Phoenix.Schema, attrs)
+
       Gen.Schema.print_shell_instructions(schema)
     else
       :ok

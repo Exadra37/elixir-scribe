@@ -67,7 +67,8 @@ defmodule ElixirScribe.MixProject do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:phoenix, ">= 1.7.0", only: [:dev, :test]},
-      {:norm, "~> 0.13"}
+      {:norm, "~> 0.13"},
+      {:assertions, "0.19.0", only: [:test]}
     ]
   end
 end

@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource do
   @moduledoc false
 
-  alias Mix.Phoenix.{Context, Schema}
+  alias Mix.Scribe.{Context, Schema}
   alias ElixirScribe.MixGeneratorAPI
 
   @switches [
@@ -90,6 +90,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource do
       @default_opts
       |> Keyword.merge(opts)
       |> put_context_app(opts[:context_app])
+      |> put_resource_actions()
 
     {merged_opts, parsed, invalid}
   end
@@ -98,5 +99,10 @@ defmodule ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource do
 
   defp put_context_app(opts, string) do
     Keyword.put(opts, :context_app, String.to_atom(string))
+  end
+
+  defp put_resource_actions(opts) do
+    resource_actions = MixGeneratorAPI.build_actions_from_options(opts)
+    Keyword.put(opts, :resource_actions, resource_actions)
   end
 end

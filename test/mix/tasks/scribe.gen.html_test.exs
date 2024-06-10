@@ -18,7 +18,7 @@ defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
     test "returns files for core, web and releated tests" do
       context = fixture(:context)
 
-      default_actions = ElixirScribe.default_actions()
+      resource_actions = ElixirScribe.resource_actions()
 
       expected_files = [
         {:eex, "priv/templates/scribe.gen.html/html/default/resource_form.html.heex", "lib/elixir_scribe_web/domain/site/blog/post/post_form.html.heex", ""},
@@ -26,9 +26,9 @@ defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
       ]
 
       expected_files =
-        for action <- default_actions, reduce: expected_files do
+        for action <- resource_actions, reduce: expected_files do
           expected_files ->
-            resource = (action in ElixirScribe.default_plural_actions()) && "posts" || "post"
+            resource = (action in ElixirScribe.resource_plural_actions()) && "posts" || "post"
             source = "priv/templates/scribe.gen.html/controllers/#{action}_controller.ex"
             target = "lib/elixir_scribe_web/domain/site/blog/post/#{action}/#{action}_#{resource}_controller.ex"
 
@@ -37,24 +37,24 @@ defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
             [controller_test_file | expected_files]
         end
 
-      html_actions = ElixirScribe.default_html_actions()
+      html_actions = ElixirScribe.resource_html_actions()
 
       expected_files =
         for html_action <- html_actions, reduce: expected_files do
           expected_files ->
-            resource = (html_action in ElixirScribe.default_plural_actions()) && "posts" || "post"
-            source_test = "priv/templates/scribe.gen.html/html/default/#{html_action}.html.heex"
-            target_test =
+            resource = (html_action in ElixirScribe.resource_plural_actions()) && "posts" || "post"
+            source = "priv/templates/scribe.gen.html/html/default/#{html_action}.html.heex"
+            target =
               "lib/elixir_scribe_web/domain/site/blog/post/#{html_action}/#{html_action}_#{resource}.html.heex"
 
-            file = {:eex, source_test, target_test, html_action}
+            file = {:eex, source, target, html_action}
             [file | expected_files]
         end
 
       expected_files =
-        for action <- default_actions, reduce: expected_files do
+        for action <- resource_actions, reduce: expected_files do
           expected_files ->
-            resource = (action in ElixirScribe.default_plural_actions()) && "posts" || "post"
+            resource = (action in ElixirScribe.resource_plural_actions()) && "posts" || "post"
             source_test =
               "priv/templates/scribe.gen.html/tests/controllers/#{action}_controller_test.exs"
             target_test =
@@ -68,7 +68,7 @@ defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
       files = Html.files_to_be_generated(context)
 
       assert length(files) === length(expected_files)
-      Assertions.assert_lists_equal(files, expected_files)
+      Assertions.assert_lists_equal(expected_files, files)
     end
   end
 end

@@ -271,6 +271,14 @@ defmodule ElixirScribe.Behaviour.TypedContract do
         |> conform!(type_spec())
       end
 
+      def conforms(typed_contract) do
+        typed_contract |> conform(type_spec())
+      end
+
+      def conforms!(typed_contract) do
+        typed_contract |> conform!(type_spec())
+      end
+
       @impl true
       def conforms?(%__MODULE__{} = typed_contract), do: typed_contract |> valid?(type_spec())
       def conforms?(_), do: false

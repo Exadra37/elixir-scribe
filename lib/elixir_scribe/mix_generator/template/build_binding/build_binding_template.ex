@@ -1,7 +1,7 @@
 defmodule ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate do
   @moduledoc false
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
   alias ElixirScribe.Utils.StringAPI
 
   @doc false

@@ -1,7 +1,7 @@
 defmodule ElixirScribe.MixGenerator.Module.BuildName.BuildAbsoluteModuleName do
   @moduledoc false
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
 
   @doc false
   def build(%Context{} = context, opts) when is_list(opts) do

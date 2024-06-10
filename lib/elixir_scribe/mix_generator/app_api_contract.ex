@@ -2,14 +2,14 @@ defmodule ElixirScribe.MixGenerator.AppAPIContract do
   @moduledoc false
 
   import Norm
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
 
   defmodule BuildResourceActionFilePathContract do
     @moduledoc false
 
     @keys %{
       required: [:action, :context, :file_extension, :path_type],
-      optional: [file_type_prefix: "_", file_type: ".ex"]
+      optional: [file_type_prefix: "_", file_type: ""]
     }
 
     use ElixirScribe.Behaviour.TypedContract, keys: @keys
@@ -103,7 +103,7 @@ defmodule ElixirScribe.MixGenerator.AppAPIContract do
 
     def new!(attrs), do: super(attrs)
 
-    @app_path_types ElixirScribe.app_path_types()
+    # @app_path_types ElixirScribe.app_path_types()
     defp domain_contract?(%BuildDomainPathContract{} = contract), do: contract.self.conforms?(contract)
     defp domain_contract?(_domain_contract), do: false
 

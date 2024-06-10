@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResource do
   @moduledoc false
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
   alias ElixirScribe.DomainGenerator.ResourceAPI
 
   @doc false

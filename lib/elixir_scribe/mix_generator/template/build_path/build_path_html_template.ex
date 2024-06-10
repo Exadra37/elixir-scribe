@@ -1,7 +1,7 @@
 defmodule ElixirScribe.MixGenerator.Template.BuildPath.BuildPathHtmlTemplate do
   @moduledoc false
 
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
 
   @doc false
   def build(%Context{} = context) do
