@@ -44,6 +44,5 @@ defmodule ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate d
 
   defp add_embeded_templates(binding) do
     Keyword.put(binding, :embeded_templates, ElixirScribe.MixGeneratorAPI.build_embeded_templates())
-    |> dbg()
   end
 end

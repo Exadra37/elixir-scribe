@@ -183,6 +183,10 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   """
   @callback update!(struct(), atom(), any()) :: struct()
 
+  @callback conforms(struct()) :: {:ok, struct()} | {:error, list(map())}
+
+  @callback conforms!(struct()) :: struct()
+
   @doc """
   Accepts the Elixir Scribe Typed Contract itself to check it still conforms with the specs.
 
@@ -271,10 +275,12 @@ defmodule ElixirScribe.Behaviour.TypedContract do
         |> conform!(type_spec())
       end
 
+      @impl true
       def conforms(typed_contract) do
         typed_contract |> conform(type_spec())
       end
 
+      @impl true
       def conforms!(typed_contract) do
         typed_contract |> conform!(type_spec())
       end

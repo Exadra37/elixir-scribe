@@ -6,7 +6,7 @@ defmodule ElixirScribe.MixGenerator.Template.RebuildBinding.RebuildBindingTempla
 
   @doc false
   def rebuild(binding, action) when is_list(binding) and is_binary(action) do
-    [{:context, context} | _rest] = binding
+    context = Keyword.get(binding, :context)
 
     Keyword.merge(binding,
       action: action,
