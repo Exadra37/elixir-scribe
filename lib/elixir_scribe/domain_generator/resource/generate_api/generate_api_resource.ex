@@ -8,18 +8,12 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
   def generate(%Context{} = context, paths) do
     binding = MixGeneratorAPI.build_binding_template(context)
 
-    ensure_api_file_exists(context, paths, binding)
-    inject_api_functions(context, paths, binding)
+    context
+    |> ensure_api_file_exists(paths, binding)
+    |> inject_api_functions(paths, binding)
 
     context
   end
-
-  # defp get_api_file(context) do
-  #   # contract = ElixirScribe.MixGenerator.AppAPIContract.BuildDomainPathContract.new!(%{app_lib_dir: context.dir, path_type: :lib_core})
-  #   # domains_path = ElixirScribe.MixGenerator.AppAPI.build_domain_path(contract)
-
-  #   Path.join([context.lib_domain_dir, "#{context.resource_name_singular}_api.ex"])
-  # end
 
   defp build_api_binding(context, binding) do
     Keyword.merge(binding,
@@ -32,10 +26,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
     )
   end
 
-  @doc false
-  def ensure_api_file_exists(context, paths, binding) do
-    # file = get_api_file(context)
-    # context = %{context | file: file}
+  defp ensure_api_file_exists(context, paths, binding) do
     binding = build_api_binding(context, binding)
 
     unless Context.pre_existing?(context) do
@@ -47,13 +38,14 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
         Mix.Phoenix.eval_from(paths, api_module_path, binding)
       )
     end
+
+    context
   end
 
   defp inject_api_functions(context, paths, binding) do
     resource_actions = context.opts |> Keyword.get(:resource_actions)
 
     for action <- resource_actions do
-      # file = get_api_file(context)
       binding = build_api_binding(context, binding) |> MixGeneratorAPI.rebuild_binding_template(action)
 
       api_action_template_path =

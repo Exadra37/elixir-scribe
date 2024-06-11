@@ -191,7 +191,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
       )
     end
 
-    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args() |> dbg()
+    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
     valid_args
     |> ResourceAPI.build_context!(opts, ParseArgsResource)

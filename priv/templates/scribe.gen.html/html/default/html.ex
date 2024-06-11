@@ -1,6 +1,6 @@
 defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>HTML do
   use <%= inspect context.web_module %>, :html
-  <%= ElixirScribe.MixGeneratorAPI.build_embed_templates() %>
+  <%= embeded_templates %>
   embed_templates "<%= schema.singular %>_form.html"
 
   @doc """

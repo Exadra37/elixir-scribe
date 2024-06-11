@@ -4,8 +4,6 @@ defmodule ElixirScribe.DomainGeneratorFixtures do
   entities via the `ElixirScribe.DomainGenerator` context.
   """
 
-  # alias ElixirScribe.MixGenerator.AppAPIContract.BuildDomainPathContract
-  # alias ElixirScribe.MixGenerator.AppAPIContract.BuildResourcePathContract
   alias ElixirScribe.DomainGenerator.ResourceAPI
   alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
 
@@ -15,22 +13,4 @@ defmodule ElixirScribe.DomainGeneratorFixtures do
 
     BuildContextResource.build!(valid_args, opts, __MODULE__)
   end
-
-  # def domain_path_contract_fixture(attrs \\ %{}) do
-  #  %{
-  #     app_lib_dir: context_fixture().dir,
-  #     path_type: :lib_core
-  #   }
-  #   |> Map.merge(attrs)
-  #   |> BuildDomainPathContract.new!()
-  # end
-
-  # def resource_path_contract_fixture(attrs) do
-  #  %{
-  #     domain_contract: domain_path_contract_fixture(),
-  #     singular_name: "post"
-  #   }
-  #   |> Map.merge(attrs)
-  #   |> BuildResourcePathContract.new!()
-  # end
 end

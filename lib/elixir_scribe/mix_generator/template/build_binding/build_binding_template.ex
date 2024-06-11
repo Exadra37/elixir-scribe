@@ -11,6 +11,7 @@ defmodule ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate d
     [context: context, schema: context.schema]
     |> add_resource_action_aliases(resource_actions)
     |> add_resource_action_aliases_capitalized(resource_actions)
+    |> add_embeded_templates()
   end
 
   defp add_resource_action_aliases(binding, resource_actions) do
@@ -39,5 +40,10 @@ defmodule ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate d
       end)
 
     Keyword.merge(binding, new_bindings)
+  end
+
+  defp add_embeded_templates(binding) do
+    Keyword.put(binding, :embeded_templates, ElixirScribe.MixGeneratorAPI.build_embeded_templates())
+    |> dbg()
   end
 end

@@ -170,8 +170,7 @@ defmodule ElixirScribe do
   end
 
   @doc false
-  # def schema_template_folder_name(%Mix.Phoenix.Schema{} = schema) do
-  def schema_template_folder_name(schema) do
+  def schema_template_folder_name(%Mix.Scribe.Schema{} = schema) do
     if schema.generate? do
       "schema_access"
     else
@@ -187,23 +186,4 @@ defmodule ElixirScribe do
 
   @app_path_types [:lib_core, :lib_web, :test_core, :test_web]
   def app_path_types(), do: @app_path_types
-
-  # def build_app_resource_path(%Context{} = context, type) do
-  #   contract = ElixirScribe.MixGenerator.AppAPIContract.BuildDomainPathContract.new!(%{app_lib_dir: context.dir, path_type: type})
-  #   domains_path = ElixirScribe.MixGenerator.AppAPI.build_domain_path(contract)
-  #   resource = context.schema.singular
-
-  #   Path.join([domains_path, resource])
-  # end
-
-  # @doc false
-  # def build_app_schema_file_path(%Context{} = context) do
-  #   _contract = ElixirScribe.MixGenerator.AppAPIContract.BuildDomainPathContract.new!(%{app_lib_dir: context.lib_domain_dir, path_type: :lib_core})
-  #   # domains_path = ElixirScribe.MixGenerator.AppAPI.build_domain_path(contract)
-
-  #   resource = context.resource_name_singular
-  #   filename = context.resource_name_singular <> "_schema.ex"
-
-  #   Path.join([context.lib_domain_dir, resource, filename])
-  # end
 end

@@ -3,8 +3,6 @@ defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateR
 
   alias Mix.Scribe.Context
   alias ElixirScribe.MixGeneratorAPI
-  # alias ElixirScribe.MixGenerator.AppAPI
-  # alias ElixirScribe.MixGenerator.AppAPIContract.BuildResourceActionFilePathContract
 
   @doc false
   def files(%Context{generate?: false}), do: []
@@ -15,18 +13,6 @@ defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateR
 
     for action <- resource_actions do
       source_path = build_source_path(context.schema, action)
-
-      # api_contract = BuildResourceActionFilePathContract.new!(%{
-      #   context: context,
-      #   action: action,
-      #   file_extension: ".ex",
-      #   file_type_prefix: "",
-      #   file_type: "",
-      #   path_type: :lib_core
-      # })
-
-      # target_path = AppAPI.build_resource_action_file_path(api_contract)
-
       filename = "#{action}_" <> context.resource_name_singular <> ".ex"
       target_path = Path.join([context.lib_resource_dir, action, filename])
 

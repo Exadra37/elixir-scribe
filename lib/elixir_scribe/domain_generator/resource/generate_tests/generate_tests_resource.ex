@@ -3,15 +3,14 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
 
   alias Mix.Scribe.Context
   alias ElixirScribe.MixGeneratorAPI
-  # alias ElixirScribe.MixGenerator.AppAPI
-  # alias ElixirScribe.MixGenerator.AppAPIContract.BuildResourceActionFilePathContract
 
   @doc false
   def generate_tests(%Context{} = context, paths) do
     binding = MixGeneratorAPI.build_binding_template(context)
 
-    ensure_test_file_exists(context, paths, binding)
-    inject_tests(context, paths, binding)
+    context
+    |> ensure_test_file_exists(paths, binding)
+    |> inject_tests(paths, binding)
 
     context
   end
@@ -20,8 +19,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
     Path.join([context.test_resource_dir, action])
   end
 
-  @doc false
-  def ensure_test_file_exists(%Context{schema: schema} = context, paths, binding) do
+  defp ensure_test_file_exists(%Context{schema: schema} = context, paths, binding) do
     resource_actions = context.opts |> Keyword.get(:resource_actions)
 
     for action <- resource_actions do
@@ -45,6 +43,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
         )
       end
     end
+
+    context
   end
 
   defp inject_tests(%Context{schema: schema} = context, paths, binding) do

@@ -50,7 +50,7 @@ defmodule ElixirScribe.MixGeneratorAPI do
 
   def build_actions_from_options(opts) when is_list(opts), do: BuildActionsFromOptions.build(opts)
 
-  def build_embed_templates(), do: BuildModuleEmbedTemplates.build()
+  def build_embeded_templates(), do: BuildModuleEmbedTemplates.build()
 
   def maybe_add_binary_id_option(args) when is_list(args),
     do: MaybeAddBinaryIdOption.maybe_add(args)
