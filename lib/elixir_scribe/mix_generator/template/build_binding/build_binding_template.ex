@@ -13,17 +13,6 @@ defmodule ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate d
     |> add_resource_action_aliases_capitalized(resource_actions)
   end
 
-  # defp add_resource_actions(binding, resource_actions) do
-  #   new_bindings =
-  #     resource_actions
-  #     |> Keyword.new(fn action ->
-  #       action_key = String.to_atom("#{action}")
-  #       {action_key, action}
-  #     end)
-
-  #   Keyword.merge(binding, new_bindings)
-  # end
-
   defp add_resource_action_aliases(binding, resource_actions) do
     new_bindings =
       resource_actions
@@ -51,21 +40,4 @@ defmodule ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate d
 
     Keyword.merge(binding, new_bindings)
   end
-
-  # defp add_resource_action_aliases_human_capitalized(binding, resource_actions) do
-  #   new_bindings =
-  #     resource_actions
-  #     |> Keyword.new(fn action ->
-  #       action_alias_human_capitalized =
-  #         action
-  #         |> ElixirScribe.resource_action_alias()
-  #         |> ElixirScribe.human_capitalize()
-
-  #       action_key = String.to_atom("#{action}_action_human_capitalized")
-  #       {action_key, action_alias_human_capitalized}
-  #     end)
-
-  #   Keyword.merge(binding, new_bindings)
-  # end
-
 end

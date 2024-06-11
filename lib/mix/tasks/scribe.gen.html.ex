@@ -180,10 +180,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   alias Mix.Scribe.{Context, Schema}
   alias Mix.Tasks.Scribe.Gen
   alias ElixirScribe.DomainGenerator.ResourceAPI
-
   alias ElixirScribe.MixGeneratorAPI
-  # alias ElixirScribe.MixGenerator.AppAPI
-  # alias ElixirScribe.MixGenerator.AppAPIContract.BuildResourceActionFilePathContract
   alias ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource
 
   @doc false
@@ -193,6 +190,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
         "mix scribe.gen.html must be invoked from within your *_web application root directory"
       )
     end
+
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args() |> dbg()
 
     valid_args
@@ -208,7 +206,9 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
 
     prompt_for_conflicts(context, files)
 
-    binding = MixGeneratorAPI.build_binding_template(context) |> Keyword.merge(inputs: inputs(context.schema))
+    binding =
+      MixGeneratorAPI.build_binding_template(context)
+      |> Keyword.merge(inputs: inputs(context.schema))
 
     MixGeneratorAPI.copy_from(paths, ".", binding, files)
 
@@ -223,182 +223,96 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     |> MixGeneratorAPI.prompt_for_conflicts()
   end
 
-  defp resource_name_for_action(context, action) do
-    action in ElixirScribe.resource_plural_actions() && context.resource_name_plural || context.resource_name_singular
-  end
-
-  defp action_name(action) do
-    action in ElixirScribe.resource_actions() && action || "default"
-  end
-
   @doc false
   def files_to_be_generated(%Context{schema: _schema, context_app: _context_app} = context) do
-    resource_name_singular = context.resource_name_singular
-    # web_prefix = Mix.Phoenix.web_path(context_app)
-    # test_web_domain_dirfix = Mix.Phoenix.web_test_path(context_app)
-    # web_path = to_string(schema.web_path)
-    # controller_pre = Path.join([web_prefix, "domains", context.basename])
-    # domains_path = ElixirScribe.get_domains_path(context, :lib_web)
-    # resource_path = AppAPI.build_resource_path(context, :lib_web)
-    # lib_web_domain_dir = context.lib_web_domain_dir
-    # test_web_domain_dir = AppAPI.build_resource_path(context, :test_web)
-    test_web_domain_dir = context.test_web_domain_dir
+    build_files_without_action(context)
+    |> build_controller_action_files(context)
+    |> build_controller_test_action_files(context)
+    |> build_html_action_files(context)
+  end
 
-    lib_web_resource_dir = context.lib_web_resource_dir
-
-    # domains_test_path = ElixirScribe.get_domains_path(context, :test_web)
-    # test_web_domain_dir = Path.join([domains_test_path, resource])
-    dbg(test_web_domain_dir)
-    # test_web_domain_dir = Path.join([test_web_domain_dirfix, "domains", web_path])
-    # test_web_domain_dir = Path.join([test_web_domain_dirfix, web_path])
-
-    controller_template_path = ElixirScribe.controller_template_path()
-    controller_test_template_path = ElixirScribe.controller_test_template_path()
+  defp build_files_without_action(context) do
     html_template_path = MixGeneratorAPI.build_path_html_template(context)
 
     resource_form_source = Path.join([html_template_path, "resource_form.html.heex"])
-    resource_form_target = Path.join([lib_web_resource_dir, "#{resource_name_singular}_form.html.heex"])
+
+    resource_form_target =
+      Path.join([context.lib_web_resource_dir, "#{context.resource_name_singular}_form.html.heex"])
+
     not_used_action = ""
 
-    files = [
+    [
       {:eex, resource_form_source, resource_form_target, not_used_action},
       {:eex, Path.join(html_template_path, "html.ex"),
-       Path.join([lib_web_resource_dir, "#{resource_name_singular}_html.ex"]), not_used_action}
+       Path.join([context.lib_web_resource_dir, "#{context.resource_name_singular}_html.ex"]),
+       not_used_action}
     ]
+  end
 
-    default_actions = context.opts |> Keyword.get(:resource_actions)
+  defp build_controller_action_files(files, context) do
+    controller_template_path = ElixirScribe.controller_template_path()
 
-    files =
-      for action <- default_actions, reduce: files do
-        files ->
-          template_filename = "#{action_name(action)}_controller.ex"
-          source = Path.join([controller_template_path, template_filename])
+    for action <- context.resource_actions, reduce: files do
+      files ->
+        template_filename = "#{action_name(action)}_controller.ex"
+        source = Path.join([controller_template_path, template_filename])
 
-          resource_name = resource_name_for_action(context, action)
-          controller = "#{action_name(action)}_#{resource_name}_controller.ex"
-          target = Path.join([lib_web_resource_dir, action, controller])
+        resource_name = resource_name_for_action(context, action)
+        controller = "#{action_name(action)}_#{resource_name}_controller.ex"
+        target = Path.join([context.lib_web_resource_dir, action, controller])
 
-          file = {:eex, source, target, action}
-          [file | files]
+        file = {:eex, source, target, action}
+        [file | files]
+    end
+  end
 
-          # build_file_to_be_generated(
-          #   files,
-          #   context,
-          #   action,
-          #   "_",
-          #   controller_template_path,
-          #   ".ex",
-          #   "controller",
-          #   :lib_web
-          # )
-      end
+  defp build_controller_test_action_files(files, context) do
+    controller_test_template_path = ElixirScribe.controller_test_template_path()
 
-    html_actions = ElixirScribe.resource_html_actions()
-
-    files =
-      for html_action <- html_actions, reduce: files do
-        files ->
-          if html_action in default_actions do
-            template_filename = "#{action_name(html_action)}.html.heex"
-            source = Path.join([html_template_path, template_filename])
-
-            resource_name = resource_name_for_action(context, html_action)
-            target_filename = "#{html_action}_#{resource_name}.html.heex"
-            target = Path.join([lib_web_resource_dir, html_action, target_filename])
-
-            file = {:eex, source, target, html_action}
-            [file | files]
-
-            # build_file_to_be_generated(
-            #   files,
-            #   context,
-            #   html_action,
-            #   ".",
-            #   html_template_path,
-            #   "html.heex",
-            #   "",
-            #   :lib_web
-            # )
-          else
-            files
-          end
-      end
-
-    for action <- default_actions, reduce: files do
+    for action <- context.resource_actions, reduce: files do
       files ->
         template_filename = "#{action_name(action)}_controller_test.exs"
         source = Path.join([controller_test_template_path, template_filename])
 
         resource_name = resource_name_for_action(context, action)
         controller = "#{action}_#{resource_name}_controller_test.exs"
-        target = Path.join([test_web_domain_dir, resource_name_singular, action, controller])
+        target = Path.join([context.test_web_domain_dir, context.resource_name_singular, action, controller])
 
         file = {:eex, source, target, action}
         [file | files]
-        # build_file_to_be_generated(
-        #   files,
-        #   context,
-        #   action,
-        #   "_",
-        #   controller_test_template_path,
-        #   ".exs",
-        #   "controller_test",
-        #   :test_web
-        # )
     end
   end
 
-  # defp build_file_to_be_generated(
-  #        files,
-  #        context,
-  #        action,
-  #        file_type_prefix,
-  #        source_base_dir,
-  #        file_extension,
-  #        file_type,
-  #        path_type
-  #      ) do
-  #   file =
-  #     build_action_file(
-  #       context,
-  #       action,
-  #       file_type_prefix,
-  #       source_base_dir,
-  #       file_extension,
-  #        file_type,
-  #        path_type
-  #     )
+  defp build_html_action_files(files, context) do
+    html_actions = ElixirScribe.resource_html_actions()
+    html_template_path = MixGeneratorAPI.build_path_html_template(context)
 
-  #   [file | files]
-  # end
+    for html_action <- html_actions, reduce: files do
+      files ->
+        if html_action in context.resource_actions do
+          template_filename = "#{action_name(html_action)}.html.heex"
+          source = Path.join([html_template_path, template_filename])
 
-  # defp build_action_file(
-  #        action,
-  #        file_type_prefix,
-  #        source_base_dir,
-  #        file_extension,
-  #        file_type,
-  #        target
-  #      ) do
+          resource_name = resource_name_for_action(context, html_action)
+          target_filename = "#{html_action}_#{resource_name}.html.heex"
+          target = Path.join([context.lib_web_resource_dir, html_action, target_filename])
 
-  #   source_filename =
-  #     ElixirScribe.MixGeneratorAPI.build_template_action_filename(action, file_type_prefix, file_type, file_extension)
+          file = {:eex, source, target, html_action}
+          [file | files]
+        else
+          files
+        end
+    end
+  end
 
-  #   source = Path.join(source_base_dir, source_filename)
+  defp resource_name_for_action(context, action) do
+    (action in ElixirScribe.resource_plural_actions() && context.resource_name_plural) ||
+      context.resource_name_singular
+  end
 
-  #   # api_contract = BuildResourceActionFilePathContract.new!(%{
-  #   #   context: context,
-  #   #   action: action,
-  #   #   file_extension: file_extension,
-  #   #   file_type_prefix: file_type_prefix,
-  #   #   file_type: file_type,
-  #   #   path_type: path_type
-  #   # })
-
-  #   # target = AppAPI.build_resource_action_file_path(api_contract)
-
-  #   {:eex, source, target, action}
-  # end
+  defp action_name(action) do
+    (action in ElixirScribe.resource_actions() && action) || "default"
+  end
 
   @doc false
   def inject_routes(%Context{context_app: ctx_app} = context) do

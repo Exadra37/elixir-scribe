@@ -1,7 +1,7 @@
 defmodule ElixirScribe.MixGenerator.App.BuildResourceActionFilePath.BuildResourceActionFilePathApp do
   @moduledoc false
 
-  alias ElixirScribe.MixGenerator.AppAPI
+  # alias ElixirScribe.MixGenerator.AppAPI
   # alias  ElixirScribe.MixGenerator.AppAPIContract.BuildResourcePathContract
   alias  ElixirScribe.MixGenerator.AppAPIContract.BuildResourceActionFilePathContract
 
@@ -13,7 +13,6 @@ defmodule ElixirScribe.MixGenerator.App.BuildResourceActionFilePath.BuildResourc
     resource_dir = resource_dir(contract.path_type, contract.context)
 
     Path.join([resource_dir, contract.action, filename])
-    |> dbg()
   end
 
   defp resource_dir(:lib_web, context), do: context.lib_web_resource_dir
