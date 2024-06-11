@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTestFixtureResourceTest do
-  use ElixirScribe.DataCase
+  use ExUnit.Case
 
-  alias ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTestFixtureResource
+  # alias ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTestFixtureResource
 
   @doc false
   test "generate works as expected" do

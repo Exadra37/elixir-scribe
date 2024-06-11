@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResourceTest do
-  use ElixirScribe.DataCase
+  use ExUnit.Case
 
-  alias ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource
+  # alias ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource
 
   @doc false
   test "parse works as expected" do

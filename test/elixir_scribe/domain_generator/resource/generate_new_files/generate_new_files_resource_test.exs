@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResourceTest do
-  use ElixirScribe.DataCase
+  use ExUnit.Case
 
-  alias ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResource
+  # alias ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResource
 
   @doc false
   test "generate works as expected" do

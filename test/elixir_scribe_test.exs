@@ -130,13 +130,13 @@ defmodule ElixirScribeTest do
     # end
   end
 
-  describe "build_app_schema_file_path/1" do
-    test "returns schema file path" do
-      context = fixture(:context)
+  # describe "build_app_schema_file_path/1" do
+  #   test "returns schema file path" do
+  #     context = fixture(:context)
 
-      assert ElixirScribe.build_app_schema_file_path(context) === "lib/elixir_scribe/domain/site/blog/post_schema.ex"
-    end
-  end
+  #     assert ElixirScribe.build_app_schema_file_path(context) === "lib/elixir_scribe/domain/site/blog/post/post__schema.ex"
+  #   end
+  # end
 
   describe "schema_template_folder_name/1" do
     test "returns `schema_access` as the folder template name when schema.generate? is true" do

@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsResourceTest do
-  use ElixirScribe.DataCase
+  use ExUnit.Case
 
-  alias ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsResource
+  # alias ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsResource
 
   @doc false
   test "generate_actions works as expected" do

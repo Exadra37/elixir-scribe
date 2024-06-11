@@ -20,8 +20,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
     paths = ElixirScribe.base_template_paths()
     binding = MixGeneratorAPI.build_binding_template(context)
 
-    schema_file = ElixirScribe.build_app_schema_file_path(context)
-    schema = Map.put(schema, :file, schema_file)
+    # schema_file = ElixirScribe.build_app_schema_file_path(context)
+    # schema = Map.put(schema, :file, schema_file)
     attrs = Map.from_struct(schema)
     schema = struct(Mix.Phoenix.Schema, attrs)
 

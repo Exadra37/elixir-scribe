@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResourceTest do
-  use ElixirScribe.DataCase
+  use ExUnit.Case
 
-  alias ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResource
+  # alias ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResource
 
   @doc false
   test "prompt_for_conflicts works as expected" do

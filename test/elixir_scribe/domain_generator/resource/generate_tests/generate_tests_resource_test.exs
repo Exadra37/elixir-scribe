@@ -1,7 +1,7 @@
 defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResourceTest do
-  use ElixirScribe.DataCase
+  use ExUnit.Case
 
-  alias ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource
+  # alias ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource
 
   @doc false
   test "generate_tests works as expected" do

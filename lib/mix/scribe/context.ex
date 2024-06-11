@@ -11,7 +11,7 @@ defmodule Mix.Scribe.Context do
     base_module: nil,
     web_module: nil,
     basename: nil,
-    file: nil,
+    api_file: nil,
     test_file: nil,
     test_fixtures_file: nil,
     lib_web_domain_dir: nil,
@@ -50,7 +50,7 @@ defmodule Mix.Scribe.Context do
       base_module: is_atom() |> spec(),
       web_module: is_atom() |> spec(),
       basename: is_binary() |> spec(),
-      file: is_binary() |> spec(),
+      api_file: is_binary() |> spec(),
       test_file: is_binary() |> spec(),
       test_fixtures_file: is_binary() |> spec(),
       lib_web_domain_dir: is_binary() |> spec(),
@@ -101,8 +101,7 @@ defmodule Mix.Scribe.Context do
     lib_web_domain_dir = Mix.Phoenix.web_path(ctx_app, basedir)
     test_web_domain_dir  = Mix.Phoenix.web_test_path(ctx_app, basedir)
     lib_domain_dir = Mix.Phoenix.context_lib_path(ctx_app, basedir)
-    dbg(ctx_app)
-    test_domain_dir  = Mix.Phoenix.context_test_path(ctx_app, basedir) |> dbg()
+    test_domain_dir  = Mix.Phoenix.context_test_path(ctx_app, basedir)
 
     lib_web_resource_dir = Path.join([lib_web_domain_dir, resource_name_singular])
     test_web_resource_dir  = Path.join([test_web_domain_dir, resource_name_singular])
@@ -120,11 +119,7 @@ defmodule Mix.Scribe.Context do
     test_fixtures_file = Path.join([test_fixtures_dir, basedir <> "_fixtures.ex"])
 
     generate? = Keyword.get(opts, :context, true)
-    file      = lib_domain_dir <> ".ex"
-
-
-
-    # resource_dir = Path.join([domains_path, schema.singular_name])
+    api_file  = lib_resource_dir <> "_api.ex"
 
     %Context{
       name: context_name,
@@ -134,7 +129,8 @@ defmodule Mix.Scribe.Context do
       base_module: base,
       web_module: web_module(),
       basename: basename,
-      file: file,
+      # file: file,
+      api_file: api_file,
       test_file: test_file,
       test_fixtures_file: test_fixtures_file,
       lib_web_domain_dir: lib_web_domain_dir,
@@ -161,13 +157,13 @@ defmodule Mix.Scribe.Context do
     |> conforms!()
   end
 
-  def pre_existing?(%Context{file: file}), do: File.exists?(file)
+  def pre_existing?(%Context{api_file: file}), do: File.exists?(file)
 
   def pre_existing_tests?(%Context{test_file: file}), do: File.exists?(file)
 
   def pre_existing_test_fixtures?(%Context{test_fixtures_file: file}), do: File.exists?(file)
 
-  def function_count(%Context{file: file}) do
+  def function_count(%Context{api_file: file}) do
     {_ast, count} =
       file
       |> File.read!()

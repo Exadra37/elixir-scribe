@@ -127,24 +127,30 @@ defmodule Mix.Scribe.Schema do
     base = Mix.Phoenix.context_base(ctx_app)
     basename = Phoenix.Naming.underscore(schema_name)
     module = Module.concat([base, schema_name])
-    repo = opts[:repo] || Module.concat([base, "Repo"])
-    repo_alias = if String.ends_with?(Atom.to_string(repo), ".Repo"), do: "", else: ", as: Repo"
-    file = Mix.Phoenix.context_lib_path(ctx_app, basename <> ".ex")
-    table = opts[:table] || schema_plural
-    {cli_attrs, uniques, redacts} = extract_attr_flags(cli_attrs)
-    {assocs, attrs} = partition_attrs_and_assocs(module, attrs(cli_attrs))
-    types = types(attrs)
-    web_namespace = opts[:web] && Phoenix.Naming.camelize(opts[:web])
-    web_path = web_namespace && Phoenix.Naming.underscore(web_namespace)
-    api_prefix = Application.get_env(otp_app, :generators)[:api_prefix] || "/api"
-    embedded? = Keyword.get(opts, :embedded, false)
-    generate? = Keyword.get(opts, :schema, true)
 
     singular =
       module
       |> Module.split()
       |> List.last()
       |> Phoenix.Naming.underscore()
+
+    repo = opts[:repo] || Module.concat([base, "Repo"])
+    repo_alias = if String.ends_with?(Atom.to_string(repo), ".Repo"), do: "", else: ", as: Repo"
+
+    schema_file_path   = Path.join(["domain", basename, singular <> "_schema.ex"])
+    file = Mix.Phoenix.context_lib_path(ctx_app, schema_file_path)
+
+    table = opts[:table] || schema_plural
+    {cli_attrs, uniques, redacts} = extract_attr_flags(cli_attrs)
+    {assocs, attrs} = partition_attrs_and_assocs(module, attrs(cli_attrs))
+    types = types(attrs)
+
+    web_namespace = opts[:web] && Phoenix.Naming.camelize(opts[:web])
+    web_path = web_namespace && Phoenix.Naming.underscore(web_namespace)
+    api_prefix = Application.get_env(otp_app, :generators)[:api_prefix] || "/api"
+
+    embedded? = Keyword.get(opts, :embedded, false)
+    generate? = Keyword.get(opts, :schema, true)
 
     collection = if schema_plural == singular, do: singular <> "_collection", else: schema_plural
     string_attr = string_attr(types)

@@ -17,6 +17,6 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
     schema = Schema.new!(schema_module, plural, schema_args, opts)
 
     Context.new!(context_name, schema, opts)
-    |> dbg()
+    # |> dbg()
   end
 end

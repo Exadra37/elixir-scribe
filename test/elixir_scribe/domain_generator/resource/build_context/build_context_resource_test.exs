@@ -2,11 +2,11 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
   use ExUnit.Case
 
   alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
-  alias Mix.Phoenix.Context
+  alias Mix.Scribe.Context
   alias ElixirScribe.DomainGenerator.ResourceAPI
 
 
-  test "builds Mix.Phoenix.Context" do
+  test "builds Mix.Scribe.Context" do
     args = ["Blog", "Post", "posts"]
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
@@ -18,7 +18,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
              basename: "blog",
              module: ElixirScribe.Blog,
              web_module: ElixirScribeWeb,
-             schema: %Mix.Phoenix.Schema{
+             schema: %Mix.Scribe.Schema{
                alias: Post,
                human_plural: "Posts",
                human_singular: "Post",
@@ -28,21 +28,21 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
              }
            } = context
 
-    assert String.ends_with?(context.dir, "lib/elixir_scribe/blog")
-    assert String.ends_with?(context.file, "lib/elixir_scribe/blog.ex")
-    assert String.ends_with?(context.test_file, "test/elixir_scribe/blog_test.exs")
+    assert String.ends_with?(context.lib_domain_dir, "lib/elixir_scribe/domain/blog")
+    assert String.ends_with?(context.api_file, "lib/elixir_scribe/domain/blog/post_api.ex")
+    assert String.ends_with?(context.test_file, "test/elixir_scribe/domain/blog_test.exs")
 
     assert String.ends_with?(
              context.test_fixtures_file,
-             "test/support/fixtures/blog_fixtures.ex"
+             "test/support/fixtures/domain/blog_fixtures.ex"
            )
 
-    assert String.ends_with?(context.schema.file, "lib/elixir_scribe/blog/post.ex")
+    assert String.ends_with?(context.schema.file, "lib/elixir_scribe/domain/blog/post/post_schema.ex")
   end
 
-  test "builds nested Mix.Phoenix.Context" do
+  test "builds nested Mix.Scribe.Context" do
     args = ["Site.Blog", "Post", "posts", "name:string", "desc:string"]
-    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args() |> dbg()
+    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
     context = BuildContextResource.build!(valid_args, opts, __MODULE__)
 
@@ -52,7 +52,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
              basename: "blog",
              module: ElixirScribe.Site.Blog,
              web_module: ElixirScribeWeb,
-             schema: %Mix.Phoenix.Schema{
+             schema: %Mix.Scribe.Schema{
                alias: Post,
                human_plural: "Posts",
                human_singular: "Post",
@@ -62,15 +62,15 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
              }
            } = context
 
-    assert String.ends_with?(context.dir, "lib/elixir_scribe/site/blog")
-    assert String.ends_with?(context.file, "lib/elixir_scribe/site/blog.ex")
-    assert String.ends_with?(context.test_file, "test/elixir_scribe/site/blog_test.exs")
+    assert String.ends_with?(context.lib_domain_dir, "lib/elixir_scribe/domain/site/blog")
+    assert String.ends_with?(context.api_file, "lib/elixir_scribe/domain/site/blog/post_api.ex")
+    assert String.ends_with?(context.test_file, "test/elixir_scribe/domain/site/blog_test.exs")
 
     assert String.ends_with?(
              context.test_fixtures_file,
-             "test/support/fixtures/site/blog_fixtures.ex"
+             "test/support/fixtures/domain/site/blog_fixtures.ex"
            )
 
-    assert String.ends_with?(context.schema.file, "lib/elixir_scribe/site/blog/post.ex")
+    assert String.ends_with?(context.schema.file, "lib/elixir_scribe/domain/site/blog/post/post_schema.ex")
   end
 end
