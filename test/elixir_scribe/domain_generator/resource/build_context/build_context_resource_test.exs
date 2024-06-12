@@ -1,5 +1,5 @@
 defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourceTest do
-  use ExUnit.Case
+  use ElixirScribe.BaseCase
 
   alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
   alias Mix.Scribe.Context

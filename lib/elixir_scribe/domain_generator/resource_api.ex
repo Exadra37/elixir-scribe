@@ -27,14 +27,14 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
   @doc """
   Resource: Generate Actions.
   """
-  def generate_actions(%Context{} = context, paths),
-    do: GenerateActionsResource.generate(context, paths)
+  def generate_actions(%Context{} = context),
+    do: GenerateActionsResource.generate(context)
 
   @doc """
   Resource: Generate Tests.
   """
-  def generate_tests(%Context{} = context, paths),
-    do: GenerateTestsResource.generate_tests(context, paths)
+  def generate_tests(%Context{} = context),
+    do: GenerateTestsResource.generate_tests(context)
 
   @doc """
   Resource: Prompt For Conflicts.
@@ -49,13 +49,13 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
   @doc """
   Resource: Generate Api.
   """
-  def generate_api(%Context{} = context, paths), do: GenerateApiResource.generate(context, paths)
+  def generate_api(%Context{} = context), do: GenerateApiResource.generate(context)
 
   @doc """
   Resource: Generate Test Fixture.
   """
-  def generate_test_fixture(%Context{} = context, paths),
-    do: GenerateTestFixtureResource.generate(context, paths)
+  def generate_test_fixture(%Context{} = context),
+    do: GenerateTestFixtureResource.generate(context)
 
   @doc """
   Resource: Generate New Files.

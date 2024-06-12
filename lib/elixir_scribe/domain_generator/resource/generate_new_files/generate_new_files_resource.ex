@@ -27,10 +27,10 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
     if schema.generate?, do: Mix.Tasks.Phx.Gen.Schema.copy_new_files(schema, paths, binding)
 
     context
-    |> ResourceAPI.generate_api(paths)
-    |> ResourceAPI.generate_actions(paths)
-    |> ResourceAPI.generate_tests(paths)
-    |> ResourceAPI.generate_test_fixture(paths)
+    |> ResourceAPI.generate_api()
+    |> ResourceAPI.generate_actions()
+    |> ResourceAPI.generate_tests()
+    |> ResourceAPI.generate_test_fixture()
 
     context
   end

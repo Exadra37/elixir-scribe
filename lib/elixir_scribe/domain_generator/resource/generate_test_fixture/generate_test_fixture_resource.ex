@@ -5,12 +5,13 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTest
   alias ElixirScribe.MixGeneratorAPI
 
   @doc false
-  def generate(%Context{} = context, paths) do
+  def generate(%Context{} = context) do
     if context.schema.generate? do
+      base_template_paths = ElixirScribe.base_template_paths()
       binding = MixGeneratorAPI.build_binding_template(context)
 
-      ensure_test_fixtures_file_exists(context, paths, binding)
-      inject_test_fixture(context, paths, binding)
+      ensure_test_fixtures_file_exists(context, base_template_paths, binding)
+      inject_test_fixture(context, base_template_paths, binding)
     end
 
     context
@@ -19,7 +20,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTest
   @doc false
   def ensure_test_fixtures_file_exists(
         %Context{test_fixtures_file: test_fixtures_file} = context,
-        paths,
+        base_template_paths,
         binding
       ) do
     unless Context.pre_existing_test_fixtures?(context) do
@@ -28,22 +29,22 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTest
 
       Mix.Generator.create_file(
         test_fixtures_file,
-        Mix.Phoenix.eval_from(paths, fixtures_module_template_path, binding)
+        Mix.Phoenix.eval_from(base_template_paths, fixtures_module_template_path, binding)
       )
     end
   end
 
   defp inject_test_fixture(
          %Context{test_fixtures_file: test_fixtures_file} = context,
-         paths,
+         base_template_paths,
          binding
        ) do
-    ensure_test_fixtures_file_exists(context, paths, binding)
+    ensure_test_fixtures_file_exists(context, base_template_paths, binding)
 
     fixtures_file_template_path =
       ElixirScribe.domain_tests_template_path() |> Path.join("fixtures.ex")
 
-    paths
+    base_template_paths
     |> Mix.Phoenix.eval_from(fixtures_file_template_path, binding)
     |> Mix.Phoenix.prepend_newline()
     |> MixGeneratorAPI.inject_eex_before_final_end(test_fixtures_file, binding)

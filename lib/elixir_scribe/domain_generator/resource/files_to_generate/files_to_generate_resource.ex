@@ -13,11 +13,17 @@ defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateR
 
     for action <- resource_actions do
       source_path = build_source_path(context.schema, action)
-      filename = "#{action}_" <> context.resource_name_singular <> ".ex"
+      filename = build_filename(context, action)
       target_path = Path.join([context.lib_resource_dir, action, filename])
 
       {:eex, source_path, target_path, action}
     end
+  end
+
+  defp build_filename(context, action) do
+    plural_actions = ElixirScribe.resource_plural_actions()
+    resource_name = action in plural_actions && context.resource_name_plural || context.resource_name_singular
+    "#{action}_" <> resource_name <> ".ex"
   end
 
   defp build_source_path(schema, action) do

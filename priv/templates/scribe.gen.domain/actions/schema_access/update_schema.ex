@@ -3,7 +3,7 @@
   alias <%= inspect schema.module %>API
 
   @doc false
-  def <%= action_first_word %>(id, attrs) do
+  def <%= action_first_word %>(id, %{} = attrs) do
     id
     |> <%= schema.human_singular %>API.<%= read_action %>!()
     |> <%= inspect schema.alias %>.changeset(attrs)

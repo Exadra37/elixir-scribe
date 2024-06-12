@@ -6,7 +6,9 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsR
   alias Mix.Scribe.Context
 
   @doc false
-  def generate(%Context{} = context, root_paths) do
+  def generate(%Context{} = context) do
+    base_template_paths = ElixirScribe.base_template_paths()
+
     binding = MixGeneratorAPI.build_binding_template(context)
 
     for {:eex, source_path, target_path, action} <- ResourceAPI.files_to_generate(context) do
@@ -14,19 +16,19 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsR
 
       # When the file already exists we are asked if we want to overwrite it.
       created_or_overwritten? =
-        create_action_module_file(root_paths, target_path, binding, context.schema.generate?)
+        create_action_module_file(base_template_paths, target_path, binding, context.schema.generate?)
 
       if created_or_overwritten? do
-        inject_action_function_into_module(root_paths, source_path, target_path, binding)
+        inject_action_function_into_module(base_template_paths, source_path, target_path, binding)
       end
     end
 
     context
   end
 
-  defp create_action_module_file(root_paths, target_path, binding, schema_generate?) do
+  defp create_action_module_file(base_template_paths, target_path, binding, schema_generate?) do
     source_path = build_module_template_path(schema_generate?)
-    content = Mix.Phoenix.eval_from(root_paths, source_path, binding)
+    content = Mix.Phoenix.eval_from(base_template_paths, source_path, binding)
 
     Mix.Generator.create_file(target_path, content)
   end
@@ -40,8 +42,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsR
     end
   end
 
-  defp inject_action_function_into_module(root_paths, source_path, target_path, binding) do
-    root_paths
+  defp inject_action_function_into_module(base_template_paths, source_path, target_path, binding) do
+    base_template_paths
     |> Mix.Phoenix.eval_from(source_path, binding)
     |> MixGeneratorAPI.inject_eex_before_final_end(target_path, binding)
   end

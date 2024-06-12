@@ -5,21 +5,25 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
   alias ElixirScribe.MixGeneratorAPI
 
   @doc false
-  def generate_tests(%Context{} = context, paths) do
+  def generate_tests(%Context{} = context) do
+    base_template_paths = ElixirScribe.base_template_paths()
     binding = MixGeneratorAPI.build_binding_template(context)
 
     context
-    |> ensure_test_file_exists(paths, binding)
-    |> inject_tests(paths, binding)
+    |> ensure_test_file_exists(base_template_paths, binding)
+    |> inject_tests(base_template_paths, binding)
 
     context
   end
 
   defp get_action_test_file(context, action) do
-    Path.join([context.test_resource_dir, action])
+    plural_actions = ElixirScribe.resource_plural_actions()
+    resource_name = action in plural_actions && context.resource_name_plural || context.resource_name_singular
+    filename = "#{action}_" <> resource_name <> "_test.exs"
+    Path.join([context.test_resource_dir, action, filename])
   end
 
-  defp ensure_test_file_exists(%Context{schema: schema} = context, paths, binding) do
+  defp ensure_test_file_exists(%Context{schema: schema} = context, base_template_paths, binding) do
     resource_actions = context.opts |> Keyword.get(:resource_actions)
 
     for action <- resource_actions do
@@ -39,7 +43,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
 
         Mix.Generator.create_file(
           test_file,
-          Mix.Phoenix.eval_from(paths, test_module_path, binding)
+          Mix.Phoenix.eval_from(base_template_paths, test_module_path, binding)
         )
       end
     end
@@ -47,7 +51,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
     context
   end
 
-  defp inject_tests(%Context{schema: schema} = context, paths, binding) do
+  defp inject_tests(%Context{schema: schema} = context, base_template_paths, binding) do
     if schema.generate? do
       resource_actions = context.opts |> Keyword.get(:resource_actions)
 
@@ -65,7 +69,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
         test_action_file_path =
           Path.join([tests_path, "actions", schema_folder, action_template_filename])
 
-        paths
+        base_template_paths
         |> Mix.Phoenix.eval_from(test_action_file_path, binding)
         |> MixGeneratorAPI.inject_eex_before_final_end(test_file, binding)
       end
