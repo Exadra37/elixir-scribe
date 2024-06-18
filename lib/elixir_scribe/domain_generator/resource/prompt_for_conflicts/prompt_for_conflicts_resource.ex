@@ -7,7 +7,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConf
   @doc false
   def prompt(%Context{} = context) do
     context
-    |> ResourceAPI.files_to_generate()
+    |> ResourceAPI.build_action_files_paths()
     |> mix_prompt()
 
     context

@@ -27,6 +27,14 @@ Todo_App() {
   mix scribe.gen.html Acounts User users name:string email:string
 }
 
+Shop_App() {
+  Maybe_Create_App
+
+  mix scribe.gen.html Sales.Checkout Product Products sku:string name:string desc:string --no-default-actions --actions build
+  mix scribe.gen.html Sales.Billing Product Products sku:string quantity:integer cost_per_unit:integer --no-default-actions --actions build
+  mix scribe.gen.html Warehouse.Fulfillment Product Products sku:string label:string total_quantity:integer location:string --no-default-actions --actions build
+}
+
 Online_Shop() {
 
   Maybe_Create_App
@@ -127,7 +135,7 @@ Main() {
         ;;
 
       shop )
-        Online_Shop
+        Shop_App
         exit $?
         ;;
     esac

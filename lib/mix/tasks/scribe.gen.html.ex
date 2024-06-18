@@ -218,7 +218,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   end
 
   defp prompt_for_conflicts(context, files) do
-    ResourceAPI.files_to_generate(context)
+    ResourceAPI.build_action_files_paths(context)
     |> Kernel.++(files)
     |> MixGeneratorAPI.prompt_for_conflicts()
   end

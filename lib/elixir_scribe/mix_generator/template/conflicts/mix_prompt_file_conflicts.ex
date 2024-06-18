@@ -12,7 +12,8 @@ defmodule ElixirScribe.MixGenerator.Template.Conflicts.MixPromptFileConflicts do
         {:new_eex, _, _path} -> []
         {:new_eex, _, _path, _action} -> []
         {_kind, _, path} -> [path]
-        {_kind, _, path, _action} -> [path]
+        {_kind, _, _, path} -> [path]
+        {_kind, _, _, path, _action} -> [path]
       end)
 
     case Enum.filter(file_paths, &File.exists?(&1)) do

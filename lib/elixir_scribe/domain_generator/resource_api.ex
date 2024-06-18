@@ -9,7 +9,7 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
   alias ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource
   alias ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResource
-  alias ElixirScribe.DomainGenerator.Resource.BuildActionFilesPathsResource.BuildActionFilesPathsResource
+  alias ElixirScribe.DomainGenerator.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTestFixtureResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResource
