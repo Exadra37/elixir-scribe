@@ -30,9 +30,21 @@ Todo_App() {
 Shop_App() {
   Maybe_Create_App
 
-  mix scribe.gen.html Sales.Checkout Product Products sku:string name:string desc:string --no-default-actions --actions build
-  mix scribe.gen.html Sales.Billing Product Products sku:string quantity:integer cost_per_unit:integer --no-default-actions --actions build
-  mix scribe.gen.html Warehouse.Fulfillment Product Products sku:string label:string total_quantity:integer location:string --no-default-actions --actions build
+  # Sales Catalog
+  mix scribe.gen.html Sales.Catalog Category categories name:string desc:string
+  mix scribe.gen.html Sales.Catalog Product products sku:string name:string desc:string price:integer vat:integer
+  mix scribe.gen.html Sales.Catalog Cart carts total_amount:integer total_quantity:integer products_skus:array:string
+
+  # Sales Checkout
+  mix scribe.gen.domain Sales.Checkout CheckoutProduct checkout_products sku:string name:string desc:string --no-default-actions --actions build
+  mix scribe.gen.html Sales.Checkout Order orders total_amount:integer total_quantity:integer products_skus:array:string cart_uuid:string shipping_uuid:string
+
+  # Sales Billing
+  mix scribe.gen.domain Sales.Billing BillingProduct billing_products sku:string quantity:integer cost_per_unit:integer --no-default-actions --actions build
+
+  # Warehouse Fulfillment
+  mix scribe.gen.domain Warehouse.Fulfillment FulfillmentProduct fulfillment_products sku:string label:string total_quantity:integer location:string --no-default-actions --actions build
+  mix scribe.gen.html Warehouse.Shipment Parcel parcels pickup_datetime:datetime label:string carrier_uuid:string
 }
 
 Online_Shop() {

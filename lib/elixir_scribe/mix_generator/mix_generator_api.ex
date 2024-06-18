@@ -8,6 +8,7 @@ defmodule ElixirScribe.MixGeneratorAPI do
   alias ElixirScribe.MixGenerator.Template.Inject.InjectEexBeforeFinalEnd
   alias ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes
   alias ElixirScribe.MixGenerator.Module.BuildName.BuildAbsoluteModuleName
+  alias ElixirScribe.MixGenerator.Module.BuildName.BuildModuleActionName
   alias ElixirScribe.MixGenerator.Module.BuildName.BuildAbsoluteModuleActionName
   alias ElixirScribe.MixGenerator.Module.BuildName.BuildAbsoluteModuleActionNameAliases
   alias ElixirScribe.MixGenerator.Options.BuildActions.BuildActionsFromOptions
@@ -41,6 +42,9 @@ defmodule ElixirScribe.MixGeneratorAPI do
 
   def build_absolute_module_name(%Context{} = context, opts) when is_list(opts),
     do: BuildAbsoluteModuleName.build(context, opts)
+
+  def build_module_action_name(%Context{} = context, action, opts) when is_list(opts),
+    do: BuildModuleActionName.build(context, action, opts)
 
   def build_absolute_module_action_name(%Context{} = context, action, opts) when is_list(opts),
     do: BuildAbsoluteModuleActionName.build(context, action, opts)

@@ -36,13 +36,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
   end
 
   defp prompt_for_conflicts(context) do
-    api_file = [ResourceAPI.build_api_file_paths(context)]
-    resource_files = ResourceAPI.build_action_files_paths(context)
-    schema_files = Mix.Tasks.Phx.Gen.Schema.files_to_be_generated(context.schema)
-
-    api_file
-    |> Kernel.++(resource_files)
-    |> Kernel.++(schema_files)
+    context
+    |> ResourceAPI.build_files_to_generate()
     |> MixGeneratorAPI.prompt_for_conflicts()
   end
 end

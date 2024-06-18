@@ -8,4 +8,4 @@
       [%<%= inspect schema.alias %>{}, ...]
 
   """
-  def <%= action %>(), do: <%= action_capitalized %><%= schema.human_plural %>.<%= action_first_word %>()
+  def <%= action %>(), do: <%= module_action_name %>.<%= action_first_word %>()

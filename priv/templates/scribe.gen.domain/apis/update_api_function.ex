@@ -11,4 +11,4 @@
       {:error, %Ecto.Changeset{}}
 
   """
-  def <%= action %>(id, attrs), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>(id, attrs)
+  def <%= action %>(id, attrs), do: <%= module_action_name %>.<%= action_first_word %>(id, attrs)

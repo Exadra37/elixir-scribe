@@ -14,6 +14,8 @@ defmodule ElixirScribe.MixGenerator.Template.RebuildBinding.RebuildBindingTempla
       action_capitalized: StringAPI.capitalize(action),
       action_human_capitalized: StringAPI.human_capitalize(action),
       module_action_name:
+        MixGeneratorAPI.build_module_action_name(context, action, from_schema: true),
+      absolute_module_action_name:
         MixGeneratorAPI.build_absolute_module_action_name(context, action, from_schema: true)
     )
   end

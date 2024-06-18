@@ -5,6 +5,7 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
   alias Mix.Scribe.Schema
 
   alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
+  alias ElixirScribe.DomainGenerator.Resource.BuildFilesToGenerate.BuildFilesToGenerateResource
   alias ElixirScribe.DomainGenerator.Resource.BuildAPIFilePaths.BuildAPIFilePathsResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource
@@ -28,6 +29,11 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
 
   @doc """
   Resource: Files To Generate.
+  """
+  def build_files_to_generate(%Context{} = context), do: BuildFilesToGenerateResource.build(context)
+
+  @doc """
+  Resource: Build Action Files To Generate
   """
   def build_action_files_paths(%Context{} = context), do: BuildActionFilesPathsResource.build(context)
 

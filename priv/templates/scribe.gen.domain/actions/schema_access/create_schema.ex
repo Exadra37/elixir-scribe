@@ -2,7 +2,7 @@
   alias <%= inspect schema.module %>API
 
   @doc false
-  def <%= action_first_word %>(%{} = attrs) attrs !== %{} do
+  def <%= action_first_word %>(%{} = attrs) when attrs !== %{} do
     attrs
     |> <%= inspect schema.alias %>API.new()
     |> Repo.insert()

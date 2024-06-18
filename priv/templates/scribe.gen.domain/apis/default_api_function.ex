@@ -1,2 +1,2 @@
 
-  def <%= action %>(), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>()
+  def <%= action %>(), do: <%= module_action_name %>.<%= action_first_word %>()

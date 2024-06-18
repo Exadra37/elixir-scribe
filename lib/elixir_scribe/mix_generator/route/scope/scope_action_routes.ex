@@ -5,9 +5,13 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
 
   @doc false
   def scope(%Context{schema: schema} = context) do
+    resource = schema.plural
+    controller = inspect(Module.concat(context.web_module, schema.web_namespace))
+    scope_alias = String.replace(schema.web_path, "/", "_") <> "_" <> resource
+
     """
 
-      scope "/#{schema.web_path}", #{inspect(Module.concat(context.web_module, schema.web_namespace))}, as: :#{String.replace(schema.web_path, "/", "_")} do
+      scope "/#{schema.web_path}/#{resource}", #{controller}, as: :#{scope_alias} do
         pipe_through :browser
         #{build_action_routes(context)}
       end
@@ -55,7 +59,7 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   defp assemble_route_action(method, action, schema) do
     action_alias = ElixirScribe.resource_action_alias(action)
     action_capitalized = String.capitalize(action_alias)
-    endpoint = build_endpoint(action, action_alias, schema.plural)
+    endpoint = build_endpoint(action, action_alias)
 
     "\n    #{method} \"#{endpoint}\", #{inspect(schema.alias)}.#{action_capitalized}.#{action_capitalized}#{inspect(schema.alias)}Controller, :#{action}"
   end
@@ -63,15 +67,15 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   @http_get_actions ["read", "new", "edit", "list"]
   @resource_id_actions ["read", "update", "delete"]
 
-  defp build_endpoint("create", _action_alias, resource), do: "/#{resource}"
-  defp build_endpoint("new", _action_alias, resource), do: "/#{resource}/new"
-  defp build_endpoint("edit", _action_alias, resource), do: "/#{resource}/:id/edit"
+  defp build_endpoint("create", _action_alias), do: "/"
+  defp build_endpoint("new", _action_alias), do: "/new"
+  defp build_endpoint("edit", _action_alias), do: "/:id/edit"
 
-  defp build_endpoint(action, _action_alias, resource) when action in @resource_id_actions,
-    do: "/#{resource}/:id"
+  defp build_endpoint(action, _action_alias) when action in @resource_id_actions,
+    do: "/:id"
 
-  defp build_endpoint(action, _action_alias, resource) when action in @http_get_actions,
-    do: "/#{resource}"
+  defp build_endpoint(action, _action_alias) when action in @http_get_actions,
+    do: "/"
 
-  defp build_endpoint(_action, action_alias, resource), do: "/#{resource}/#{action_alias}"
+  defp build_endpoint(_action, action_alias), do: "/#{action_alias}"
 end
