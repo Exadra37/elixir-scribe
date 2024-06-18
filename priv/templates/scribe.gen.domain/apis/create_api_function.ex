@@ -11,4 +11,4 @@
       {:error, %Ecto.Changeset{}}
 
   """
-  def <%= action %>(attrs), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>(attrs)
+  def <%= action %>(attrs) when is_map(attrs), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>(attrs)

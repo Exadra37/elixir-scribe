@@ -13,9 +13,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConf
     context
   end
 
-  # The function `prompt/1` was copied from the Phoenix Framework module at `/lib/mix/phoenix.ex`.
-  # It was modified to use the `action` from the provided `generator_files`,
-  # which is now a three elements tuple.
+  # The function `prompt/1` was copied from the Phoenix Framework module at `/lib/mix/phoenix.ex` and modified.
 
   @doc false
   defp mix_prompt(generator_files) do
@@ -24,7 +22,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConf
         {:new_eex, _, _path} -> []
         {:new_eex, _, _path, _action} -> []
         {_kind, _, path} -> [path]
-        {_kind, _, path, _action} -> [path]
+        {_kind, _, _, path, _action} -> [path]
       end)
 
     case Enum.filter(file_paths, &File.exists?(&1)) do

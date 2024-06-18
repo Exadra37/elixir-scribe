@@ -3,14 +3,16 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
 
   alias Mix.Scribe.Context
   alias Mix.Scribe.Schema
+
+  alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
+  alias ElixirScribe.DomainGenerator.Resource.BuildAPIFilePaths.BuildAPIFilePathsResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource
   alias ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResource
-  alias ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateResource
+  alias ElixirScribe.DomainGenerator.Resource.BuildActionFilesPathsResource.BuildActionFilesPathsResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTestFixtureResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResource
-  alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
   alias ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource
 
   @doc """
@@ -23,6 +25,13 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
   """
   def build_context!(args, opts, help) when is_list(args) and is_list(opts),
     do: BuildContextResource.build!(args, opts, help)
+
+  @doc """
+  Resource: Files To Generate.
+  """
+  def build_action_files_paths(%Context{} = context), do: BuildActionFilesPathsResource.build(context)
+
+  def build_api_file_paths(%Context{} = context), do: BuildAPIFilePathsResource.build(context)
 
   @doc """
   Resource: Generate Actions.
@@ -40,11 +49,6 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
   Resource: Prompt For Conflicts.
   """
   def prompt_for_conflicts(%Schema{} = context), do: PromptForConflictsResource.prompt(context)
-
-  @doc """
-  Resource: Files To Generate.
-  """
-  def files_to_generate(%Context{} = context), do: FilesToGenerateResource.files(context)
 
   @doc """
   Resource: Generate Api.

@@ -3,6 +3,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
 
   alias Mix.Scribe.Context
   alias ElixirScribe.MixGeneratorAPI
+  alias ElixirScribe.DomainGenerator.ResourceAPI
 
   @doc false
   def generate(%Context{} = context) do
@@ -31,12 +32,11 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
     binding = build_api_binding(context, binding)
 
     unless Context.pre_existing?(context) do
-      api_module_path =
-        ElixirScribe.domain_api_template_path() |> Path.join("api_module.ex")
+      {:eex, :api, source_path, target_path} = ResourceAPI.build_api_file_paths(context)
 
       Mix.Generator.create_file(
-        context.api_file,
-        Mix.Phoenix.eval_from(base_template_paths, api_module_path, binding)
+        target_path,
+        Mix.Phoenix.eval_from(base_template_paths, source_path, binding)
       )
     end
 
@@ -47,7 +47,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
     resource_actions = context.opts |> Keyword.get(:resource_actions)
 
     for action <- resource_actions do
-      binding = build_api_binding(context, binding) |> MixGeneratorAPI.rebuild_binding_template(action)
+      binding =
+        build_api_binding(context, binding) |> MixGeneratorAPI.rebuild_binding_template(action)
 
       api_action_template_path =
         if context.schema.generate? do

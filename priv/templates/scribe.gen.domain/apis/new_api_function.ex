@@ -8,4 +8,4 @@
       %Ecto.Changeset{data: %<%= inspect schema.alias %>{}}
 
   """
-  def <%= action %>(), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>()
+  def <%= action %>(attrs \\ %{}) when is_map(attrs), do: <%= action_capitalized %><%= schema.human_singular %>.<%= action_first_word %>(attrs)

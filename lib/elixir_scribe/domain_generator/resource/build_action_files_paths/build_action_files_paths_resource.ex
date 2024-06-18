@@ -1,14 +1,14 @@
-defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateResource do
+defmodule ElixirScribe.DomainGenerator.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource do
   @moduledoc false
 
   alias Mix.Scribe.Context
   alias ElixirScribe.MixGeneratorAPI
 
   @doc false
-  def files(%Context{generate?: false}), do: []
-  def files(%Context{generate?: true} = context), do: build_resource_action_files(context)
+  def build(%Context{generate?: false}), do: []
+  def build(%Context{generate?: true} = context), do: build_files(context)
 
-  defp build_resource_action_files(%Context{} = context) do
+  defp build_files(%Context{} = context) do
     resource_actions = context.opts |> Keyword.get(:resource_actions)
 
     for action <- resource_actions do
@@ -16,7 +16,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateR
       filename = build_filename(context, action)
       target_path = Path.join([context.lib_resource_dir, action, filename])
 
-      {:eex, source_path, target_path, action}
+      {:eex, :resource, source_path, target_path, action}
     end
   end
 

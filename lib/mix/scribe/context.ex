@@ -1,6 +1,8 @@
 defmodule Mix.Scribe.Context do
   @moduledoc false
 
+  # alias Mix.Phoenix
+
   alias Mix.Scribe.{Context, Schema}
 
   @optional [
@@ -89,7 +91,7 @@ defmodule Mix.Scribe.Context do
     base      = Module.concat([Mix.Phoenix.context_base(ctx_app)])
     module    = Module.concat(base, context_name)
     alias     = Module.concat([module |> Module.split() |> List.last()])
-    basedir   = Path.join(["domain", Phoenix.Naming.underscore(context_name)])
+    basedir   = Path.join(["domain", Mix.Phoenix.Naming.underscore(context_name)])
     basename  = Path.basename(basedir)
 
     lib_web_domain_dir = Mix.Phoenix.web_path(ctx_app, basedir)

@@ -11,7 +11,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsR
 
     binding = MixGeneratorAPI.build_binding_template(context)
 
-    for {:eex, source_path, target_path, action} <- ResourceAPI.files_to_generate(context) do
+    for {:eex, :resource, source_path, target_path, action} <- ResourceAPI.build_action_files_paths(context) do
       binding = MixGeneratorAPI.rebuild_binding_template(binding, action)
 
       # When the file already exists we are asked if we want to overwrite it.
