@@ -7,7 +7,6 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   @doc false
   def scope(%Context{schema: schema} = context) do
     resource = schema.plural
-    # controller = inspect(Module.concat(context.web_module, schema.web_namespace))
     controller = inspect(context.web_resource_module)
     scope_alias = String.replace(schema.web_path, "/", "_") <> "_" <> resource
 
@@ -61,7 +60,6 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   defp assemble_route_action(method, action, context) do
     action_alias = ElixirScribe.resource_action_alias(action)
     endpoint = build_endpoint(action, action_alias)
-    # controller = MixGeneratorAPI.build_absolute_module_action_name(context, action, type: :controller)
     controller = build_controller(context, action, action_alias)
 
     "\n    #{method} \"#{endpoint}\", #{controller}, :#{action_alias}"
