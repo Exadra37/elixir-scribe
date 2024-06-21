@@ -4,7 +4,6 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   alias ElixirScribe.MixGeneratorAPI
   alias Mix.Scribe.Context
 
-  @doc false
   def scope(%Context{schema: schema} = context) do
     resource = schema.plural
     controller = inspect(context.web_resource_module)

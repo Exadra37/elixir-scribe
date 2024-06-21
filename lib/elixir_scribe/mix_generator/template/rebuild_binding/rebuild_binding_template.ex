@@ -4,7 +4,6 @@ defmodule ElixirScribe.MixGenerator.Template.RebuildBinding.RebuildBindingTempla
   alias ElixirScribe.MixGeneratorAPI
   alias ElixirScribe.Utils.StringAPI
 
-  @doc false
   def rebuild(binding, action, opts) when is_list(binding) and is_binary(action) and is_list(opts) do
     context = Keyword.get(binding, :context)
 

@@ -9,8 +9,6 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTest
 
   @doc false
   def generate_file(context) do
-    dbg(context)
-
     base_template_paths = ElixirScribe.base_template_paths()
     binding = MixGeneratorAPI.build_binding_template(context)
 

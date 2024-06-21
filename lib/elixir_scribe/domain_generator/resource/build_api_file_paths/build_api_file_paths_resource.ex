@@ -3,7 +3,6 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildAPIFilePaths.BuildAPIFilePa
 
   alias Mix.Scribe.Context
 
-  @doc false
   def build(%Context{generate?: false}), do: []
   def build(%Context{generate?: true} = context), do: build_api_file(context)
 

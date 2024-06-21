@@ -3,6 +3,8 @@ defmodule ElixirScribe.MixGenerator.Template.Copy.CopyFile do
 
   alias ElixirScribe.MixGeneratorAPI
 
+  # All functions were copied from the Phoenix Framework, but only modified `copy_from/4`
+
   @doc false
   def copy_from(apps, source_dir, binding, mapping) when is_list(mapping) do
     roots = Enum.map(apps, &to_app_source(&1, source_dir))

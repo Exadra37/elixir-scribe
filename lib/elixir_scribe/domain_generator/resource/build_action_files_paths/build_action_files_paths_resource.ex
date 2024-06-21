@@ -17,7 +17,6 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildActionFilesPaths.BuildActio
 
       {:eex, :resource, source_path, target_path, action}
     end
-    |> dbg()
   end
 
   defp build_target_path(context, action) do

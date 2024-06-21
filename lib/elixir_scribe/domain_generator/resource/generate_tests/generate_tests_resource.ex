@@ -37,7 +37,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
   end
 
   defp build_module_template_path(true) do
-    ElixirScribe.resource_test_actions_template_path() |> Path.join("action_test.exs")
+    ElixirScribe.resource_test_actions_template_path()
+    |> Path.join("action_test.exs")
   end
   defp build_module_template_path(false) do
     ElixirScribe.resource_test_actions_template_path()

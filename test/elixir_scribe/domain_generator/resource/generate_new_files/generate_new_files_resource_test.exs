@@ -39,8 +39,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
         assert file =~ "def create(attrs)"
         assert file =~ "def update(id, attrs)"
         assert file =~ "def delete(id)"
-        assert file =~ "def new()"
-        assert file =~ "def edit(id)"
+        assert file =~ "def new(attrs \\\\ %{})"
+        assert file =~ "def edit(id, attrs \\\\ %{})"
         assert file =~ "def import()"
         assert file =~ "def export()"
       end)
@@ -73,7 +73,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
 
       assert_file("lib/elixir_scribe/domain/blog/post/new/new_post.ex", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.New.NewPost do"
-        assert file =~ "def new()"
+        assert file =~ "def new(attrs \\\\ %{})"
       end)
 
       assert_file("test/elixir_scribe/domain/blog/post/new/new_post_test.exs", fn file ->
@@ -93,7 +93,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
 
       assert_file("lib/elixir_scribe/domain/blog/post/edit/edit_post.ex", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Edit.EditPost do"
-        assert file =~ "def edit(id)"
+        assert file =~ "def edit(id, attrs \\\\ %{})"
       end)
 
       assert_file("test/elixir_scribe/domain/blog/post/edit/edit_post_test.exs", fn file ->
@@ -134,8 +134,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFile
 
       ### TEST FIXTURES ###
 
-      assert_file("test/support/fixtures/domain/blog_fixtures.ex", fn file ->
-        assert file =~ "defmodule ElixirScribe.BlogFixtures do"
+      assert_file("test/support/fixtures/domain/blog/post_fixtures.ex", fn file ->
+        assert file =~ "defmodule ElixirScribe.Blog.PostFixtures do"
         assert file =~ "def post_fixture(attrs \\\\ %{})"
         assert file =~ "title: \"some title\""
       end)
