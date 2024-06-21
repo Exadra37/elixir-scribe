@@ -34,7 +34,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
 
     assert String.ends_with?(
              context.test_fixtures_file,
-             "test/support/fixtures/domain/blog_fixtures.ex"
+             "test/support/fixtures/domain/blog/post_fixtures.ex"
            )
 
     assert String.ends_with?(context.schema.file, "lib/elixir_scribe/domain/blog/post/post_schema.ex")
@@ -51,7 +51,10 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
              base_module: ElixirScribe,
              basename: "blog",
              module: ElixirScribe.Site.Blog,
+             resource_module: ElixirScribe.Site.Blog.Post,
              web_module: ElixirScribeWeb,
+             web_domain_module: ElixirScribeWeb.Site.Blog,
+             web_resource_module: ElixirScribeWeb.Site.Blog.Post,
              schema: %Mix.Scribe.Schema{
                alias: Post,
                human_plural: "Posts",
@@ -68,7 +71,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourc
 
     assert String.ends_with?(
              context.test_fixtures_file,
-             "test/support/fixtures/domain/site/blog_fixtures.ex"
+             "test/support/fixtures/domain/site/blog/post_fixtures.ex"
            )
 
     assert String.ends_with?(context.schema.file, "lib/elixir_scribe/domain/site/blog/post/post_schema.ex")

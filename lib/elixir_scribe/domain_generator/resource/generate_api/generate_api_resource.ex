@@ -20,11 +20,9 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
   defp build_api_binding(context, binding) do
     Keyword.merge(binding,
       absolute_module_name:
-        ElixirScribe.MixGeneratorAPI.build_absolute_module_name(context, from_schema: true),
+        ElixirScribe.MixGeneratorAPI.build_absolute_module_name(context, type: :lib_core),
       aliases:
-        ElixirScribe.MixGeneratorAPI.build_absolute_module_action_name_aliases(context,
-          from_schema: true
-        )
+        ElixirScribe.MixGeneratorAPI.build_absolute_module_action_name_aliases(context, type: :lib_core)
     )
   end
 
@@ -49,7 +47,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource 
     for action <- resource_actions do
       binding =
         build_api_binding(context, binding)
-        |> MixGeneratorAPI.rebuild_binding_template(action)
+        |> MixGeneratorAPI.rebuild_binding_template(action, type: :lib_core)
 
       api_action_template_path =
         if context.schema.generate? do

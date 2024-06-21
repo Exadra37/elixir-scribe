@@ -1,4 +1,4 @@
-  alias <%= module_action_name %>
+  alias <%= absolute_module_action_name %>
   alias <%= inspect schema.module %>
 
   @invalid_attrs <%= Mix.Phoenix.to_text for {key, _} <- schema.params.create, into: %{}, do: {key, nil} %>

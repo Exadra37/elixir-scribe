@@ -1,6 +1,6 @@
-  alias <%= module_action_name %>
+  alias <%= absolute_module_action_name %>
 
-  import <%= inspect(context.base_module) <> "." <> inspect(context.alias) %>Fixtures
+  import <%= context.schema.module %>Fixtures
 
   test "<%= action_first_word %>/0 returns all <%= schema.plural %>" do
     <%= schema.singular %> = <%= schema.singular %>_fixture()

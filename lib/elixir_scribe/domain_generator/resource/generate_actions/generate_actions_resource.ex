@@ -12,7 +12,8 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsR
     binding = MixGeneratorAPI.build_binding_template(context)
 
     for {:eex, :resource, source_path, target_path, action} <- ResourceAPI.build_action_files_paths(context) do
-      binding = MixGeneratorAPI.rebuild_binding_template(binding, action)
+
+      binding = MixGeneratorAPI.rebuild_binding_template(binding, action, type: :lib_core)
 
       # When the file already exists we are asked if we want to overwrite it.
       created_or_overwritten? =
@@ -27,19 +28,18 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsR
   end
 
   defp create_action_module_file(base_template_paths, target_path, binding, schema_generate?) do
-    source_path = build_module_template_path(schema_generate?)
-    content = Mix.Phoenix.eval_from(base_template_paths, source_path, binding)
+    module_template_path = build_module_template_path(schema_generate?)
+    content = Mix.Phoenix.eval_from(base_template_paths, module_template_path, binding)
 
     Mix.Generator.create_file(target_path, content)
   end
 
-  defp build_module_template_path(schema_generate?) do
-    if schema_generate? do
-      ElixirScribe.resource_actions_template_path() |> Path.join("action_module.ex")
-    else
-      ElixirScribe.resource_actions_template_path()
-      |> Path.join("action_module_no_schema_access.ex")
-    end
+  defp build_module_template_path(true) do
+    ElixirScribe.resource_actions_template_path() |> Path.join("action_module.ex")
+  end
+  defp build_module_template_path(false) do
+    ElixirScribe.resource_actions_template_path()
+    |> Path.join("action_module_no_schema_access.ex")
   end
 
   defp inject_action_function_into_module(base_template_paths, source_path, target_path, binding) do

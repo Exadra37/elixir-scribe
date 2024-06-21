@@ -1,7 +1,7 @@
-defmodule <%= inspect context.web_module %>.<%= schema.web_namespace %>.<%= inspect schema.alias %>.<%= action_capitalized %>.<%= action_capitalized %><%= inspect schema.alias %>ControllerTest do
+defmodule <%= absolute_module_action_name %>ControllerTest do
   use <%= inspect context.web_module %>.ConnCase
 
-  import <%= inspect context.module %>Fixtures
+  import <%= context.schema.module %>Fixtures
 
   setup do
     <%= schema.singular %> = <%= schema.singular %>_fixture()

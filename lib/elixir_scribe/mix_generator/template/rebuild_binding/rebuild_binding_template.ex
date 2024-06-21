@@ -5,7 +5,7 @@ defmodule ElixirScribe.MixGenerator.Template.RebuildBinding.RebuildBindingTempla
   alias ElixirScribe.Utils.StringAPI
 
   @doc false
-  def rebuild(binding, action) when is_list(binding) and is_binary(action) do
+  def rebuild(binding, action, opts) when is_list(binding) and is_binary(action) and is_list(opts) do
     context = Keyword.get(binding, :context)
 
     Keyword.merge(binding,
@@ -14,9 +14,9 @@ defmodule ElixirScribe.MixGenerator.Template.RebuildBinding.RebuildBindingTempla
       action_capitalized: StringAPI.capitalize(action),
       action_human_capitalized: StringAPI.human_capitalize(action),
       module_action_name:
-        MixGeneratorAPI.build_module_action_name(context, action, from_schema: true),
+        MixGeneratorAPI.build_module_action_name(context, action, opts),
       absolute_module_action_name:
-        MixGeneratorAPI.build_absolute_module_action_name(context, action, from_schema: true)
+        MixGeneratorAPI.build_absolute_module_action_name(context, action, opts)
     )
   end
 end

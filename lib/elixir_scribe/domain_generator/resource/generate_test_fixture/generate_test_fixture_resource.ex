@@ -4,15 +4,18 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTest
   alias Mix.Scribe.Context
   alias ElixirScribe.MixGeneratorAPI
 
-  @doc false
-  def generate(%Context{} = context) do
-    if context.schema.generate? do
-      base_template_paths = ElixirScribe.base_template_paths()
-      binding = MixGeneratorAPI.build_binding_template(context)
+  def generate(%Context{generate?: false} = context), do: context
+  def generate(%Context{generate?: true} = context), do: generate_file(context)
 
-      ensure_test_fixtures_file_exists(context, base_template_paths, binding)
-      inject_test_fixture(context, base_template_paths, binding)
-    end
+  @doc false
+  def generate_file(context) do
+    dbg(context)
+
+    base_template_paths = ElixirScribe.base_template_paths()
+    binding = MixGeneratorAPI.build_binding_template(context)
+
+    ensure_test_fixtures_file_exists(context, base_template_paths, binding)
+    inject_test_fixture(context, base_template_paths, binding)
 
     context
   end

@@ -139,6 +139,10 @@ defmodule ElixirScribe do
   @doc false
   def resource_actions_template_path(), do: @resource_actions_template_path
 
+  @resource_test_actions_template_path @domain_tests_template_path |> Path.join("actions")
+  @doc false
+  def resource_test_actions_template_path(), do: @resource_test_actions_template_path
+
   # @IMPORTANT: Order of actions MATTERS, otherwise routes will not work as
   #  expected. Don't allow override from config, but allow to set aliases.
   @actions ["list", "new", "read", "edit", "create", "update", "delete"]
@@ -179,11 +183,21 @@ defmodule ElixirScribe do
   end
 
   @app_file_extensions [".ex", ".exs", "html.heex"]
+  @doc false
   def app_file_extensions(), do: @app_file_extensions
 
   @app_file_types ["", "controller", "controller_test", "test"]
+  @doc false
   def app_file_types(), do: @app_file_types
 
   @app_path_types [:lib_core, :lib_web, :test_core, :test_web]
+  @doc false
   def app_path_types(), do: @app_path_types
+
+  # @TODO Remove once Mix.Phoenix.Schema is ported to Mix.Scribe.Schema
+  @doc false
+  def to_phoenix_schema(%Mix.Scribe.Schema{} = schema) do
+    attrs = Map.from_struct(schema)
+    struct(Mix.Phoenix.Schema, attrs)
+  end
 end

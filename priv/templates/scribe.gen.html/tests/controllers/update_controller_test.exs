@@ -1,7 +1,7 @@
-defmodule <%= inspect context.web_module %>.<%= schema.web_namespace %>.<%= inspect schema.alias %>.<%= action_capitalized %>.<%= action_capitalized %><%= inspect schema.alias %>ControllerTest do
+defmodule <%= absolute_module_action_name %>ControllerTest do
   use <%= inspect context.web_module %>.ConnCase
 
-  import <%= inspect context.module %>Fixtures
+  import <%= context.schema.module %>Fixtures
 
   @update_attrs <%= Mix.Phoenix.to_text schema.params.update %>
   @invalid_attrs <%= Mix.Phoenix.to_text (for {key, _} <- schema.params.create, into: %{}, do: {key, nil}) %>

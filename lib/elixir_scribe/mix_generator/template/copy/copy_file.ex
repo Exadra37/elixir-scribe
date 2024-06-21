@@ -1,6 +1,8 @@
 defmodule ElixirScribe.MixGenerator.Template.Copy.CopyFile do
   @moduledoc false
 
+  alias ElixirScribe.MixGeneratorAPI
+
   @doc false
   def copy_from(apps, source_dir, binding, mapping) when is_list(mapping) do
     roots = Enum.map(apps, &to_app_source(&1, source_dir))
@@ -11,7 +13,9 @@ defmodule ElixirScribe.MixGenerator.Template.Copy.CopyFile do
         maybe_eex_gettext: &maybe_eex_gettext/2
       )
 
-    for {format, source_file_path, target, action} <- mapping do
+    for {format, type, source_file_path, target, action} <- mapping do
+      binding = MixGeneratorAPI.rebuild_binding_template(binding, action, type: type)
+
       source =
         Enum.find_value(roots, fn root ->
           source = Path.join(root, source_file_path)

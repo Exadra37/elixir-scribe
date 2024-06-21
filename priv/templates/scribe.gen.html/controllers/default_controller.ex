@@ -1,4 +1,4 @@
-defmodule <%= inspect context.web_module %>.<%= schema.web_namespace %>.<%= inspect schema.alias %>.<%= action_capitalized %>.<%= action_capitalized %><%= inspect schema.alias %>Controller do
+defmodule <%= absolute_module_action_name %>Controller do
   use <%= inspect context.web_module %>, :controller
 
   # alias <%= inspect schema.module %>API

@@ -1,78 +1,52 @@
 defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource do
   @moduledoc false
 
+  alias ElixirScribe.DomainGenerator.ResourceAPI
   alias Mix.Scribe.Context
   alias ElixirScribe.MixGeneratorAPI
 
   @doc false
-  def generate_tests(%Context{} = context) do
+  def generate_tests(%Context{schema: schema} = context) do
     base_template_paths = ElixirScribe.base_template_paths()
     binding = MixGeneratorAPI.build_binding_template(context)
 
-    context
-    |> ensure_test_file_exists(base_template_paths, binding)
-    |> inject_tests(base_template_paths, binding)
-
-    context
-  end
-
-  defp get_action_test_file(context, action) do
-    plural_actions = ElixirScribe.resource_plural_actions()
-    resource_name = action in plural_actions && context.resource_name_plural || context.resource_name_singular
-    filename = "#{action}_" <> resource_name <> "_test.exs"
-    Path.join([context.test_resource_dir, action, filename])
-  end
-
-  defp ensure_test_file_exists(%Context{schema: schema} = context, base_template_paths, binding) do
-    resource_actions = context.opts |> Keyword.get(:resource_actions)
-
-    for action <- resource_actions do
-      test_file = get_action_test_file(context, action)
-      context = %{context | test_file: test_file}
+    for {:eex, :resource_test, source_path, target_path, action} <- ResourceAPI.build_test_action_files_paths(context) do
+      context = %{context | test_file: target_path}
 
       unless Context.pre_existing_tests?(context) do
-        binding = MixGeneratorAPI.rebuild_binding_template(binding, action)
+        binding = MixGeneratorAPI.rebuild_binding_template(binding, action, type: :lib_core)
 
-        test_module_path =
-          if schema.generate? do
-            ElixirScribe.domain_tests_template_path() |> Path.join("action_test.exs")
-          else
-            ElixirScribe.domain_tests_template_path()
-            |> Path.join("action_test_no_schema_access.exs")
-          end
+        # When the file already exists we are asked if we want to overwrite it.
+        created_or_overwritten? =
+          create_test_action_module_file(base_template_paths, target_path, binding, schema.generate?)
 
-        Mix.Generator.create_file(
-          test_file,
-          Mix.Phoenix.eval_from(base_template_paths, test_module_path, binding)
-        )
+        if created_or_overwritten? do
+          inject_action_function_into_module(base_template_paths, source_path, target_path, binding)
+        end
       end
     end
 
     context
   end
 
-  defp inject_tests(%Context{schema: schema} = context, base_template_paths, binding) do
-    if schema.generate? do
-      resource_actions = context.opts |> Keyword.get(:resource_actions)
+  defp create_test_action_module_file(base_template_paths, target_path, binding, schema_generate?) do
+    module_template_path = build_module_template_path(schema_generate?)
+    content = Mix.Phoenix.eval_from(base_template_paths, module_template_path, binding)
 
-      for action <- resource_actions do
-        test_file = get_action_test_file(context, action)
-        binding = MixGeneratorAPI.rebuild_binding_template(binding, action)
+    Mix.Generator.create_file(target_path, content)
+  end
 
-        schema_folder = ElixirScribe.schema_template_folder_name(context.schema)
+  defp build_module_template_path(true) do
+    ElixirScribe.resource_test_actions_template_path() |> Path.join("action_test.exs")
+  end
+  defp build_module_template_path(false) do
+    ElixirScribe.resource_test_actions_template_path()
+    |> Path.join("action_test_no_schema_access.exs")
+  end
 
-        action_template_filename =
-          MixGeneratorAPI.build_template_action_filename(action, "_", "schema_test", ".exs")
-
-        tests_path = ElixirScribe.domain_tests_template_path()
-
-        test_action_file_path =
-          Path.join([tests_path, "actions", schema_folder, action_template_filename])
-
-        base_template_paths
-        |> Mix.Phoenix.eval_from(test_action_file_path, binding)
-        |> MixGeneratorAPI.inject_eex_before_final_end(test_file, binding)
-      end
-    end
+  defp inject_action_function_into_module(base_template_paths, source_path, target_path, binding) do
+    base_template_paths
+    |> Mix.Phoenix.eval_from(source_path, binding)
+    |> MixGeneratorAPI.inject_eex_before_final_end(target_path, binding)
   end
 end

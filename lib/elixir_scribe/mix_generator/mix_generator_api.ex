@@ -66,5 +66,5 @@ defmodule ElixirScribe.MixGeneratorAPI do
 
   def build_binding_template(%Context{} = context), do: BuildBindingTemplate.build(context)
 
-  def rebuild_binding_template(binding, action), do: RebuildBindingTemplate.rebuild(binding, action)
+  def rebuild_binding_template(binding, action, opts), do: RebuildBindingTemplate.rebuild(binding, action, opts)
 end

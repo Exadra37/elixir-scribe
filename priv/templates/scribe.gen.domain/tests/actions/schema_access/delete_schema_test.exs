@@ -1,8 +1,8 @@
-  alias <%= module_action_name %>
+  alias <%= absolute_module_action_name %>
   alias <%= inspect schema.module %>
-  alias <%= inspect(context.base_module) <> "." <> inspect(context.alias) <> "." <> inspect(schema.alias) <> "." <> read_action_capitalized <> "." <>read_action_capitalized <> schema.human_singular %>
+  alias <%= inspect schema.module %><%= "." <> read_action_capitalized <> "." <> read_action_capitalized <> schema.human_singular %>
 
-  import <%= inspect(context.base_module) <> "." <> inspect(context.alias) %>Fixtures
+  import <%= context.schema.module %>Fixtures
 
   test "<%= action_first_word %>/1 deletes the <%= schema.singular %>" do
     <%= schema.singular %> = <%= schema.singular %>_fixture()

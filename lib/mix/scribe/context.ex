@@ -2,14 +2,20 @@ defmodule Mix.Scribe.Context do
   @moduledoc false
 
   alias Mix.Scribe.{Context, Schema}
+  alias ElixirScribe.Utils.StringAPI
 
   @optional [
     name: nil,
     module: nil,
+    resource_module: nil,
+    resource_module_plural: nil,
     schema: nil,
     alias: nil,
     base_module: nil,
     web_module: nil,
+    web_domain_module: nil,
+    web_resource_module: nil,
+    web_resource_module_plural: nil,
     basename: nil,
     api_file: nil,
     test_file: nil,
@@ -41,10 +47,15 @@ defmodule Mix.Scribe.Context do
     schema(%__MODULE__{
       name: is_binary() |> spec(),
       module: is_atom() |> spec(),
+      resource_module: is_atom() |> spec(),
+      resource_module_plural: is_atom() |> spec(),
       schema: spec(is_struct() or is_nil()),
       alias: is_atom() |> spec(),
       base_module: is_atom() |> spec(),
       web_module: is_atom() |> spec(),
+      web_domain_module: is_atom() |> spec(),
+      web_resource_module: is_atom() |> spec(),
+      web_resource_module_plural: is_atom() |> spec(),
       basename: is_binary() |> spec(),
       api_file: is_binary() |> spec(),
       test_file: is_binary() |> spec(),
@@ -83,12 +94,20 @@ defmodule Mix.Scribe.Context do
 
     resource_name_singular = schema.singular
     resource_name_plural = schema.plural
+    resource_name_plural_capitalized = resource_name_plural |> StringAPI.capitalize()
 
     ctx_app   = opts[:context_app] || Mix.Phoenix.context_app()
 
     base      = Module.concat([Mix.Phoenix.context_base(ctx_app)])
+    base_web  = web_module()
+
     module    = Module.concat(base, context_name)
-    alias     = Module.concat([module |> Module.split() |> List.last()])
+    resource_module    = Module.concat(module, schema.alias)
+    resource_module_plural = Module.concat(module, resource_name_plural_capitalized)
+    web_domain_module = Module.concat(base_web, context_name)
+    web_resource_module = Module.concat([web_domain_module, schema.alias])
+    web_resource_module_plural = Module.concat([web_domain_module, resource_name_plural_capitalized])
+    domain    = Module.concat([module |> Module.split() |> List.last()])
     basedir   = Path.join(["domain", Phoenix.Naming.underscore(context_name)])
     basename  = Path.basename(basedir)
 
@@ -110,7 +129,7 @@ defmodule Mix.Scribe.Context do
 
     test_file = test_domain_dir <> "_test.exs"
     test_fixtures_dir = Mix.Phoenix.context_app_path(ctx_app, "test/support/fixtures")
-    test_fixtures_file = Path.join([test_fixtures_dir, basedir <> "_fixtures.ex"])
+    test_fixtures_file = Path.join([test_fixtures_dir, basedir, resource_name_singular <> "_fixtures.ex"])
 
     generate? = Keyword.get(opts, :context, true)
     api_file  = lib_resource_dir <> "_api.ex"
@@ -118,10 +137,15 @@ defmodule Mix.Scribe.Context do
     %Context{
       name: context_name,
       module: module,
+      resource_module: resource_module,
+      resource_module_plural: resource_module_plural,
       schema: schema,
-      alias: alias,
+      alias: domain,
       base_module: base,
-      web_module: web_module(),
+      web_module: base_web,
+      web_domain_module: web_domain_module,
+      web_resource_module: web_resource_module,
+      web_resource_module_plural: web_resource_module_plural,
       basename: basename,
       api_file: api_file,
       test_file: test_file,

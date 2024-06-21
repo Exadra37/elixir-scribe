@@ -1,8 +1,8 @@
-  alias <%= module_action_name %>
+  alias <%= absolute_module_action_name %>
   alias <%= inspect schema.module %>
-  alias <%= inspect(context.base_module) <> "." <> inspect(context.alias) <> "." <> inspect(schema.alias) <> "." <> read_action_capitalized <> "." <> read_action_capitalized <> schema.human_singular %>
+  alias <%= inspect schema.module %><%= "." <> read_action_capitalized <> "." <> read_action_capitalized <> schema.human_singular %>
 
-  import <%= inspect(context.base_module) <> "." <> inspect(context.alias) %>Fixtures
+  import <%= context.schema.module %>Fixtures
 
   @invalid_attrs <%= Mix.Phoenix.to_text for {key, _} <- schema.params.create, into: %{}, do: {key, nil} %>
 

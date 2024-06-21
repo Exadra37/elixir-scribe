@@ -11,6 +11,7 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
   alias ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource
   alias ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResource
   alias ElixirScribe.DomainGenerator.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource
+  alias ElixirScribe.DomainGenerator.Resource.BuildTestActionFilesPaths.BuildTestActionFilesPathsResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTestFixtureResource
   alias ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResource
@@ -36,6 +37,11 @@ defmodule ElixirScribe.DomainGenerator.ResourceAPI do
   Resource: Build Action Files To Generate
   """
   def build_action_files_paths(%Context{} = context), do: BuildActionFilesPathsResource.build(context)
+
+  @doc """
+  Resource: Build Test Action Files To Generate
+  """
+  def build_test_action_files_paths(%Context{} = context), do: BuildTestActionFilesPathsResource.build(context)
 
   def build_api_file_paths(%Context{} = context), do: BuildAPIFilePathsResource.build(context)
 

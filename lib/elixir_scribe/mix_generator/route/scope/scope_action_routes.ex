@@ -1,12 +1,14 @@
 defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
   @moduledoc false
 
+  alias ElixirScribe.MixGeneratorAPI
   alias Mix.Scribe.Context
 
   @doc false
   def scope(%Context{schema: schema} = context) do
     resource = schema.plural
-    controller = inspect(Module.concat(context.web_module, schema.web_namespace))
+    # controller = inspect(Module.concat(context.web_module, schema.web_namespace))
+    controller = inspect(context.web_resource_module)
     scope_alias = String.replace(schema.web_path, "/", "_") <> "_" <> resource
 
     """
@@ -18,7 +20,7 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
     """
   end
 
-  defp build_action_routes(%Context{schema: schema} = context) do
+  defp build_action_routes(%Context{} = context) do
     default_resource_actions = ElixirScribe.resource_actions()
 
     resource_actions = context.opts |> Keyword.get(:resource_actions)
@@ -28,48 +30,49 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
     routes =
       for action <- extra_actions, reduce: "" do
         routes ->
-          routes <> build_route_action(action, schema)
+          routes <> build_route_action(action, context)
       end
 
     actions = resource_actions -- extra_actions
 
     for action <- actions, reduce: routes do
       routes ->
-        routes <> build_route_action(action, schema)
+        routes <> build_route_action(action, context)
     end
   end
 
-  defp build_route_action("create", schema) do
-    assemble_route_action("post", "create", schema)
+  defp build_route_action("create", context) do
+    assemble_route_action("post", "create", context)
   end
 
-  defp build_route_action("update", schema) do
-    assemble_route_action("patch", "update", schema) <>
-      assemble_route_action("put", "update", schema)
+  defp build_route_action("update", context) do
+    assemble_route_action("patch", "update", context) <>
+      assemble_route_action("put", "update", context)
   end
 
-  defp build_route_action("delete", schema) do
-    assemble_route_action("delete", "delete", schema)
+  defp build_route_action("delete", context) do
+    assemble_route_action("delete", "delete", context)
   end
 
-  defp build_route_action(action, schema) do
-    assemble_route_action("get", action, schema)
+  defp build_route_action(action, context) do
+    assemble_route_action("get", action, context)
   end
 
-  defp assemble_route_action(method, action, schema) do
+  defp assemble_route_action(method, action, context) do
     action_alias = ElixirScribe.resource_action_alias(action)
-    action_capitalized = String.capitalize(action_alias)
     endpoint = build_endpoint(action, action_alias)
+    # controller = MixGeneratorAPI.build_absolute_module_action_name(context, action, type: :controller)
+    controller = build_controller(context, action, action_alias)
 
-    "\n    #{method} \"#{endpoint}\", #{inspect(schema.alias)}.#{action_capitalized}.#{action_capitalized}#{inspect(schema.alias)}Controller, :#{action}"
+    "\n    #{method} \"#{endpoint}\", #{controller}, :#{action_alias}"
   end
 
   @http_get_actions ["read", "new", "edit", "list"]
   @resource_id_actions ["read", "update", "delete"]
 
   defp build_endpoint("create", _action_alias), do: "/"
-  defp build_endpoint("new", _action_alias), do: "/new"
-  defp build_endpoint("edit", _action_alias), do: "/:id/edit"
+  defp build_endpoint("new", action_alias), do: "/#{action_alias}"
+  defp build_endpoint("edit", action_alias), do: "/:id/#{action_alias}"
 
   defp build_endpoint(action, _action_alias) when action in @resource_id_actions,
     do: "/:id"
@@ -78,4 +81,11 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
     do: "/"
 
   defp build_endpoint(_action, action_alias), do: "/#{action_alias}"
+
+  defp build_controller(context, action, action_alias) do
+    action_capitalized = String.capitalize(action_alias)
+    module_action_name = MixGeneratorAPI.build_module_action_name(context, action, type: :controller)
+
+    "#{action_capitalized}.#{module_action_name}Controller"
+  end
 end
