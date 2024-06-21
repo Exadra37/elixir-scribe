@@ -14,7 +14,7 @@ defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResou
       context = %{context | test_file: target_path}
 
       unless Context.pre_existing_tests?(context) do
-        binding = MixGeneratorAPI.rebuild_binding_template(binding, action, type: :lib_core)
+        binding = MixGeneratorAPI.rebuild_binding_template(binding, action, file_type: :lib_core)
 
         # When the file already exists we are asked if we want to overwrite it.
         created_or_overwritten? =

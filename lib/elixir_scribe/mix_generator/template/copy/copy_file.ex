@@ -13,8 +13,8 @@ defmodule ElixirScribe.MixGenerator.Template.Copy.CopyFile do
         maybe_eex_gettext: &maybe_eex_gettext/2
       )
 
-    for {format, type, source_file_path, target, action} <- mapping do
-      binding = MixGeneratorAPI.rebuild_binding_template(binding, action, type: type)
+    for {format, file_type, source_file_path, target, action} <- mapping do
+      binding = MixGeneratorAPI.rebuild_binding_template(binding, action, file_type: file_type)
 
       source =
         Enum.find_value(roots, fn root ->
