@@ -82,7 +82,7 @@ defmodule ElixirScribe.MixGenerator.Route.Scope.ScopeActionRoutes do
 
   defp build_controller(context, action, action_alias) do
     action_capitalized = String.capitalize(action_alias)
-    module_action_name = MixGeneratorAPI.build_module_action_name(context, action, type: :controller)
+    module_action_name = MixGeneratorAPI.build_module_action_name(context, action, file_type: :controller)
 
     "#{action_capitalized}.#{module_action_name}Controller"
   end

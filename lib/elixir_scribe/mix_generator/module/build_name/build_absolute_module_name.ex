@@ -2,7 +2,7 @@ defmodule ElixirScribe.MixGenerator.Module.BuildName.BuildAbsoluteModuleName do
   @moduledoc false
 
   alias Mix.Scribe.Context
-  alias ElixirScribe.Utils.StringAPI
+  # alias ElixirScribe.Utils.StringAPI
 
   @doc false
   # def build(%Context{} = context, opts) when is_list(opts) do
@@ -11,7 +11,7 @@ defmodule ElixirScribe.MixGenerator.Module.BuildName.BuildAbsoluteModuleName do
   #   |> StringAPI.capitalize()
       # end
 
-  def build(%Context{} = _context, [file_type: type]) when type in [:html], do: ""
+  def build(%Context{} = _context, [file_type: :html]), do: ""
   def build(%Context{} = context, opts) when is_list(opts), do: base_module(context, opts)
 
   @core_resources [:resource, :lib_core, :test_core]
