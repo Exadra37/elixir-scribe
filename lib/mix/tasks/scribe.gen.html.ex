@@ -179,9 +179,9 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
 
   alias Mix.Scribe.{Context, Schema}
   alias Mix.Tasks.Scribe.Gen
-  alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.Generator.Domain.ResourceAPI
   alias ElixirScribe.MixGeneratorAPI
-  alias ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource
+  alias ElixirScribe.Generator.Domain.Resource.ParseArgs.ParseArgsResource
 
   @doc false
   def run(args) do

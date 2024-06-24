@@ -1,7 +1,7 @@
-defmodule ElixirScribe.DomainGenerator.Resource.FilesToGenerate.FilesToGenerateResourceTest do
+defmodule ElixirScribe.Generator.Domain.Resource.FilesToGenerate.FilesToGenerateResourceTest do
   use ElixirScribe.BaseCase
 
-  alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.Generator.Domain.ResourceAPI
 
   @doc false
   test "files_to_generate/1 works as expected" do

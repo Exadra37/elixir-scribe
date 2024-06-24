@@ -5,7 +5,7 @@ defmodule ElixirScribe.BaseCase do
 
   using do
     quote do
-      import ElixirScribe.DomainGeneratorFixtures
+      import ElixirScribe.Generator.DomainFixtures
     end
   end
 end

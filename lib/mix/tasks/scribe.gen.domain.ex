@@ -161,9 +161,9 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
 
   alias Mix.Scribe.Context
   alias Mix.Tasks.Phx.Gen
-  alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.Generator.Domain.ResourceAPI
 
-  alias ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource
+  alias ElixirScribe.Generator.Domain.Resource.ParseArgs.ParseArgsResource
 
   @doc false
   def run(args) do

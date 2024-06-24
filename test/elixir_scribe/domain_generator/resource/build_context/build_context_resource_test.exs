@@ -1,9 +1,9 @@
-defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResourceTest do
+defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResourceTest do
   use ElixirScribe.BaseCase
 
-  alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
+  alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
   alias Mix.Scribe.Context
-  alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.Generator.Domain.ResourceAPI
 
 
   test "builds Mix.Scribe.Context" do

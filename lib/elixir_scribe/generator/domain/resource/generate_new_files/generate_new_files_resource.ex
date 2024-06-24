@@ -1,8 +1,8 @@
-defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResource do
+defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResource do
   @moduledoc false
 
   alias Mix.Scribe.Context
-  alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.Generator.Domain.ResourceAPI
 
   alias ElixirScribe.MixGeneratorAPI
 

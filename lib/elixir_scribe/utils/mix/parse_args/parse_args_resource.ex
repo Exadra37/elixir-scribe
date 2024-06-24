@@ -1,4 +1,4 @@
-defmodule ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource do
+defmodule ElixirScribe.Utils.Mix.ParseArgs.ParseArgsResource do
   @moduledoc false
 
   alias Mix.Scribe.{Context, Schema}

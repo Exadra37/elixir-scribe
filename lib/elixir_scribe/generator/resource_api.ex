@@ -1,21 +1,21 @@
-defmodule ElixirScribe.DomainGenerator.ResourceAPI do
+defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   @moduledoc false
 
   alias Mix.Scribe.Context
   alias Mix.Scribe.Schema
 
-  alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
-  alias ElixirScribe.DomainGenerator.Resource.BuildFilesToGenerate.BuildFilesToGenerateResource
-  alias ElixirScribe.DomainGenerator.Resource.BuildAPIFilePaths.BuildAPIFilePathsResource
-  alias ElixirScribe.DomainGenerator.Resource.GenerateActions.GenerateActionsResource
-  alias ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource
-  alias ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResource
-  alias ElixirScribe.DomainGenerator.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource
-  alias ElixirScribe.DomainGenerator.Resource.BuildTestActionFilesPaths.BuildTestActionFilesPathsResource
-  alias ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource
-  alias ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTestFixtureResource
-  alias ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResource
-  alias ElixirScribe.DomainGenerator.Resource.ParseArgs.ParseArgsResource
+  alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
+  alias ElixirScribe.Generator.Domain.Resource.BuildFilesToGenerate.BuildFilesToGenerateResource
+  alias ElixirScribe.Generator.Domain.Resource.BuildAPIFilePaths.BuildAPIFilePathsResource
+  alias ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActionsResource
+  alias ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsResource
+  alias ElixirScribe.Generator.Domain.Resource.PromptForConflicts.PromptForConflictsResource
+  alias ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource
+  alias ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.BuildTestActionFilesPathsResource
+  alias ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
+  alias ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResource
+  alias ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResource
+  alias ElixirScribe.Generator.Domain.Resource.ParseArgs.ParseArgsResource
 
   @doc """
   Resource: Parse Args.

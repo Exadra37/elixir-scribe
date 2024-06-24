@@ -1,4 +1,4 @@
-defmodule ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource do
+defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource do
   @moduledoc false
 
   alias Mix.Scribe.{Context, Schema}

@@ -1,4 +1,4 @@
-defmodule ElixirScribe.DomainGenerator.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource do
+defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource do
   @moduledoc false
 
   alias Mix.Scribe.Context

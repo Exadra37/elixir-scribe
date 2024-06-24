@@ -1,9 +1,9 @@
-defmodule ElixirScribe.DomainGenerator.Resource.GenerateApi.GenerateApiResource do
+defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource do
   @moduledoc false
 
   alias Mix.Scribe.Context
   alias ElixirScribe.MixGeneratorAPI
-  alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.Generator.Domain.ResourceAPI
 
   @doc false
   def generate(%Context{} = context) do

@@ -1,4 +1,4 @@
-defmodule ElixirScribe.DomainGenerator.Resource.GenerateTestFixture.GenerateTestFixtureResource do
+defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResource do
   @moduledoc false
 
   alias Mix.Scribe.Context

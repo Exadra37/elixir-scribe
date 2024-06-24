@@ -1,8 +1,8 @@
-defmodule ElixirScribe.DomainGenerator.Resource.PromptForConflicts.PromptForConflictsResource do
+defmodule ElixirScribe.Generator.Domain.Resource.PromptForConflicts.PromptForConflictsResource do
   @moduledoc false
 
   alias Mix.Scribe.Context
-  alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.Generator.Domain.ResourceAPI
 
   @doc false
   def prompt(%Context{} = context) do

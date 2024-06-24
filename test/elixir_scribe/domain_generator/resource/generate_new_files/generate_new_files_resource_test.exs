@@ -1,10 +1,10 @@
 Code.require_file("../../../../mix_test_helper.exs", __DIR__)
 
-defmodule ElixirScribe.DomainGenerator.Resource.GenerateNewFiles.GenerateNewFilesResourceTest do
+defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResourceTest do
 
   use ElixirScribe.BaseCase
 
-  alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.Generator.Domain.ResourceAPI
 
   import MixTestHelper
 

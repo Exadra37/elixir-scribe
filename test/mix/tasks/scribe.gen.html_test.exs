@@ -4,8 +4,8 @@ defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
   require Assertions
 
   alias Mix.Tasks.Scribe.Gen.Html
-  alias ElixirScribe.DomainGenerator.ResourceAPI
-  alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
+  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
 
   @default_args ["Site.Blog", "Post", "posts", "name:string", "desc:string"]
   defp fixture(:context, args \\ @default_args) do

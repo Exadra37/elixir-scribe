@@ -1,11 +1,11 @@
-defmodule ElixirScribe.DomainGeneratorFixtures do
+defmodule ElixirScribe.Generator.DomainFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `ElixirScribe.DomainGenerator` context.
+  entities via the `ElixirScribe.Generator.Domain` context.
   """
 
-  alias ElixirScribe.DomainGenerator.ResourceAPI
-  alias ElixirScribe.DomainGenerator.Resource.BuildContext.BuildContextResource
+  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
 
   @default_args ["Site.Blog", "Post", "posts", "name:string", "desc:string"]
   def context_fixture(args \\ @default_args) do

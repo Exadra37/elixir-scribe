@@ -1,7 +1,7 @@
-defmodule ElixirScribe.DomainGenerator.Resource.GenerateTests.GenerateTestsResource do
+defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsResource do
   @moduledoc false
 
-  alias ElixirScribe.DomainGenerator.ResourceAPI
+  alias ElixirScribe.Generator.Domain.ResourceAPI
   alias Mix.Scribe.Context
   alias ElixirScribe.MixGeneratorAPI
 
