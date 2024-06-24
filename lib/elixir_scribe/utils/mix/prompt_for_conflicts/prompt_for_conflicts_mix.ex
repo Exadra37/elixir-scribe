@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Generator.Domain.Resource.PromptForConflicts.PromptForConflictsResource do
+defmodule ElixirScribe.Utils.Mix.PromptForConflicts.PromptForConflictsMix do
   @moduledoc false
 
   alias Mix.Scribe.Context

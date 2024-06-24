@@ -9,7 +9,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   alias ElixirScribe.Generator.Domain.Resource.BuildAPIFilePaths.BuildAPIFilePathsResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActionsResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsResource
-  alias ElixirScribe.Generator.Domain.Resource.PromptForConflicts.PromptForConflictsResource
+  alias ElixirScribe.Utils.Mix.PromptForConflicts.PromptForConflictsMix
   alias ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource
   alias ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.BuildTestActionFilesPathsResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
@@ -60,7 +60,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   @doc """
   Resource: Prompt For Conflicts.
   """
-  def prompt_for_conflicts(%Schema{} = context), do: PromptForConflictsResource.prompt(context)
+  def prompt_for_conflicts(%Schema{} = context), do: PromptForConflictsMix.prompt(context)
 
   @doc """
   Resource: Generate Api.
