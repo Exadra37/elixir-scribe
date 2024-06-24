@@ -2,25 +2,22 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   @moduledoc false
 
   alias Mix.Scribe.Context
-  alias Mix.Scribe.Schema
-
   alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
   alias ElixirScribe.Generator.Domain.Resource.BuildFilesToGenerate.BuildFilesToGenerateResource
   alias ElixirScribe.Generator.Domain.Resource.BuildAPIFilePaths.BuildAPIFilePathsResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActionsResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsResource
-  alias ElixirScribe.Utils.Mix.PromptForConflicts.PromptForConflictsMix
   alias ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource
   alias ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.BuildTestActionFilesPathsResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResource
-  alias ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix
+  alias ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs
 
   @doc """
   Resource: Parse Args.
   """
-  def parse_args(args) when is_list(args), do: ParseArgsMix.parse(args)
+  def parse_args(args) when is_list(args), do: ParseAllArgs.parse(args)
 
   @doc """
   Resource: Build Context.
@@ -56,11 +53,6 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   """
   def generate_tests(%Context{} = context),
     do: GenerateTestsResource.generate_tests(context)
-
-  @doc """
-  Resource: Prompt For Conflicts.
-  """
-  def prompt_for_conflicts(%Schema{} = context), do: PromptForConflictsMix.prompt(context)
 
   @doc """
   Resource: Generate Api.

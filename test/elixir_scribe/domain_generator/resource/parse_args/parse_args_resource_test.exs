@@ -1,10 +1,10 @@
-defmodule ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMixTest do
+defmodule ElixirScribe.Mix.Arg.ParseAll.ParseAllArgsTest do
   use ExUnit.Case
 
-  # alias ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix
+  # alias ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs
 
   @doc false
   test "parse works as expected" do
-    raise "TODO: Implement test for action `parse` at `ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix`"
+    raise "TODO: Implement test for action `parse` at `ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs`"
   end
 end

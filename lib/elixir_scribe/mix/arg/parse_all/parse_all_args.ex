@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix do
+defmodule ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs do
   @moduledoc false
 
   alias Mix.Scribe.{Context, Schema}
@@ -16,18 +16,21 @@ defmodule ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix do
     live: :boolean
   ]
 
-  @default_opts [schema: true, context: true, no_default_actions: false, actions: nil]
-
-  @doc false
   def parse(args) when is_list(args) do
     {opts, parsed_args, invalid_args} =
       args
       |> MixGeneratorAPI.maybe_add_binary_id_option()
-      |> parse_opts()
+      |> extract_args_and_opts()
+
+    opts = opts |> MixGeneratorAPI.parse_all_options()
 
     valid_args = parsed_args |> validate_args!(__MODULE__)
 
     {valid_args, opts, invalid_args}
+  end
+
+  defp extract_args_and_opts(args) do
+    OptionParser.parse(args, switches: @switches)
   end
 
   defp validate_args!([context, schema, _plural | _] = args, help) do
@@ -81,28 +84,5 @@ defmodule ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix do
     A domain is usually composed of multiple resources and all possible actions
     on a resource.
     """)
-  end
-
-  defp parse_opts(args) do
-    {opts, parsed, invalid} = OptionParser.parse(args, switches: @switches)
-
-    merged_opts =
-      @default_opts
-      |> Keyword.merge(opts)
-      |> put_context_app(opts[:context_app])
-      |> put_resource_actions()
-
-    {merged_opts, parsed, invalid}
-  end
-
-  defp put_context_app(opts, nil), do: opts
-
-  defp put_context_app(opts, string) do
-    Keyword.put(opts, :context_app, String.to_atom(string))
-  end
-
-  defp put_resource_actions(opts) do
-    resource_actions = MixGeneratorAPI.build_actions_from_options(opts)
-    Keyword.put(opts, :resource_actions, resource_actions)
   end
 end

@@ -163,7 +163,7 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
   alias Mix.Tasks.Phx.Gen
   alias ElixirScribe.Generator.Domain.ResourceAPI
 
-  alias ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix
+  alias ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs
 
   @doc false
   def run(args) do
@@ -176,7 +176,7 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
     valid_args
-    |> ResourceAPI.build_context!(opts, ParseArgsMix)
+    |> ResourceAPI.build_context!(opts, ParseAllArgs)
     |> ResourceAPI.generate_new_files()
     |> print_shell_instructions()
   end

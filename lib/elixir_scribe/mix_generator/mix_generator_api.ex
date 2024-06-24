@@ -11,13 +11,15 @@ defmodule ElixirScribe.MixGeneratorAPI do
   alias ElixirScribe.MixGenerator.Module.BuildName.BuildModuleActionName
   alias ElixirScribe.MixGenerator.Module.BuildName.BuildAbsoluteModuleActionName
   alias ElixirScribe.MixGenerator.Module.BuildName.BuildAbsoluteModuleActionNameAliases
-  alias ElixirScribe.MixGenerator.Options.BuildActions.BuildActionsFromOptions
+  alias ElixirScribe.Mix.Option.ParseAll.ParseAllOptions
   alias ElixirScribe.MixGenerator.Options.BuildEmbedTemplates.BuildModuleEmbedTemplates
   alias ElixirScribe.MixGenerator.Options.MaybeAddBinaryId.MaybeAddBinaryIdOption
   alias ElixirScribe.MixGenerator.Template.BuildFilename.BuildFilenameActionTemplate
   alias ElixirScribe.MixGenerator.Template.BuildPath.BuildPathHtmlTemplate
   alias ElixirScribe.MixGenerator.Template.BuildBinding.BuildBindingTemplate
   alias ElixirScribe.MixGenerator.Template.RebuildBinding.RebuildBindingTemplate
+  alias ElixirScribe.MixGenerator.Options.BuildActions.BuildActionsFromOptions
+
 
   @doc """
   Prompts to continue if any files exist.
@@ -54,6 +56,8 @@ defmodule ElixirScribe.MixGeneratorAPI do
 
   def build_actions_from_options(opts) when is_list(opts), do: BuildActionsFromOptions.build(opts)
 
+  def parse_all_options(opts) when is_list(opts), do: ParseAllOptions.parse(opts)
+
   def build_embeded_templates(), do: BuildModuleEmbedTemplates.build()
 
   def maybe_add_binary_id_option(args) when is_list(args),
@@ -67,5 +71,4 @@ defmodule ElixirScribe.MixGeneratorAPI do
   def build_binding_template(%Context{} = context), do: BuildBindingTemplate.build(context)
 
   def rebuild_binding_template(binding, action, opts), do: RebuildBindingTemplate.rebuild(binding, action, opts)
-
 end
