@@ -15,7 +15,7 @@ defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
   end
 
   describe "files_to_be_generated/1" do
-    test "returns files for core, web and releated tests" do
+    test "returns files for core, web and related tests" do
       context = fixture(:context)
 
       expected_files = [
