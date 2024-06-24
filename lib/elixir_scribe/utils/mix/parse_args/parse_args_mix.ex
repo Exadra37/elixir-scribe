@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Utils.Mix.ParseArgs.ParseArgsResource do
+defmodule ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix do
   @moduledoc false
 
   alias Mix.Scribe.{Context, Schema}

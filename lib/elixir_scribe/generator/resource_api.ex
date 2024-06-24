@@ -15,12 +15,12 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   alias ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResource
-  alias ElixirScribe.Generator.Domain.Resource.ParseArgs.ParseArgsResource
+  alias ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix
 
   @doc """
   Resource: Parse Args.
   """
-  def parse_args(args) when is_list(args), do: ParseArgsResource.parse(args)
+  def parse_args(args) when is_list(args), do: ParseArgsMix.parse(args)
 
   @doc """
   Resource: Build Context.

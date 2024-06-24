@@ -1,10 +1,10 @@
-defmodule ElixirScribe.Generator.Domain.Resource.ParseArgs.ParseArgsResourceTest do
+defmodule ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMixTest do
   use ExUnit.Case
 
-  # alias ElixirScribe.Generator.Domain.Resource.ParseArgs.ParseArgsResource
+  # alias ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix
 
   @doc false
   test "parse works as expected" do
-    raise "TODO: Implement test for action `parse` at `ElixirScribe.Generator.Domain.Resource.ParseArgs.ParseArgsResource`"
+    raise "TODO: Implement test for action `parse` at `ElixirScribe.Utils.Mix.ParseArgs.ParseArgsMix`"
   end
 end
