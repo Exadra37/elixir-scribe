@@ -24,6 +24,7 @@ defmodule ElixirScribe.MixProject do
       description: @description,
       package: package(),
       docs: docs(),
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -53,6 +54,14 @@ defmodule ElixirScribe.MixProject do
       #   Examples: ~r"test/examples"
       # ],
     ]
+  end
+
+  defp aliases do
+    [docs: ["docs", &copy_images/1]]
+  end
+
+  defp copy_images(_) do
+    File.cp_r!("assets", "doc/assets")
   end
 
   # Run "mix help deps" to learn about dependencies.
