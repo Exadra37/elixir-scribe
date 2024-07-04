@@ -8,7 +8,22 @@ The Elixir Scribe tool enables developers to go from zero to hero in no time, wh
 
 Don't just be a Developer or Engineer, become a Scribe Developer and Engineer 🚀
 
-> **IMPORTANT**: The Elixir Scribe tool is not about implementing Domain Driven Design (DDD), but may share some similarities.
+> [!IMPORTANT]  
+>
+> → The Elixir Scribe tool is not about implementing Domain Driven Design (DDD), but may share some similarities.  
+
+
+> [!TIP]  
+>
+> → Clone the branch `WIP` to be on the bleeding edge of the current work being done.  
+> → Be prepared for buggy code. It may work or not.  
+> → Be ready for breaking changes, which can happen at any moment.  
+
+
+> [!CAUTION]  
+>  
+> → NEVER base your work on the `WIP` branch. Code and features may disappear.  
+> → Push forces can occur at any commit, thus commit history will be broken.  
 
 
 ### TOC
