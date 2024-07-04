@@ -8,6 +8,8 @@ The Elixir Scribe tool enables developers to go from zero to hero in no time, wh
 
 Don't just be a Developer or Engineer, become a Scribe Developer and Engineer 🚀
 
+Curious about the next release? Be no more: [check here](#elixir-scribe-next-release) for details and dates.
+
 > [!IMPORTANT]  
 >
 > → The Elixir Scribe tool is not about implementing Domain Driven Design (DDD), but may share some similarities.  
@@ -25,9 +27,8 @@ Don't just be a Developer or Engineer, become a Scribe Developer and Engineer �
 > → NEVER base your work on the `WIP` branch. Code and features may disappear.  
 > → Push forces can occur at any commit, thus commit history will be broken.  
 
-
 ### TOC
-
+  
 * [Reduced Complexity Equals to Less Technical Debt](#reduced-complexity-equals-to-less-technical-debt)
 * [Clean Software Architecture](#clean-software-architecture)
 * [Clean Code](#clean-code)
@@ -37,6 +38,7 @@ Don't just be a Developer or Engineer, become a Scribe Developer and Engineer �
 * [Documentation](#documentation)
 * [Contributing](#contributing)
 * [Roadmap](#roadmap)
+  + [Next Release](#elixir-scribe-next-release)
   + [Generators](#elixir-scribe-generators)
   + [Marketplace](#elixir-scribe-marketplace)
 
@@ -233,6 +235,15 @@ The Elixir Scribe tool is highly opinionated, therefore I ask you to first [open
 ## Roadmap
 
 The roadmap is extensive and due to the continuous high efforts and commitments to develop and maintain everything I may only provide some of the features to Sponsors and/or as Pro versions that will require a paid license.
+
+### Elixir Scribe Next Release
+
+The next release will be `0.3.0`, and will contain the following new generators:
+
+* `scribe.gen.domain`
+* `scribe.gen.html`
+
+The release data is expected to be around the middle of July 2024.
 
 ### Elixir Scribe Generators
 
