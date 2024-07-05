@@ -62,15 +62,6 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   }
   ```
 
-  Later, some layers deep in the code we can confirm that the Persona still conforms with the type spec defined in the contract:
-
-  ```
-  iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
-  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
-  iex> persona.self.conforms? persona
-  true
-  ```
-
   Alternatively, you can use `new/1` and `update/3` which will return a `{:ok, result}` or `{:error, reason}` tuple.
 
 
@@ -83,19 +74,12 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   {:error, [%{input: :cto, path: [:role], spec: "PersonaValidator.role?()"}]}
   ```
 
-  The same as above, but using `new!/1` which will raise:
+  The same as above, but using `new!/1` that will raise:
 
   ```
-  Persona.new! %{name: "Paulo", email: "exadra37@company.com", role: :cto}
-  ```
-
-  It will raise the following:
-
-  ```
+  iex> Persona.new! %{name: "Paulo", email: "exadra37@company.com", role: :cto}
   ** (Norm.MismatchError) Could not conform input:
   val: :cto in: :role fails: PersonaValidator.role?()
-      (norm 0.13.0) lib/norm.ex:65: Norm.conform!/2
-      iex:6: (file)
   ```
 
   Invoking `update/3` and `update!/3` will output similar results.
@@ -104,6 +88,62 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   > - The Elixir Scribe typed contract acts as a contract for the businesse rules to guarantee data correctness at anypoint it's used in the code base.
   > - Now the developer only needs to test that a Persona complies with this business rules in the test for this contract, because everywhere the Persona contract is used it's guaranteed that the data is in the expected shape.
   > - This translates to fewer bugs, less technical debt creeping in and a more robust code base.
+
+
+  ### Validation
+
+  When using an Elixir Typed Contract through your code base you may want to ensure that the contract still conforms with the type spec, because it may have been directly manipulated, which may break it's guarantees. This is a limitation of the ELixir language, not of the typed contract implementation.
+
+  Let's create a valid Persona typed contract and then check if it still conforms:
+
+  ```
+  iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
+  iex> # Some layers deeper on your code you can ensure it still conforms:
+  iex> persona.self.conforms persona
+  {:ok,
+   %Persona{
+     name: "Paulo",
+     email: "exadra37@company.com",
+     role: nil,
+     self: Persona
+   }}
+  iex> # Or if you prefer you can use the bang function:
+  iex> persona.self.conforms! persona
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
+  ```
+
+  This time let's create again a valid Persona typed contract, manipulated it directly with an invalid value and then check if it still conforms:
+
+  ```
+  iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
+  iex> # Manipulating the struct directly with the invalid value `:dev` for the `:role` field:
+  iex> persona = %{persona | role: :dev}
+  %Persona{
+    name: "Paulo",
+    email: "exadra37@company.com",
+    role: :dev,
+    self: Persona
+  }
+  iex> # The direct manipulation of a struct allows to update it with invalid values for the contract
+  iex> # To mitigate the contract violation we just need to check it still conforms:
+  iex> persona.self.conforms persona
+  {:error, [%{input: :dev, path: [:role], spec: "PersonaValidator.role?()"}]}
+  iex> # If you prefer to let it crash, then use:
+  iex> persona.self.conforms! persona
+  ** (Norm.MismatchError) Could not conform input:
+  val: :dev in: :role fails: PersonaValidator.role?()
+  ```
+
+  You can also use `conform?/1` to only get a boolean back:
+
+  ```
+  iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
+  iex> persona.self.conforms? persona
+  true
+  ```
 
   ### Introspection
 
@@ -182,6 +222,20 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   Returns the typed contract on successful update, otherwise raises an error.
   """
   @callback update!(struct(), atom(), any()) :: struct()
+
+  @doc """
+  Accepts the Elixir Scribe Typed Contract itself to check it still conforms with the specs.
+
+  Returns `{:ok, struct}` on success, otherwise returns `{:error, reason}`.
+  """
+  @callback conforms(struct()) :: {:ok, struct()} | {:error, list(map())}
+
+  @doc """
+  Accepts the Elixir Scribe Typed Contract itself to check it still conforms with the specs.
+
+  Returns the typed contract on success, otherwise raises an error.
+  """
+  @callback conforms!(struct()) :: struct()
 
   @doc """
   Accepts the Elixir Scribe Typed Contract itself to check it still conforms with the specs.
@@ -269,6 +323,16 @@ defmodule ElixirScribe.Behaviour.TypedContract do
         typed_contract
         |> Map.put(key, value)
         |> conform!(type_spec())
+      end
+
+      @impl true
+      def conforms(typed_contract) do
+        typed_contract |> conform(type_spec())
+      end
+
+      @impl true
+      def conforms!(typed_contract) do
+        typed_contract |> conform!(type_spec())
       end
 
       @impl true
