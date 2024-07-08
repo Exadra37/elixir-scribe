@@ -2,18 +2,18 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
   @moduledoc false
 
   alias ElixirScribe.Generator.Domain.ResourceAPI
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
 
   @doc false
-  def generate_tests(%Context{schema: schema} = context) do
+  def generate_tests(%DomainContract{schema: schema} = context) do
     base_template_paths = ElixirScribe.base_template_paths()
     binding = TemplateBuilderAPI.build_binding_template(context)
 
     for {:eex, :resource_test, source_path, target_path, action} <- ResourceAPI.build_test_action_files_paths(context) do
       context = %{context | test_file: target_path}
 
-      unless Context.pre_existing_tests?(context) do
+      unless DomainContract.pre_existing_tests?(context) do
         binding = TemplateBuilderAPI.rebuild_binding_template(binding, action, file_type: :lib_core)
 
         # When the file already exists we are asked if we want to overwrite it.

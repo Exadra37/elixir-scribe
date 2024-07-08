@@ -1,12 +1,12 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource do
   @moduledoc false
 
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
   alias ElixirScribe.Generator.Domain.ResourceAPI
 
   @doc false
-  def generate(%Context{} = context) do
+  def generate(%DomainContract{} = context) do
     base_template_paths = ElixirScribe.base_template_paths()
     binding = TemplateBuilderAPI.build_binding_template(context)
 
@@ -29,7 +29,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   defp ensure_api_file_exists(context, base_template_paths, binding) do
     binding = build_api_binding(context, binding)
 
-    unless Context.pre_existing?(context) do
+    unless DomainContract.pre_existing?(context) do
       {:eex, :api, source_path, target_path} = ResourceAPI.build_api_file_paths(context)
 
       Mix.Generator.create_file(

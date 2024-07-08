@@ -2,9 +2,9 @@ defmodule ElixirScribe.TemplateBuilder.Route.Scope.ScopeActionRoutes do
   @moduledoc false
 
   alias ElixirScribe.TemplateBuilderAPI
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
 
-  def scope(%Context{schema: schema} = context) do
+  def scope(%DomainContract{schema: schema} = context) do
     resource = schema.plural
     controller = inspect(context.web_resource_module)
     scope_alias = String.replace(schema.web_path, "/", "_") <> "_" <> resource
@@ -18,7 +18,7 @@ defmodule ElixirScribe.TemplateBuilder.Route.Scope.ScopeActionRoutes do
     """
   end
 
-  defp build_action_routes(%Context{} = context) do
+  defp build_action_routes(%DomainContract{} = context) do
     default_resource_actions = ElixirScribe.resource_actions()
 
     resource_actions = context.opts |> Keyword.get(:resource_actions)

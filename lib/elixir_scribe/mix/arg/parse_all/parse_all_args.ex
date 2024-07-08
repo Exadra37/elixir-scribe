@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs do
   @moduledoc false
 
-  alias Mix.Scribe.{Context, Schema}
+  alias ElixirScribe.Generator.{DomainContract, SchemaContract}
   alias ElixirScribe.MixAPI
 
   @switches [
@@ -35,12 +35,12 @@ defmodule ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs do
 
   defp validate_args!([context, schema, _plural | _] = args, help) do
     cond do
-      not Context.valid?(context) ->
+      not DomainContract.valid?(context) ->
         help.raise_with_help(
           "Expected the domain, #{inspect(context)}, to be a valid module name"
         )
 
-      not Schema.valid?(schema) ->
+      not SchemaContract.valid?(schema) ->
         help.raise_with_help("Expected the schema, #{inspect(schema)}, to be a valid module name")
 
       context == schema ->

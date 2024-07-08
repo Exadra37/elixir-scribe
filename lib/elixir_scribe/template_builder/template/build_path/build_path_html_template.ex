@@ -1,10 +1,10 @@
 defmodule ElixirScribe.TemplateBuilder.Template.BuildPath.BuildPathHtmlTemplate do
   @moduledoc false
 
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
 
   @doc false
-  def build(%Context{} = context) do
+  def build(%DomainContract{} = context) do
     template = Keyword.get(context.opts, :template, "default")
 
     ElixirScribe.html_template_path()

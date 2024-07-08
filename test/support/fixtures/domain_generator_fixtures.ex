@@ -5,12 +5,11 @@ defmodule ElixirScribe.Generator.DomainFixtures do
   """
 
   alias ElixirScribe.Generator.Domain.ResourceAPI
-  alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
 
   @default_args ["Site.Blog", "Post", "posts", "name:string", "desc:string"]
-  def context_fixture(args \\ @default_args) do
+  def domain_contract_fixture(args \\ @default_args) do
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
-    BuildContextResource.build!(valid_args, opts, __MODULE__)
+    ResourceAPI.build_context!(valid_args, opts)
   end
 end

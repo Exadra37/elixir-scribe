@@ -1,4 +1,4 @@
-Code.require_file("../../../../mix_test_helper.exs", __DIR__)
+Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResourceTest do
 
@@ -19,8 +19,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
       ### GENERATING FILES ###
 
       args = ~w(Blog Post posts slug:unique secret:redact title:string --actions export,import)
-      context = context_fixture(args)
-      ResourceAPI.generate_new_files(context)
+      domain_contract = domain_contract_fixture(args)
+      ResourceAPI.generate_new_files(domain_contract)
 
 
       ### RESOURCE SCHEMA ###

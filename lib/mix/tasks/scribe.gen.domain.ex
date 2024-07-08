@@ -1,4 +1,7 @@
 defmodule Mix.Tasks.Scribe.Gen.Domain do
+  # This module was borrowed from the Phoenix Framework module
+  # Mix.Tasks.Phx.Gen.Context and modified to suite ElixirScribe needs.
+
   @shortdoc "Generates a module per action for a resource within a domain, to wrap an Ecto schema"
 
   @moduledoc """
@@ -159,11 +162,9 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
 
   use Mix.Task
 
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
   alias Mix.Tasks.Phx.Gen
   alias ElixirScribe.Generator.Domain.ResourceAPI
-
-  alias ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs
 
   @doc false
   def run(args) do
@@ -176,13 +177,13 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
     valid_args
-    |> ResourceAPI.build_context!(opts, ParseAllArgs)
+    |> ResourceAPI.build_context!(opts)
     |> ResourceAPI.generate_new_files()
     |> print_shell_instructions()
   end
 
   @doc false
-  def print_shell_instructions(%Context{schema: schema}) do
+  def print_shell_instructions(%DomainContract{schema: schema}) do
     if schema.generate? do
       attrs = Map.from_struct(schema)
       schema = struct(Mix.Phoenix.Schema, attrs)

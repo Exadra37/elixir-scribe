@@ -1,7 +1,10 @@
-defmodule Mix.Scribe.Context do
+defmodule ElixirScribe.Generator.DomainContract do
   @moduledoc false
 
-  alias Mix.Scribe.{Context, Schema}
+  # This module was borrowed from the Phoenix Framework module
+  # Mix.Phoenix.Context and modified to suite ElixirScribe needs.
+
+  alias ElixirScribe.Generator.{DomainContract, SchemaContract}
   alias ElixirScribe.Utils.StringAPI
 
   @optional [
@@ -85,13 +88,24 @@ defmodule Mix.Scribe.Context do
     context =~ ~r/^[A-Z]\w*(\.[A-Z]\w*)*$/
   end
 
-  def new!(context_name, opts) do
-    new!(context_name, %Schema{}, opts)
+  def new!(args, opts) when is_list(args) and is_list(opts) do
+    [context_name, schema_name, plural | schema_args] = args
+
+    opts = Keyword.put(opts, :web, context_name)
+
+    schema_module = context_name |> Module.concat(schema_name)  |> inspect()
+
+    schema = SchemaContract.new!(schema_module, plural, schema_args, opts)
+
+    new!(context_name, schema, opts)
   end
 
-  def new!(context_name, schema, opts) do
-    schema = schema |> Map.from_struct() |> Schema.new!()
+  # def new!(context_name, schema, opts) when is_map(schema) and not is_struct(schema) and is_list(opts) do
+  #   schema = schema |> Map.from_struct() |> SchemaContract.new!()
+  #   new!(context_name, schema, opts)
+  # end
 
+  def new!(context_name, %SchemaContract{} = schema, opts) do
     resource_name_singular = schema.singular
     resource_name_plural = schema.plural
     resource_name_plural_capitalized = resource_name_plural |> StringAPI.capitalize()
@@ -134,7 +148,7 @@ defmodule Mix.Scribe.Context do
     generate? = Keyword.get(opts, :context, true)
     api_file  = lib_resource_dir <> "_api.ex"
 
-    %Context{
+    %DomainContract{
       name: context_name,
       module: module,
       resource_module: resource_module,
@@ -172,13 +186,13 @@ defmodule Mix.Scribe.Context do
     |> conforms!()
   end
 
-  def pre_existing?(%Context{api_file: file}), do: File.exists?(file)
+  def pre_existing?(%DomainContract{api_file: file}), do: File.exists?(file)
 
-  def pre_existing_tests?(%Context{test_file: file}), do: File.exists?(file)
+  def pre_existing_tests?(%DomainContract{test_file: file}), do: File.exists?(file)
 
-  def pre_existing_test_fixtures?(%Context{test_fixtures_file: file}), do: File.exists?(file)
+  def pre_existing_test_fixtures?(%DomainContract{test_fixtures_file: file}), do: File.exists?(file)
 
-  def function_count(%Context{api_file: file}) do
+  def function_count(%DomainContract{api_file: file}) do
     {_ast, count} =
       file
       |> File.read!()
@@ -192,7 +206,7 @@ defmodule Mix.Scribe.Context do
     count
   end
 
-  def file_count(%Context{lib_domain_dir: dir}) do
+  def file_count(%DomainContract{lib_domain_dir: dir}) do
     dir
     |> Path.join("**/*.ex")
     |> Path.wildcard()

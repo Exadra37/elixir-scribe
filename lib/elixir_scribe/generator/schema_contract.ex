@@ -1,7 +1,10 @@
-defmodule Mix.Scribe.Schema do
+defmodule ElixirScribe.Generator.SchemaContract do
   @moduledoc false
 
-  alias Mix.Scribe.Schema
+  # This module was borrowed from the Phoenix Framework module
+  # Mix.Phoenix.Schema and modified to suite ElixirScribe needs.
+
+  alias ElixirScribe.Generator.SchemaContract
 
   @optional [
     module: nil,
@@ -166,7 +169,7 @@ defmodule Mix.Scribe.Schema do
 
     fixture_unique_functions = fixture_unique_functions(singular, uniques, attrs)
 
-    %Schema{
+    %SchemaContract{
       opts: opts,
       migration?: Keyword.get(opts, :migration, true),
       module: module,
@@ -217,7 +220,7 @@ defmodule Mix.Scribe.Schema do
   @doc """
   Returns the string value of the default schema param.
   """
-  def default_param(%Schema{} = schema, action) do
+  def default_param(%SchemaContract{} = schema, action) do
     schema.params
     |> Map.fetch!(action)
     |> Map.fetch!(schema.params.default_key)

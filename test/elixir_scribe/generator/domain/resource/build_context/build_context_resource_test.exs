@@ -1,24 +1,24 @@
 defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResourceTest do
-  use ElixirScribe.BaseCase
+  use ElixirScribe.BaseCase, async: true
 
   alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Generator.Domain.ResourceAPI
 
 
-  test "builds Mix.Scribe.Context" do
+  test "builds ElixirScribe.Generator.DomainContract" do
     args = ["Blog", "Post", "posts"]
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
-    context = BuildContextResource.build!(valid_args, opts, __MODULE__)
+    context = BuildContextResource.build!(valid_args, opts)
 
-    assert %Context{
+    assert %DomainContract{
              alias: Blog,
              base_module: ElixirScribe,
              basename: "blog",
              module: ElixirScribe.Blog,
              web_module: ElixirScribeWeb,
-             schema: %Mix.Scribe.Schema{
+             schema: %ElixirScribe.Generator.SchemaContract{
                alias: Post,
                human_plural: "Posts",
                human_singular: "Post",
@@ -40,13 +40,13 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResour
     assert String.ends_with?(context.schema.file, "lib/elixir_scribe/domain/blog/post/post_schema.ex")
   end
 
-  test "builds nested Mix.Scribe.Context" do
+  test "builds nested ElixirScribe.Generator.DomainContract" do
     args = ["Site.Blog", "Post", "posts", "name:string", "desc:string"]
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
-    context = BuildContextResource.build!(valid_args, opts, __MODULE__)
+    context = BuildContextResource.build!(valid_args, opts)
 
-    assert %Context{
+    assert %DomainContract{
              alias: Blog,
              base_module: ElixirScribe,
              basename: "blog",
@@ -55,7 +55,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResour
              web_module: ElixirScribeWeb,
              web_domain_module: ElixirScribeWeb.Site.Blog,
              web_resource_module: ElixirScribeWeb.Site.Blog.Post,
-             schema: %Mix.Scribe.Schema{
+             schema: %ElixirScribe.Generator.SchemaContract{
                alias: Post,
                human_plural: "Posts",
                human_singular: "Post",

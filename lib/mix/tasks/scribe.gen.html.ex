@@ -1,4 +1,7 @@
 defmodule Mix.Tasks.Scribe.Gen.Html do
+  # This module was borrowed from the Phoenix Framework module
+  # Mix.Tasks.Phx.Gen.Html and modified to suite ElixirScribe needs.
+
   @shortdoc "Generates the domain and controller for an HTML resource"
 
   @moduledoc """
@@ -177,11 +180,10 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   """
   use Mix.Task
 
-  alias Mix.Scribe.{Context, Schema}
+  alias ElixirScribe.Generator.{DomainContract, SchemaContract}
   alias Mix.Tasks.Scribe.Gen
   alias ElixirScribe.Generator.Domain.ResourceAPI
   alias ElixirScribe.TemplateBuilderAPI
-  alias ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs
 
   @doc false
   def run(args) do
@@ -194,13 +196,13 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
     valid_args
-    |> ResourceAPI.build_context!(opts, ParseAllArgs)
+    |> ResourceAPI.build_context!(opts)
     |> generate_new_files()
     |> inject_routes()
     |> print_shell_instructions()
   end
 
-  defp generate_new_files(%Context{} = context) do
+  defp generate_new_files(%DomainContract{} = context) do
     paths = ElixirScribe.base_template_paths()
     files = files_to_be_generated(context)
 
@@ -227,7 +229,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   end
 
   @doc false
-  def files_to_be_generated(%Context{schema: _schema, context_app: _context_app} = context) do
+  def files_to_be_generated(%DomainContract{schema: _schema, context_app: _context_app} = context) do
     build_files_without_action(context)
     |> build_controller_action_files(context)
     |> build_controller_test_action_files(context)
@@ -318,7 +320,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   end
 
   @doc false
-  def inject_routes(%Context{context_app: ctx_app} = context) do
+  def inject_routes(%DomainContract{context_app: ctx_app} = context) do
     router_file_path = Mix.Phoenix.web_path(ctx_app) |> Path.join("router.ex")
     router_scope = TemplateBuilderAPI.scope_routes(context)
 
@@ -328,7 +330,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   end
 
   @doc false
-  def print_shell_instructions(%Context{schema: schema, context_app: ctx_app} = context) do
+  def print_shell_instructions(%DomainContract{schema: schema, context_app: ctx_app} = context) do
     router_file_path = Mix.Phoenix.web_path(ctx_app) |> Path.join("router.ex")
     router_scope = TemplateBuilderAPI.scope_routes(context)
 
@@ -342,7 +344,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   end
 
   @doc false
-  def inputs(%Schema{} = schema) do
+  def inputs(%SchemaContract{} = schema) do
     schema.attrs
     |> Enum.reject(fn {_key, type} -> type == :map end)
     |> Enum.map(fn

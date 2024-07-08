@@ -48,8 +48,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.FilesToGenerate.FilesToGenerate
        "test/support/fixtures/domain/site/blog/post_fixtures.ex"}
     ]
 
-    context = context_fixture()
+    domain_contract = domain_contract_fixture()
 
-    assert ResourceAPI.build_files_to_generate(context) === expected_files
+    assert ResourceAPI.build_files_to_generate(domain_contract) === expected_files
   end
 end

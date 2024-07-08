@@ -1,14 +1,14 @@
 defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource do
   @moduledoc false
 
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
 
   @doc false
-  def build(%Context{generate?: false}), do: []
-  def build(%Context{generate?: true} = context), do: build_files(context)
+  def build(%DomainContract{generate?: false}), do: []
+  def build(%DomainContract{generate?: true} = context), do: build_files(context)
 
-  defp build_files(%Context{} = context) do
+  defp build_files(%DomainContract{} = context) do
     resource_actions = context.opts |> Keyword.get(:resource_actions)
 
     for action <- resource_actions do

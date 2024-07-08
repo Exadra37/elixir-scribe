@@ -3,10 +3,10 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
 
   alias ElixirScribe.TemplateBuilderAPI
   alias ElixirScribe.Generator.Domain.ResourceAPI
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
 
   @doc false
-  def generate(%Context{} = context) do
+  def generate(%DomainContract{} = context) do
     base_template_paths = ElixirScribe.base_template_paths()
 
     binding = TemplateBuilderAPI.build_binding_template(context)

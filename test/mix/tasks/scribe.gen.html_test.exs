@@ -1,22 +1,13 @@
 defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
-  use ExUnit.Case
+  use ElixirScribe.BaseCase, async: true
 
   require Assertions
 
   alias Mix.Tasks.Scribe.Gen.Html
-  alias ElixirScribe.Generator.Domain.ResourceAPI
-  alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
-
-  @default_args ["Site.Blog", "Post", "posts", "name:string", "desc:string"]
-  defp fixture(:context, args \\ @default_args) do
-    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
-
-    BuildContextResource.build!(valid_args, opts, __MODULE__)
-  end
 
   describe "files_to_be_generated/1" do
     test "returns files for core, web and related tests" do
-      context = fixture(:context)
+      domain_contract = domain_contract_fixture()
 
       expected_files = [
         {:eex, :html, "priv/templates/scribe.gen.html/html/default/list.html.heex",
@@ -77,7 +68,7 @@ defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
          "lib/elixir_scribe_web/domain/site/blog/post/post_html.ex", ""}
       ]
 
-      files = Html.files_to_be_generated(context)
+      files = Html.files_to_be_generated(domain_contract)
 
       assert length(files) === length(expected_files)
       Assertions.assert_lists_equal(expected_files, files)

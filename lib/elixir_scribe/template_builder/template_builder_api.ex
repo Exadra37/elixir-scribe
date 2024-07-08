@@ -1,7 +1,7 @@
 defmodule ElixirScribe.TemplateBuilderAPI do
   @moduledoc false
 
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.TemplateBuilder.Template.Conflicts.MixPromptFileConflicts
   alias ElixirScribe.TemplateBuilder.Template.Copy.CopyFile
   alias ElixirScribe.TemplateBuilder.Template.Inject.InjectContentBeforeFinalEnd
@@ -37,18 +37,18 @@ defmodule ElixirScribe.TemplateBuilderAPI do
   def inject_eex_before_final_end(content_to_inject, file_path, binding),
     do: InjectEexBeforeFinalEnd.inject(content_to_inject, file_path, binding)
 
-  def scope_routes(%Context{} = context), do: ScopeActionRoutes.scope(context)
+  def scope_routes(%DomainContract{} = context), do: ScopeActionRoutes.scope(context)
 
-  def build_absolute_module_name(%Context{} = context, opts) when is_list(opts),
+  def build_absolute_module_name(%DomainContract{} = context, opts) when is_list(opts),
     do: BuildAbsoluteModuleName.build(context, opts)
 
-  def build_module_action_name(%Context{} = context, action, opts) when is_list(opts),
+  def build_module_action_name(%DomainContract{} = context, action, opts) when is_list(opts),
     do: BuildModuleActionName.build(context, action, opts)
 
-  def build_absolute_module_action_name(%Context{} = context, action, opts) when is_list(opts),
+  def build_absolute_module_action_name(%DomainContract{} = context, action, opts) when is_list(opts),
     do: BuildAbsoluteModuleActionName.build(context, action, opts)
 
-  def build_absolute_module_action_name_aliases(%Context{} = context, opts) when is_list(opts),
+  def build_absolute_module_action_name_aliases(%DomainContract{} = context, opts) when is_list(opts),
     do: BuildAbsoluteModuleActionNameAliases.build(context, opts)
 
   def build_embeded_templates(), do: BuildModuleEmbedTemplates.build()
@@ -56,9 +56,9 @@ defmodule ElixirScribe.TemplateBuilderAPI do
   def build_template_action_filename(action, action_suffix, file_type, file_extension),
     do: BuildFilenameActionTemplate.build(action, action_suffix, file_type, file_extension)
 
-  def build_path_html_template(%Context{} = context), do: BuildPathHtmlTemplate.build(context)
+  def build_path_html_template(%DomainContract{} = context), do: BuildPathHtmlTemplate.build(context)
 
-  def build_binding_template(%Context{} = context), do: BuildBindingTemplate.build(context)
+  def build_binding_template(%DomainContract{} = context), do: BuildBindingTemplate.build(context)
 
   def rebuild_binding_template(binding, action, opts), do: RebuildBindingTemplate.rebuild(binding, action, opts)
 end

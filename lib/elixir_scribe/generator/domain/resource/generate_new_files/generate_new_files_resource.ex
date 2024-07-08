@@ -1,16 +1,16 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResource do
   @moduledoc false
 
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Generator.Domain.ResourceAPI
 
   alias ElixirScribe.TemplateBuilderAPI
 
   @doc false
-  def generate(%Context{generate?: false} = context), do: context
-  def generate(%Context{generate?: true} = context), do: generate_new_files(context)
+  def generate(%DomainContract{generate?: false} = context), do: context
+  def generate(%DomainContract{generate?: true} = context), do: generate_new_files(context)
 
-  defp generate_new_files(%Context{} = context, opts \\ []) when is_list(opts) do
+  defp generate_new_files(%DomainContract{} = context, opts \\ []) when is_list(opts) do
     prompt_for_conflicts? = Keyword.get(opts, :prompt_for_conflicts?, true)
 
     unless prompt_for_conflicts? do

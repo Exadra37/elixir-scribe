@@ -1,11 +1,11 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResource do
   @moduledoc false
 
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
 
-  def generate(%Context{generate?: false} = context), do: context
-  def generate(%Context{generate?: true} = context), do: generate_file(context)
+  def generate(%DomainContract{generate?: false} = context), do: context
+  def generate(%DomainContract{generate?: true} = context), do: generate_file(context)
 
   @doc false
   def generate_file(context) do
@@ -20,11 +20,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
 
   @doc false
   def ensure_test_fixtures_file_exists(
-        %Context{test_fixtures_file: test_fixtures_file} = context,
+        %DomainContract{test_fixtures_file: test_fixtures_file} = context,
         base_template_paths,
         binding
       ) do
-    unless Context.pre_existing_test_fixtures?(context) do
+    unless DomainContract.pre_existing_test_fixtures?(context) do
       fixtures_module_template_path =
         ElixirScribe.domain_tests_template_path() |> Path.join("fixtures_module.ex")
 
@@ -36,7 +36,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
   end
 
   defp inject_test_fixture(
-         %Context{test_fixtures_file: test_fixtures_file} = context,
+         %DomainContract{test_fixtures_file: test_fixtures_file} = context,
          base_template_paths,
          binding
        ) do
@@ -53,7 +53,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
     maybe_print_unimplemented_fixture_functions(context)
   end
 
-  defp maybe_print_unimplemented_fixture_functions(%Context{} = context) do
+  defp maybe_print_unimplemented_fixture_functions(%DomainContract{} = context) do
     fixture_functions_needing_implementations =
       Enum.flat_map(
         context.schema.fixture_unique_functions,

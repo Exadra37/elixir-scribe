@@ -1,11 +1,11 @@
 defmodule ElixirScribe.TemplateBuilder.Template.BuildBinding.BuildBindingTemplate do
   @moduledoc false
 
-  alias Mix.Scribe.Context
+  alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Utils.StringAPI
 
   @doc false
-  def build(%Context{} = context) do
+  def build(%DomainContract{} = context) do
     resource_actions = ElixirScribe.resource_actions()
 
     [context: context, schema: context.schema]

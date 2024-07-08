@@ -1,17 +1,7 @@
 defmodule ElixirScribeTest do
-  use ExUnit.Case, async: true
+  use ElixirScribe.BaseCase, async: true
 
   doctest ElixirScribe
-
-  alias ElixirScribe.Generator.Domain.ResourceAPI
-  alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
-
-  @default_args ["Site.Blog", "Post", "posts", "name:string", "desc:string"]
-  defp fixture(:context, args \\ @default_args) do
-    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
-
-    BuildContextResource.build!(valid_args, opts, __MODULE__)
-  end
 
   describe "base_template_paths/0" do
     test "returns a list of base paths in the expected order" do
@@ -132,14 +122,14 @@ defmodule ElixirScribeTest do
 
   describe "schema_template_folder_name/1" do
     test "returns `schema_access` as the folder template name when schema.generate? is true" do
-      context = fixture(:context)
+      domain_contract = domain_contract_fixture()
 
-      assert ElixirScribe.schema_template_folder_name(context.schema) === "schema_access"
+      assert ElixirScribe.schema_template_folder_name(domain_contract.schema) === "schema_access"
     end
 
     test "returns `no_schema_access` as the folder template name when schema.generate? is false" do
-      context = fixture(:context)
-      schema = Map.put(context.schema, :generate?, false)
+      domain_contract = domain_contract_fixture()
+      schema = Map.put(domain_contract.schema, :generate?, false)
 
       assert ElixirScribe.schema_template_folder_name(schema) === "no_schema_access"
     end

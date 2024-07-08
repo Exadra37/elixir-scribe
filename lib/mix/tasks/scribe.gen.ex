@@ -1,4 +1,7 @@
 defmodule Mix.Tasks.Scribe.Gen do
+  # This module was borrowed from the Phoenix Framework module
+  # Mix.Tasks.Phx.Gen and modified to suite ElixirScribe needs.
+
   use Mix.Task
 
   @shortdoc "Lists all available Scribe generators"
