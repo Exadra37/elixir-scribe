@@ -2,7 +2,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   @moduledoc false
 
   alias ElixirScribe.Generator.Domain.DomainContract
-  alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
+  alias ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResourceContract
   alias ElixirScribe.Generator.Domain.Resource.BuildFilesToGenerate.BuildFilesToGenerateResource
   alias ElixirScribe.Generator.Domain.Resource.BuildAPIFilePaths.BuildAPIFilePathsResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActionsResource
@@ -22,8 +22,8 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   @doc """
   Resource: Build DomainContract.
   """
-  def build_context!(args, opts) when is_list(args) and is_list(opts),
-    do: BuildContextResource.build!(args, opts)
+  def build_domain_resource_contract!(args, opts) when is_list(args) and is_list(opts),
+    do: BuildDomainResourceContract.build!(args, opts)
 
   @doc """
   Resource: Files To Generate.

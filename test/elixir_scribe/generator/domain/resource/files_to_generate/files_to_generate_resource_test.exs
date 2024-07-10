@@ -1,5 +1,5 @@
 defmodule ElixirScribe.Generator.Domain.Resource.FilesToGenerate.FilesToGenerateResourceTest do
-  use ElixirScribe.BaseCase
+  use ElixirScribe.BaseCase, async: true
 
   alias ElixirScribe.Generator.Domain.ResourceAPI
 

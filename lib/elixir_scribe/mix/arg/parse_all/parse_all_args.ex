@@ -14,7 +14,8 @@ defmodule ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs do
     context_app: :string,
     merge_with_existing_context: :boolean,
     prefix: :string,
-    live: :boolean
+    live: :boolean,
+    actions: :string
   ]
 
   def parse(args) when is_list(args) do

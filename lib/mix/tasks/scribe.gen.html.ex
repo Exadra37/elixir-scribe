@@ -197,7 +197,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
     valid_args
-    |> ResourceAPI.build_context!(opts)
+    |> ResourceAPI.build_domain_resource_contract!(opts)
     |> generate_new_files()
     |> inject_routes()
     |> print_shell_instructions()

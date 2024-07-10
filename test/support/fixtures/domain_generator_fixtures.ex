@@ -10,6 +10,6 @@ defmodule ElixirScribe.Generator.DomainFixtures do
   def domain_contract_fixture(args \\ @default_args) do
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
-    ResourceAPI.build_context!(valid_args, opts)
+    ResourceAPI.build_domain_resource_contract!(valid_args, opts)
   end
 end

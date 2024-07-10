@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource do
+defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResourceContract do
   @moduledoc false
 
   alias ElixirScribe.Generator.Domain.DomainContract

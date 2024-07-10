@@ -18,7 +18,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
 
       ### GENERATING FILES ###
 
-      args = ~w(Blog Post posts slug:unique secret:redact title:string --actions export,import)
+      args = ["Blog", "Post", "posts", "slug:unique", "secret:redact", "title:string", "--actions", "export,import"]
       domain_contract = domain_contract_fixture(args)
       ResourceAPI.generate_new_files(domain_contract)
 

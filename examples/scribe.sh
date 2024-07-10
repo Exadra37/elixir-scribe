@@ -32,10 +32,9 @@ Shop_App() {
 
   # Sales Catalog
   mix scribe.gen.html Sales.Catalog Category categories name:string desc:string
-  exit 0
+exit 0
   mix scribe.gen.html Sales.Catalog Product products sku:string name:string desc:string price:integer vat:integer
-  mix scribe.gen.html Sales.Catalog Cart carts total_amount:integer total_quantity:integer products_skus:array:string
-
+  mix scribe.gen.html Sales.Catalog Cart carts total_amount:integer total_quantity:integer products_skus:array:string --actions report
 
   # Sales Checkout
   mix scribe.gen.domain Sales.Checkout CheckoutProduct checkout_products sku:string name:string desc:string --no-default-actions --actions build
