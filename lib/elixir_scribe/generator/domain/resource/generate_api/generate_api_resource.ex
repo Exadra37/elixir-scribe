@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource do
   @moduledoc false
 
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
   alias ElixirScribe.Generator.Domain.ResourceAPI
 

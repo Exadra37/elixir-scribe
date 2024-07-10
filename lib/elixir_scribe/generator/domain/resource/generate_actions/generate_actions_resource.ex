@@ -3,7 +3,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
 
   alias ElixirScribe.TemplateBuilderAPI
   alias ElixirScribe.Generator.Domain.ResourceAPI
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
 
   @doc false
   def generate(%DomainContract{} = context) do

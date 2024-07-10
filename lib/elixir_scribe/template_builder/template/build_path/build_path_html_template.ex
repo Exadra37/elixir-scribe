@@ -1,7 +1,7 @@
 defmodule ElixirScribe.TemplateBuilder.Template.BuildPath.BuildPathHtmlTemplate do
   @moduledoc false
 
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
 
   @doc false
   def build(%DomainContract{} = context) do

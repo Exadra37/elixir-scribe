@@ -1,7 +1,7 @@
 defmodule ElixirScribe.TemplateBuilderAPI do
   @moduledoc false
 
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.TemplateBuilder.Template.Conflicts.MixPromptFileConflicts
   alias ElixirScribe.TemplateBuilder.Template.Copy.CopyFile
   alias ElixirScribe.TemplateBuilder.Template.Inject.InjectContentBeforeFinalEnd

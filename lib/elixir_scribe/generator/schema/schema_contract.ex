@@ -1,10 +1,10 @@
-defmodule ElixirScribe.Generator.SchemaContract do
+defmodule ElixirScribe.Generator.Schema.SchemaContract do
   @moduledoc false
 
   # This module was borrowed from the Phoenix Framework module
   # Mix.Phoenix.Schema and modified to suite ElixirScribe needs.
 
-  alias ElixirScribe.Generator.SchemaContract
+  alias ElixirScribe.Generator.Schema.SchemaContract
 
   @optional [
     module: nil,

@@ -2,7 +2,7 @@ defmodule ElixirScribe.TemplateBuilder.Module.BuildName.BuildAbsoluteModuleActio
   @moduledoc false
 
   alias ElixirScribe.TemplateBuilderAPI
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.Utils.StringAPI
 
   def build(%DomainContract{} = _context, _action, [file_type: :html]), do: nil

@@ -2,7 +2,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
   @moduledoc false
 
   alias ElixirScribe.Generator.Domain.ResourceAPI
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
 
   @doc false

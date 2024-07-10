@@ -1,7 +1,7 @@
 defmodule ElixirScribe.TemplateBuilder.Template.BuildBinding.BuildBindingTemplate do
   @moduledoc false
 
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.Utils.StringAPI
 
   @doc false

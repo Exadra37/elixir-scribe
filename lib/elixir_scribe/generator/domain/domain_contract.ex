@@ -1,10 +1,11 @@
-defmodule ElixirScribe.Generator.DomainContract do
+defmodule ElixirScribe.Generator.Domain.DomainContract do
   @moduledoc false
 
   # This module was borrowed from the Phoenix Framework module
   # Mix.Phoenix.Context and modified to suite ElixirScribe needs.
 
-  alias ElixirScribe.Generator.{DomainContract, SchemaContract}
+  alias ElixirScribe.Generator.Domain.DomainContract
+  alias ElixirScribe.Generator.Schema.SchemaContract
   alias ElixirScribe.Utils.StringAPI
 
   @optional [

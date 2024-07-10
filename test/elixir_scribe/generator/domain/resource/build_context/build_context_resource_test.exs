@@ -2,11 +2,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResour
   use ElixirScribe.BaseCase, async: true
 
   alias ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResource
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.Generator.Domain.ResourceAPI
 
 
-  test "builds ElixirScribe.Generator.DomainContract" do
+  test "builds ElixirScribe.Generator.Domain.DomainContract" do
     args = ["Blog", "Post", "posts"]
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
@@ -18,7 +18,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResour
              basename: "blog",
              module: ElixirScribe.Blog,
              web_module: ElixirScribeWeb,
-             schema: %ElixirScribe.Generator.SchemaContract{
+             schema: %ElixirScribe.Generator.Schema.SchemaContract{
                alias: Post,
                human_plural: "Posts",
                human_singular: "Post",
@@ -40,7 +40,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResour
     assert String.ends_with?(context.schema.file, "lib/elixir_scribe/domain/blog/post/post_schema.ex")
   end
 
-  test "builds nested ElixirScribe.Generator.DomainContract" do
+  test "builds nested ElixirScribe.Generator.Domain.DomainContract" do
     args = ["Site.Blog", "Post", "posts", "name:string", "desc:string"]
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
@@ -55,7 +55,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContext.BuildContextResour
              web_module: ElixirScribeWeb,
              web_domain_module: ElixirScribeWeb.Site.Blog,
              web_resource_module: ElixirScribeWeb.Site.Blog.Post,
-             schema: %ElixirScribe.Generator.SchemaContract{
+             schema: %ElixirScribe.Generator.Schema.SchemaContract{
                alias: Post,
                human_plural: "Posts",
                human_singular: "Post",

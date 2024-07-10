@@ -2,7 +2,7 @@ defmodule ElixirScribe.TemplateBuilder.Route.Scope.ScopeActionRoutes do
   @moduledoc false
 
   alias ElixirScribe.TemplateBuilderAPI
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
 
   def scope(%DomainContract{schema: schema} = context) do
     resource = schema.plural

@@ -180,7 +180,8 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   """
   use Mix.Task
 
-  alias ElixirScribe.Generator.{DomainContract, SchemaContract}
+  alias ElixirScribe.Generator.Domain.DomainContract
+  alias ElixirScribe.Generator.Schema.SchemaContract
   alias Mix.Tasks.Scribe.Gen
   alias ElixirScribe.Generator.Domain.ResourceAPI
   alias ElixirScribe.TemplateBuilderAPI

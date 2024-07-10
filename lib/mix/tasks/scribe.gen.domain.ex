@@ -162,7 +162,7 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
 
   use Mix.Task
 
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
   alias Mix.Tasks.Phx.Gen
   alias ElixirScribe.Generator.Domain.ResourceAPI
 

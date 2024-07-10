@@ -1,7 +1,7 @@
 defmodule ElixirScribe.TemplateBuilder.Module.BuildName.BuildAbsoluteModuleName do
   @moduledoc false
 
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
 
   def build(%DomainContract{} = _context, [file_type: :html]), do: nil
   def build(%DomainContract{} = context, opts) when is_list(opts), do: module_name(context, opts)

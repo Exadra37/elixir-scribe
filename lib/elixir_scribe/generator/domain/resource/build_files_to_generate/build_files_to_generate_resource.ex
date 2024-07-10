@@ -2,7 +2,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildFilesToGenerate.BuildFiles
   @moduledoc false
 
   alias ElixirScribe.Generator.Domain.ResourceAPI
-  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.Domain.DomainContract
 
   @doc false
   def build(%DomainContract{generate?: false}), do: []

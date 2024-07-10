@@ -1,7 +1,8 @@
 defmodule ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs do
   @moduledoc false
 
-  alias ElixirScribe.Generator.{DomainContract, SchemaContract}
+  alias ElixirScribe.Generator.Domain.DomainContract
+  alias ElixirScribe.Generator.Schema.SchemaContract
   alias ElixirScribe.MixAPI
 
   @switches [

@@ -16,7 +16,7 @@ defmodule <%= absolute_module_action_name %>ControllerTest do
     assert redirected_to(conn) == ~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}"
 
     conn = get(conn, ~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}")<%= if schema.string_attr do %>
-    assert html_response(conn, 200) =~ <%= inspect ElixirScribe.Generator.SchemaContract.default_param(schema, :update) %><% else %>
+    assert html_response(conn, 200) =~ <%= inspect ElixirScribe.Generator.Schema.SchemaContract.default_param(schema, :update) %><% else %>
     assert html_response(conn, 200)<% end %>
   end
 
