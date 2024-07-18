@@ -19,6 +19,18 @@ Maybe_Create_App() {
   fi
 }
 
+Scribe_Domain_Criteria_1() {
+  mix scribe.gen.domain Sales.Catalog Category categories name:string desc:string
+}
+
+Scribe_Domain_Criteria_2() {
+  mix scribe.gen.domain Sales.Catalog Product products sku:string name:string desc:string --actions import,export
+}
+
+Scribe_Domain_Criteria_3() {
+  mix scribe.gen.domain Warehouse.Fulfillment FulfillmentOrder fulfillment_orders uuid:string label:string total_quantity:integer location:string products_sku:array:string --no-default-actions --actions list
+}
+
 Todo_App() {
   Maybe_Create_App
 
@@ -149,6 +161,32 @@ Main() {
 
       shop )
         Shop_App
+        exit $?
+        ;;
+
+      scribe-domain-criteria-1 )
+        Maybe_Create_App
+        Scribe_Domain_Criteria_1
+        exit $?
+        ;;
+
+      scribe-domain-criteria-2 )
+        Maybe_Create_App
+        Scribe_Domain_Criteria_2
+        exit $?
+        ;;
+
+      scribe-domain-criteria-3 )
+        Maybe_Create_App
+        Scribe_Domain_Criteria_3
+        exit $?
+        ;;
+
+      scribe-domain-criterias )
+        Maybe_Create_App
+        Scribe_Domain_Criteria_1
+        Scribe_Domain_Criteria_2
+        Scribe_Domain_Criteria_3
         exit $?
         ;;
     esac
