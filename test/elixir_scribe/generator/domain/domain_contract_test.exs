@@ -111,7 +111,8 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
 
     assert domain_contract = %DomainContract{} = DomainContract.new!(valid_args, opts)
 
-    assert expected_domain_contract === domain_contract
+    expected_fields = Map.keys(expected_domain_contract)
+    assert_structs_equal(expected_domain_contract, domain_contract, expected_fields)
   end
 
   test "new!/1 Creates a one level nested Domain Contract" do
@@ -221,7 +222,8 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
 
     assert domain_contract = %DomainContract{} = DomainContract.new!(valid_args, opts)
 
-    assert expected_domain_contract === domain_contract
+    expected_fields = Map.keys(expected_domain_contract)
+    assert_structs_equal(expected_domain_contract, domain_contract, expected_fields)
   end
 
   test "new!/1 Creates a two level nested Domain Contract" do
@@ -331,6 +333,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
 
     assert domain_contract = %DomainContract{} = DomainContract.new!(valid_args, opts)
 
-    assert expected_domain_contract === domain_contract
+    expected_fields = Map.keys(expected_domain_contract)
+    assert_structs_equal(expected_domain_contract, domain_contract, expected_fields)
   end
 end

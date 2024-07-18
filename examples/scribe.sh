@@ -28,7 +28,19 @@ Scribe_Domain_Criteria_2() {
 }
 
 Scribe_Domain_Criteria_3() {
-  mix scribe.gen.domain Warehouse.Fulfillment FulfillmentOrder fulfillment_orders uuid:string label:string total_quantity:integer location:string products_sku:array:string --no-default-actions --actions list
+  mix scribe.gen.html Warehouse.Fulfillment FulfillmentOrder fulfillment_orders uuid:string label:string total_quantity:integer location:string products_sku:array:string --no-default-actions --actions list
+}
+
+Scribe_Html_Criteria_1() {
+  mix scribe.gen.html Sales.Catalog Category categories name:string desc:string
+}
+
+Scribe_Html_Criteria_2() {
+  mix scribe.gen.html Sales.Catalog Product products sku:string name:string desc:string --actions import,export
+}
+
+Scribe_Html_Criteria_3() {
+  mix scribe.gen.html Warehouse.Fulfillment FulfillmentOrder fulfillment_orders uuid:string label:string total_quantity:integer location:string products_sku:array:string --no-default-actions --actions list
 }
 
 Todo_App() {
@@ -44,7 +56,7 @@ Shop_App() {
 
   # Sales Catalog
   mix scribe.gen.html Sales.Catalog Category categories name:string desc:string
-exit 0
+  exit 0
   mix scribe.gen.html Sales.Catalog Product products sku:string name:string desc:string price:integer vat:integer
   mix scribe.gen.html Sales.Catalog Cart carts total_amount:integer total_quantity:integer products_skus:array:string --actions report
 
@@ -117,7 +129,7 @@ Blog_Site() {
   # mix scribe.gen.html Blog.Page About about --no-schema --no-default-actions --actions render
   # mix scribe.gen.html Blog.Page Portfolio portfolio --no-schema --no-default-actions --actions render
 
-# BLOG ADMIN PAGES
+  # BLOG ADMIN PAGES
   mix scribe.gen.html Blog.Admin Home home --no-schema --no-default-actions --actions render
   # mix scribe.gen.html Blog.Admin.Page PostsLists posts_lists --no-schema --no-default-actions --actions list
   # mix scribe.gen.html Blog.Admin.Page Post posts --no-schema --no-default-actions --actions render
@@ -187,6 +199,32 @@ Main() {
         Scribe_Domain_Criteria_1
         Scribe_Domain_Criteria_2
         Scribe_Domain_Criteria_3
+        exit $?
+        ;;
+
+      scribe-html-criteria-1 )
+        Maybe_Create_App
+        Scribe_Html_Criteria_1
+        exit $?
+        ;;
+
+      scribe-html-criteria-2 )
+        Maybe_Create_App
+        Scribe_Html_Criteria_2
+        exit $?
+        ;;
+
+      scribe-html-criteria-3 )
+        Maybe_Create_App
+        Scribe_Html_Criteria_3
+        exit $?
+        ;;
+
+      scribe-html-criterias )
+        Maybe_Create_App
+        Scribe_Html_Criteria_1
+        Scribe_Html_Criteria_2
+        Scribe_Html_Criteria_3
         exit $?
         ;;
     esac

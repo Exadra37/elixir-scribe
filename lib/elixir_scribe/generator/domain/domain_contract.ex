@@ -8,43 +8,46 @@ defmodule ElixirScribe.Generator.Domain.DomainContract do
   alias ElixirScribe.Generator.Schema.SchemaContract
   alias ElixirScribe.Utils.StringAPI
 
+  @required [
+    :name,
+    :module,
+    :resource_module,
+    :resource_module_plural,
+    :schema,
+    :alias,
+    :base_module,
+    :web_module,
+    :web_domain_module,
+    :web_resource_module,
+    :web_resource_module_plural,
+    :basename,
+    :api_file,
+    :test_file,
+    :test_fixtures_file,
+    :lib_web_domain_dir,
+    :lib_domain_dir,
+    :lib_web_resource_dir,
+    :lib_web_resource_dir_plural,
+    :lib_resource_dir,
+    :lib_resource_dir_plural,
+    :test_web_domain_dir,
+    :test_domain_dir,
+    :test_web_resource_dir,
+    :test_web_resource_dir_plural,
+    :test_resource_dir,
+    :test_resource_dir_plural,
+    :context_app,
+    :resource_name_singular,
+    :resource_name_plural,
+    :resource_actions
+  ]
+
   @optional [
-    name: nil,
-    module: nil,
-    resource_module: nil,
-    resource_module_plural: nil,
-    schema: nil,
-    alias: nil,
-    base_module: nil,
-    web_module: nil,
-    web_domain_module: nil,
-    web_resource_module: nil,
-    web_resource_module_plural: nil,
-    basename: nil,
-    api_file: nil,
-    test_file: nil,
-    test_fixtures_file: nil,
-    lib_web_domain_dir: nil,
-    lib_domain_dir: nil,
-    lib_web_resource_dir: nil,
-    lib_web_resource_dir_plural: nil,
-    lib_resource_dir: nil,
-    lib_resource_dir_plural: nil,
-    test_web_domain_dir: nil,
-    test_domain_dir: nil,
-    test_web_resource_dir: nil,
-    test_web_resource_dir_plural: nil,
-    test_resource_dir: nil,
-    test_resource_dir_plural: nil,
     generate?: true,
-    context_app: nil,
-    resource_actions: [],
-    resource_name_singular: nil,
-    resource_name_plural: nil,
     opts: []
   ]
 
-  use ElixirScribe.Behaviour.TypedContract, keys: %{required: [], optional: @optional}
+  use ElixirScribe.Behaviour.TypedContract, keys: %{required: @required, optional: @optional}
 
   @impl true
   def type_spec() do
@@ -100,11 +103,6 @@ defmodule ElixirScribe.Generator.Domain.DomainContract do
 
     new!(context_name, schema, opts)
   end
-
-  # def new!(context_name, schema, opts) when is_map(schema) and not is_struct(schema) and is_list(opts) do
-  #   schema = schema |> Map.from_struct() |> SchemaContract.new!()
-  #   new!(context_name, schema, opts)
-  # end
 
   def new!(context_name, %SchemaContract{} = schema, opts) do
     resource_name_singular = schema.singular
