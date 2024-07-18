@@ -4,7 +4,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.Generator.Domain.ResourceAPI
 
-  test "new!/1 Creates a Domain Contract" do
+  test "new!/2 Creates a Domain Contract" do
     args = ["Blog", "Post", "posts", "title:string", "desc:string"]
 
     expected_domain_contract = %DomainContract{
@@ -115,7 +115,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
     assert_structs_equal(expected_domain_contract, domain_contract, expected_fields)
   end
 
-  test "new!/1 Creates a one level nested Domain Contract" do
+  test "new!/2 Creates a one level nested Domain Contract" do
     args = ["Blog.Site", "Post", "posts", "title:string", "desc:string"]
 
     expected_domain_contract = %DomainContract{
@@ -226,7 +226,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
     assert_structs_equal(expected_domain_contract, domain_contract, expected_fields)
   end
 
-  test "new!/1 Creates a two level nested Domain Contract" do
+  test "new!/2 Creates a two level nested Domain Contract" do
     args = ["Blog.Site.Admin", "Post", "posts", "title:string", "desc:string"]
 
     expected_domain_contract = %DomainContract{
@@ -335,5 +335,42 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
 
     expected_fields = Map.keys(expected_domain_contract)
     assert_structs_equal(expected_domain_contract, domain_contract, expected_fields)
+  end
+
+  describe "new!/2 doesn't build the contract" do
+    test "when is missing required args" do
+
+      valid_args = ["Blog.Site.Admin", "Post"]
+      opts = []
+
+      error_message = "no match of right hand side value: [\"Blog.Site.Admin\", \"Post\"]"
+
+      assert_raise RuntimeError, error_message, fn -> DomainContract.new!(valid_args, opts) end
+
+    end
+
+    test "when --no-default-actions option is true and no -actions are given" do
+
+      valid_args = ["Blog.Site.Admin", "Post", "posts", "name:string"]
+
+      opts = [
+        resource_actions: ["list", "new", "read", "edit", "create", "update",
+         "delete"],
+        schema: true,
+        context: true,
+        no_default_actions: true,
+        actions: nil,
+        binary_id: true
+      ]
+
+      assert domain_contract = %DomainContract{} = DomainContract.new!(valid_args, opts) |> dbg()
+
+      # message = "no match of right hand side value: [\"Blog.Site.Admin\", \"Post\"]"
+
+
+
+      # assert_raise MatchError, message, fn -> DomainContract.new!(valid_args, opts) end
+
+    end
   end
 end

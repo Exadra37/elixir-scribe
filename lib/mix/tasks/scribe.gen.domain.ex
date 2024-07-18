@@ -178,8 +178,26 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
 
     valid_args
     |> ResourceAPI.build_domain_resource_contract!(opts)
-    |> ResourceAPI.generate_new_files()
-    |> print_shell_instructions()
+
+    with {:ok, contract} <- ResourceAPI.build_domain_resource_contract!(valid_args, opts) do
+      contract
+      |> ResourceAPI.generate_new_files()
+      |> print_shell_instructions()
+    else
+      {:error, reasons} when is_list(reasons) ->
+        Mix.raise """
+        The contract doesn't conform with the specification:
+
+        #{inspect(reasons)}
+        """
+
+      {:error, msg, context} ->
+        Mix.raise("""
+        #{msg}
+
+        #{context}
+        """)
+    end
   end
 
   @doc false
