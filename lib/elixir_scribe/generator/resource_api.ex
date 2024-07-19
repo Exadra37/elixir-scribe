@@ -22,6 +22,9 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   @doc """
   Resource: Build DomainContract.
   """
+  def build_domain_resource_contract(args, opts) when is_list(args) and is_list(opts),
+    do: BuildDomainResourceContract.build(args, opts)
+
   def build_domain_resource_contract!(args, opts) when is_list(args) and is_list(opts),
     do: BuildDomainResourceContract.build!(args, opts)
 

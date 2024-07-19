@@ -147,7 +147,6 @@ defmodule ElixirScribe.Generator.Schema.SchemaContract do
     {cli_attrs, uniques, redacts} = extract_attr_flags(cli_attrs)
     {assocs, attrs} = partition_attrs_and_assocs(module, attrs(cli_attrs))
     types = types(attrs)
-
     web_namespace = opts[:web] && Phoenix.Naming.camelize(opts[:web])
     web_path = web_namespace && Phoenix.Naming.underscore(web_namespace)
     api_prefix = Application.get_env(otp_app, :generators)[:api_prefix] || "/api"

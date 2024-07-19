@@ -4,16 +4,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
   alias ElixirScribe.Generator.Domain.DomainContract
 
   @doc false
-  def build!(args, opts) when is_list(args) and is_list(opts) do
-    # [context_name, schema_name, plural | schema_args] = args
+  def build(args, opts) when is_list(args) and is_list(opts), do: DomainContract.new(args, opts)
 
-    # opts = Keyword.put(opts, :web, context_name)
+  def build!(args, opts) when is_list(args) and is_list(opts), do: DomainContract.new!(args, opts)
 
-    # schema_module = context_name |> Module.concat(schema_name)  |> inspect()
-
-    # schema = SchemaContract.new!(schema_module, plural, schema_args, opts)
-
-    # DomainContract.new!(context_name, schema, opts)
-    DomainContract.new!(args, opts)
-  end
 end

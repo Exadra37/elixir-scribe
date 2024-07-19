@@ -196,11 +196,27 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
 
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
-    valid_args
-    |> ResourceAPI.build_domain_resource_contract!(opts)
-    |> generate_new_files()
-    |> inject_routes()
-    |> print_shell_instructions()
+    case ResourceAPI.build_domain_resource_contract!(valid_args, opts) do
+      {:ok, contract} ->
+        contract
+        |> generate_new_files()
+        |> inject_routes()
+        |> print_shell_instructions()
+
+      {:error, reasons} when is_list(reasons) ->
+        Mix.raise """
+        The contract doesn't conform with the specification:
+
+        #{inspect(reasons)}
+        """
+
+      {:error, msg, context} ->
+        Mix.raise("""
+        #{msg}
+
+        #{context}
+        """)
+    end
   end
 
   defp generate_new_files(%DomainContract{} = context) do

@@ -89,6 +89,27 @@ defmodule ElixirScribe.Generator.Domain.DomainContract do
   end
 
   def new!(args, opts) when is_list(args) and is_list(opts) do
+    case new(args, opts) do
+      {:ok, contract} ->
+        contract
+
+      {:error, reasons} when is_list(reasons) ->
+        raise """
+        The contract doesn't conform with the specification:
+
+        #{inspect(reasons)}
+        """
+
+      {:error, msg, context} ->
+        raise("""
+        #{msg}
+
+        #{context}
+        """)
+    end
+  end
+
+  def new(args, opts) when is_list(args) and is_list(opts) do
     with {:ok, args} <- validate_args!(args) do
       [context_name, schema_name, plural | schema_args] = args
 
@@ -98,11 +119,11 @@ defmodule ElixirScribe.Generator.Domain.DomainContract do
 
       schema = SchemaContract.new!(schema_module, plural, schema_args, opts)
 
-      new!(context_name, schema, opts)
+      new(context_name, schema, opts)
     end
   end
 
-  def new!(context_name, %SchemaContract{} = schema, opts) do
+  def new(context_name, %SchemaContract{} = schema, opts) do
     resource_name_singular = schema.singular
     resource_name_plural = schema.plural
     resource_name_plural_capitalized = resource_name_plural |> StringAPI.capitalize()
@@ -186,10 +207,6 @@ defmodule ElixirScribe.Generator.Domain.DomainContract do
     }
     |> conforms()
   end
-
-  # defp validate_args!([context, schema] = args) do
-
-  # end
 
   defp validate_args!([context, schema, _plural | _] = args) do
     cond do

@@ -107,7 +107,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
 
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
-    opts = Keyword.put(opts, :web, "Blog")
+    # opts = Keyword.put(opts, :web, "Blog")
 
     assert domain_contract = %DomainContract{} = DomainContract.new!(valid_args, opts)
 
@@ -115,7 +115,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
     assert_structs_equal(expected_domain_contract, domain_contract, expected_fields)
   end
 
-  test "new!/2 Creates a one level nested Domain Contract" do
+  test "new!/2 Creates a two level nested Domain Contract" do
     args = ["Blog.Site", "Post", "posts", "title:string", "desc:string"]
 
     expected_domain_contract = %DomainContract{
@@ -218,7 +218,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
 
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
-    opts = Keyword.put(opts, :web, "Blog")
+    # opts = Keyword.put(opts, :web, "Blog")
 
     assert domain_contract = %DomainContract{} = DomainContract.new!(valid_args, opts)
 
@@ -226,7 +226,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
     assert_structs_equal(expected_domain_contract, domain_contract, expected_fields)
   end
 
-  test "new!/2 Creates a two level nested Domain Contract" do
+  test "new!/2 Creates a three level nested Domain Contract" do
     args = ["Blog.Site.Admin", "Post", "posts", "title:string", "desc:string"]
 
     expected_domain_contract = %DomainContract{
@@ -329,7 +329,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
 
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
-    opts = Keyword.put(opts, :web, "Blog")
+    # opts = Keyword.put(opts, :web, "Blog")
 
     assert domain_contract = %DomainContract{} = DomainContract.new!(valid_args, opts)
 
@@ -343,9 +343,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
       valid_args = ["Blog.Site.Admin", "Post"]
       opts = []
 
-      error_message = "no match of right hand side value: [\"Blog.Site.Admin\", \"Post\"]"
-
-      assert_raise RuntimeError, error_message, fn -> DomainContract.new!(valid_args, opts) end
+      assert_raise RuntimeError, ~r/^Invalid arguments.*$/s, fn -> DomainContract.new!(valid_args, opts) end
 
     end
 
@@ -363,7 +361,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
         binary_id: true
       ]
 
-      assert domain_contract = %DomainContract{} = DomainContract.new!(valid_args, opts) |> dbg()
+      %DomainContract{} = DomainContract.new!(valid_args, opts)
 
       # message = "no match of right hand side value: [\"Blog.Site.Admin\", \"Post\"]"
 

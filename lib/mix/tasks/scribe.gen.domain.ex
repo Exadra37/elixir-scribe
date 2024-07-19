@@ -176,14 +176,12 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
 
     {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
 
-    valid_args
-    |> ResourceAPI.build_domain_resource_contract!(opts)
+    case ResourceAPI.build_domain_resource_contract!(valid_args, opts) do
+      {:ok, contract} ->
+        contract
+        |> ResourceAPI.generate_new_files()
+        |> print_shell_instructions()
 
-    with {:ok, contract} <- ResourceAPI.build_domain_resource_contract!(valid_args, opts) do
-      contract
-      |> ResourceAPI.generate_new_files()
-      |> print_shell_instructions()
-    else
       {:error, reasons} when is_list(reasons) ->
         Mix.raise """
         The contract doesn't conform with the specification:
