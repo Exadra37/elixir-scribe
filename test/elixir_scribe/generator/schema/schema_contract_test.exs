@@ -30,11 +30,13 @@ defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
       migration_module: Ecto.Migration,
       module: ElixirScribe.Blog.Post,
       optionals: [],
-      params: %{
-        create: %{title: "some title", desc: "some desc"},
-        default_key: :title,
-        update: %{title: "some updated title", desc: "some updated desc"}
-      },
+      # https://github.com/phoenixframework/phoenix/issues/5874#issuecomment-2241190340
+      # The default_key it's only used to test the generators created the expected code
+      # params: %{
+      #   create: %{title: "some title", desc: "some desc"},
+      #   default_key: :title,
+      #   update: %{title: "some updated title", desc: "some updated desc"}
+      # },
       plural: "posts",
       prefix: nil,
       redacts: [],
@@ -45,7 +47,9 @@ defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
       sample_id: "11111111-1111-1111-1111-111111111111",
       self: ElixirScribe.Generator.Schema.SchemaContract,
       singular: "post",
-      string_attr: :title,
+      # https://github.com/phoenixframework/phoenix/issues/5874#issuecomment-2241190340
+      # The string_attr it's only used to test the generators created the expected code
+      # string_attr: :title,
       table: "posts",
       timestamp_type: :naive_datetime,
       types: %{title: :string, desc: :string},
@@ -107,11 +111,13 @@ defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
       migration_module: Ecto.Migration,
       module: ElixirScribe.Blog.Site.Post,
       optionals: [],
-      params: %{
-        create: %{title: "some title", desc: "some desc"},
-        default_key: :title,
-        update: %{title: "some updated title", desc: "some updated desc"}
-      },
+      # https://github.com/phoenixframework/phoenix/issues/5874#issuecomment-2241190340
+      # The default_key it's only used to test the generators created the expected code
+      # params: %{
+      #   create: %{title: "some title", desc: "some desc"},
+      #   default_key: :title,
+      #   update: %{title: "some updated title", desc: "some updated desc"}
+      # },
       plural: "posts",
       prefix: nil,
       redacts: [],
@@ -122,7 +128,9 @@ defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
       sample_id: "11111111-1111-1111-1111-111111111111",
       self: ElixirScribe.Generator.Schema.SchemaContract,
       singular: "post",
-      string_attr: :title,
+      # https://github.com/phoenixframework/phoenix/issues/5874#issuecomment-2241190340
+      # The string_attr it's only used to test the generators created the expected code
+      # string_attr: :title,
       table: "posts",
       timestamp_type: :naive_datetime,
       types: %{title: :string, desc: :string},
@@ -185,11 +193,13 @@ defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
       migration_module: Ecto.Migration,
       module: ElixirScribe.Blog.Site.Admin.Post,
       optionals: [],
-      params: %{
-        create: %{title: "some title", desc: "some desc"},
-        default_key: :title,
-        update: %{title: "some updated title", desc: "some updated desc"}
-      },
+      # https://github.com/phoenixframework/phoenix/issues/5874#issuecomment-2241190340
+      # The default_key it's only used to test the generators created the expected code
+      # params: %{
+      #   create: %{title: "some title", desc: "some desc"},
+      #   default_key: :title,
+      #   update: %{title: "some updated title", desc: "some updated desc"}
+      # },
       plural: "posts",
       prefix: nil,
       redacts: [],
@@ -200,7 +210,9 @@ defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
       sample_id: "11111111-1111-1111-1111-111111111111",
       self: ElixirScribe.Generator.Schema.SchemaContract,
       singular: "post",
-      string_attr: :title,
+      # https://github.com/phoenixframework/phoenix/issues/5874#issuecomment-2241190340
+      # The string_attr it's only used to test the generators created the expected code
+      # string_attr: :title,
       table: "posts",
       timestamp_type: :naive_datetime,
       types: %{title: :string, desc: :string},
