@@ -6,31 +6,31 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.Generator.Domain.ResourceAPI
 
   @doc false
-  def generate(%DomainContract{} = context) do
+  def generate(%DomainContract{} = domain_contract) do
     base_template_paths = ElixirScribe.base_template_paths()
-    binding = TemplateBuilderAPI.build_binding_template(context)
+    binding = TemplateBuilderAPI.build_binding_template(domain_contract)
 
-    context
+    domain_contract
     |> ensure_api_file_exists(base_template_paths, binding)
     |> inject_api_functions(base_template_paths, binding)
 
-    context
+    domain_contract
   end
 
-  defp build_api_binding(context, binding) do
+  defp build_api_binding(domain_contract, binding) do
     Keyword.merge(binding,
       absolute_module_name:
-        ElixirScribe.TemplateBuilderAPI.build_absolute_module_name(context, file_type: :lib_core),
+        ElixirScribe.TemplateBuilderAPI.build_absolute_module_name(domain_contract, file_type: :lib_core),
       aliases:
-        ElixirScribe.TemplateBuilderAPI.build_absolute_module_action_name_aliases(context, file_type: :lib_core)
+        ElixirScribe.TemplateBuilderAPI.build_absolute_module_action_name_aliases(domain_contract, file_type: :lib_core)
     )
   end
 
-  defp ensure_api_file_exists(context, base_template_paths, binding) do
-    binding = build_api_binding(context, binding)
+  defp ensure_api_file_exists(domain_contract, base_template_paths, binding) do
+    binding = build_api_binding(domain_contract, binding)
 
-    unless DomainContract.pre_existing?(context) do
-      {:eex, :api, source_path, target_path} = ResourceAPI.build_api_file_paths(context)
+    unless File.exists?(domain_contract.api_file) do
+      {:eex, :api, source_path, target_path} = ResourceAPI.build_api_file_paths(domain_contract)
 
       Mix.Generator.create_file(
         target_path,
@@ -38,19 +38,19 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
       )
     end
 
-    context
+    domain_contract
   end
 
-  defp inject_api_functions(context, base_template_paths, binding) do
-    resource_actions = context.opts |> Keyword.get(:resource_actions)
+  defp inject_api_functions(domain_contract, base_template_paths, binding) do
+    resource_actions = domain_contract.opts |> Keyword.get(:resource_actions)
 
     for action <- resource_actions do
       binding =
-        build_api_binding(context, binding)
+        build_api_binding(domain_contract, binding)
         |> TemplateBuilderAPI.rebuild_binding_template(action, file_type: :lib_core)
 
       api_action_template_path =
-        if context.schema.generate? do
+        if domain_contract.schema.generate? do
           action_template_filename =
             TemplateBuilderAPI.build_template_action_filename(action, "_", "api_function", ".ex")
 
@@ -62,7 +62,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
 
       base_template_paths
       |> Mix.Phoenix.eval_from(api_action_template_path, binding)
-      |> TemplateBuilderAPI.inject_eex_before_final_end(context.api_file, binding)
+      |> TemplateBuilderAPI.inject_eex_before_final_end(domain_contract.api_file, binding)
     end
   end
 end
