@@ -13,7 +13,16 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
 
   test "generates a file for each Resource Action", config do
     in_tmp_project(config.test, fn ->
-      args = ["Blog", "Post", "posts", "slug:unique", "secret:redact", "title:string", "--actions", "export,import"]
+      args = [
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "secret:redact",
+        "title:string",
+        "--actions",
+        "export,import"
+      ]
 
       contract = domain_contract_fixture(args)
 
