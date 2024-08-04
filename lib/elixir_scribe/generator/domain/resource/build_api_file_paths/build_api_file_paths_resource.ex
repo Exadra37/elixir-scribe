@@ -3,12 +3,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildAPIFilePaths.BuildAPIFileP
 
   alias ElixirScribe.Generator.Domain.DomainContract
 
-  def build(%DomainContract{generate?: false}), do: []
-  def build(%DomainContract{generate?: true} = context), do: build_api_file(context)
+  def build(%DomainContract{generate?: false}), do: nil
+  def build(%DomainContract{generate?: true} = contract), do: build_api_file(contract)
 
-  def build_api_file(context) do
+  defp build_api_file(contract) do
     source_path = ElixirScribe.domain_api_template_path() |> Path.join("api_module.ex")
-    target_path = context.api_file
+    target_path = contract.api_file
 
     {:eex, :api, source_path, target_path}
   end

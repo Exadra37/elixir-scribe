@@ -6,15 +6,15 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildFilesToGenerate.BuildFiles
 
   @doc false
   def build(%DomainContract{generate?: false}), do: []
-  def build(%DomainContract{generate?: true} = context), do: build_files(context)
+  def build(%DomainContract{generate?: true} = contract), do: build_files(contract)
 
-  def build_files(context) do
-    api_file = [ResourceAPI.build_api_file_paths(context)]
-    resource_files = ResourceAPI.build_action_files_paths(context)
-    resource_test_files = ResourceAPI.build_test_action_files_paths(context)
-    schema = ElixirScribe.to_phoenix_schema(context.schema)
+  def build_files(contract) do
+    api_file = [ResourceAPI.build_api_file_paths(contract)]
+    resource_files = ResourceAPI.build_action_files_paths(contract)
+    resource_test_files = ResourceAPI.build_test_action_files_paths(contract)
+    schema = ElixirScribe.to_phoenix_schema(contract.schema)
     schema_files = Mix.Tasks.Phx.Gen.Schema.files_to_be_generated(schema)
-    test_fixtures_file = build_test_fixture_file(context)
+    test_fixtures_file = build_test_fixture_file(contract)
 
     api_file
     |> Kernel.++(resource_files)

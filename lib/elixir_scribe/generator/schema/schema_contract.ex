@@ -4,6 +4,8 @@ defmodule ElixirScribe.Generator.Schema.SchemaContract do
   # This module was borrowed from the Phoenix Framework module
   # Mix.Phoenix.Schema and modified to suite ElixirScribe needs.
 
+  # @TODO Extract the custom logic to build the contract to a separate module, like done with the %DomainContract{}
+
   alias ElixirScribe.Generator.Schema.SchemaContract
 
   @optional [

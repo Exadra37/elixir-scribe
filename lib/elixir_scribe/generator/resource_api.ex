@@ -31,46 +31,46 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   @doc """
   Resource: Files To Generate.
   """
-  def build_files_to_generate(%DomainContract{} = context), do: BuildFilesToGenerateResource.build(context)
+  def build_files_to_generate(%DomainContract{} = contract), do: BuildFilesToGenerateResource.build(contract)
 
   @doc """
   Resource: Build Action Files To Generate
   """
-  def build_action_files_paths(%DomainContract{} = context), do: BuildActionFilesPathsResource.build(context)
+  def build_action_files_paths(%DomainContract{} = contract), do: BuildActionFilesPathsResource.build(contract)
 
   @doc """
   Resource: Build Test Action Files To Generate
   """
-  def build_test_action_files_paths(%DomainContract{} = context), do: BuildTestActionFilesPathsResource.build(context)
+  def build_test_action_files_paths(%DomainContract{} = contract), do: BuildTestActionFilesPathsResource.build(contract)
 
-  def build_api_file_paths(%DomainContract{} = context), do: BuildAPIFilePathsResource.build(context)
+  def build_api_file_paths(%DomainContract{} = contract), do: BuildAPIFilePathsResource.build(contract)
 
   @doc """
   Resource: Generate Actions.
   """
-  def generate_actions(%DomainContract{} = context),
-    do: GenerateActionsResource.generate(context)
+  def generate_actions(%DomainContract{} = contract),
+    do: GenerateActionsResource.generate(contract)
 
   @doc """
   Resource: Generate Tests.
   """
-  def generate_tests(%DomainContract{} = context),
-    do: GenerateTestsResource.generate_tests(context)
+  def generate_tests(%DomainContract{} = contract),
+    do: GenerateTestsResource.generate_tests(contract)
 
   @doc """
   Resource: Generate Api.
   """
-  def generate_api(%DomainContract{} = context), do: GenerateApiResource.generate(context)
+  def generate_api(%DomainContract{} = contract), do: GenerateApiResource.generate(contract)
 
   @doc """
   Resource: Generate Test Fixture.
   """
-  def generate_test_fixture(%DomainContract{} = context),
-    do: GenerateTestFixtureResource.generate(context)
+  def generate_test_fixture(%DomainContract{} = contract),
+    do: GenerateTestFixtureResource.generate(contract)
 
   @doc """
   Resource: Generate New Files.
   """
-  def generate_new_files(%DomainContract{} = context, opts \\ []) when is_list(opts),
-    do: GenerateNewFilesResource.generate(context)
+  def generate_new_files(%DomainContract{} = contract, opts \\ []) when is_list(opts),
+    do: GenerateNewFilesResource.generate(contract)
 end

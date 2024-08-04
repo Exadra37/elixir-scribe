@@ -1,6 +1,9 @@
 defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResourceContract do
   @moduledoc false
 
+  # The logic to build the contract was borrowed from the Mix.Phoenix.Context
+  # module of the Phoenix Framework and modified to suite ElixirScribe needs.
+
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.Generator.Schema.SchemaContract
   alias ElixirScribe.Utils.StringAPI

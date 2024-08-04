@@ -1,8 +1,8 @@
 defmodule ElixirScribe.Generator.Domain.DomainContract do
   @moduledoc false
 
-  # This module was borrowed from the Phoenix Framework module
-  # Mix.Phoenix.Context and modified to suite ElixirScribe needs.
+  # This contract mirrors the Mix.Phoenix.Context module from the Phoenix
+  # Framework with some added fields to suite ElixirScribe needs.
 
   @required [
     :name,
