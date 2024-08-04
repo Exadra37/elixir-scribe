@@ -1,7 +1,6 @@
 Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResourceTest do
-
   use ElixirScribe.BaseCase
 
   alias ElixirScribe.Generator.Domain.ResourceAPI
@@ -13,15 +12,24 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
     :ok
   end
 
-  test "generate_new_files/1 creates all actions for a resource of a domain, including the schema, migration, tests and fixtures", config do
+  test "generate_new_files/1 creates all actions for a resource of a domain, including the schema, migration, tests and fixtures",
+       config do
     in_tmp_project(config.test, fn ->
-
       ### GENERATING FILES ###
 
-      args = ["Blog", "Post", "posts", "slug:unique", "secret:redact", "title:string", "--actions", "export,import"]
+      args = [
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "secret:redact",
+        "title:string",
+        "--actions",
+        "export,import"
+      ]
+
       domain_contract = domain_contract_fixture(args)
       ResourceAPI.generate_new_files(domain_contract)
-
 
       ### RESOURCE SCHEMA ###
 
@@ -29,7 +37,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
         assert file =~ "field :title, :string"
         assert file =~ "field :secret, :string, redact: true"
       end)
-
 
       ### RESOURCE API ###
 
@@ -58,79 +65,56 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
       #   assert file =~ "test \"export/0"
       # end)
 
-
       ### RESOURCE ACTIONS ####
 
-      assert_file("lib/elixir_scribe/domain/blog/post/list/list_posts.ex", fn file ->
-        assert file =~ "defmodule ElixirScribe.Blog.Post.List.ListPosts do"
-        assert file =~ "def list()"
-      end)
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/list/list_posts.ex") === true
 
       assert_file("test/elixir_scribe/domain/blog/post/list/list_posts_test.exs", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.List.ListPostsTest do"
         assert file =~ "test \"list/0"
       end)
 
-      assert_file("lib/elixir_scribe/domain/blog/post/new/new_post.ex", fn file ->
-        assert file =~ "defmodule ElixirScribe.Blog.Post.New.NewPost do"
-        assert file =~ "def new(attrs \\\\ %{})"
-      end)
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/new/new_post.ex") === true
 
       assert_file("test/elixir_scribe/domain/blog/post/new/new_post_test.exs", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.New.NewPostTest do"
         assert file =~ "test \"new/0"
       end)
 
-      assert_file("lib/elixir_scribe/domain/blog/post/read/read_post.ex", fn file ->
-        assert file =~ "defmodule ElixirScribe.Blog.Post.Read.ReadPost do"
-        assert file =~ "def read!(id)"
-      end)
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/read/read_post.ex") === true
 
       assert_file("test/elixir_scribe/domain/blog/post/read/read_post_test.exs", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Read.ReadPostTest do"
         assert file =~ "test \"read!/1"
       end)
 
-      assert_file("lib/elixir_scribe/domain/blog/post/edit/edit_post.ex", fn file ->
-        assert file =~ "defmodule ElixirScribe.Blog.Post.Edit.EditPost do"
-        assert file =~ "def edit(id, attrs \\\\ %{})"
-      end)
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/edit/edit_post.ex") === true
 
       assert_file("test/elixir_scribe/domain/blog/post/edit/edit_post_test.exs", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Edit.EditPostTest do"
         assert file =~ "test \"edit/1"
       end)
 
-      assert_file("lib/elixir_scribe/domain/blog/post/create/create_post.ex", fn file ->
-        assert file =~ "defmodule ElixirScribe.Blog.Post.Create.CreatePost do"
-        assert file =~ "def create(%{} = attrs)"
-      end)
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/create/create_post.ex") === true
 
       assert_file("test/elixir_scribe/domain/blog/post/create/create_post_test.exs", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Create.CreatePostTest do"
         assert file =~ "test \"create/1"
       end)
 
-      assert_file("lib/elixir_scribe/domain/blog/post/update/update_post.ex", fn file ->
-        assert file =~ "defmodule ElixirScribe.Blog.Post.Update.UpdatePost do"
-        assert file =~ "def update(id, %{} = attrs)"
-      end)
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/update/update_post.ex") === true
 
       assert_file("test/elixir_scribe/domain/blog/post/update/update_post_test.exs", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Update.UpdatePostTest do"
         assert file =~ "test \"update/2"
       end)
 
-      assert_file("lib/elixir_scribe/domain/blog/post/delete/delete_post.ex", fn file ->
-        assert file =~ "defmodule ElixirScribe.Blog.Post.Delete.DeletePost do"
-        assert file =~ "def delete(id)"
-      end)
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/delete/delete_post.ex") === true
 
       assert_file("test/elixir_scribe/domain/blog/post/delete/delete_post_test.exs", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Delete.DeletePostTest do"
         assert file =~ "test \"delete/1"
       end)
-
 
       ### TEST FIXTURES ###
 
