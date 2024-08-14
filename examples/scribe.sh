@@ -56,20 +56,19 @@ Shop_App() {
 
   # Sales Catalog
   mix scribe.gen.html Sales.Catalog Category categories name:string desc:string
-  exit 0
-  mix scribe.gen.html Sales.Catalog Product products sku:string name:string desc:string price:integer vat:integer
-  mix scribe.gen.html Sales.Catalog Cart carts total_amount:integer total_quantity:integer products_skus:array:string --actions report
+  mix scribe.gen.html Sales.Catalog Product products sku:string name:string desc:string price:integer vat:integer --actions import,export
+  # mix scribe.gen.html Sales.Catalog Cart carts total_amount:integer total_quantity:integer products_skus:array:string --actions report
 
   # Sales Checkout
-  mix scribe.gen.domain Sales.Checkout CheckoutProduct checkout_products sku:string name:string desc:string --no-default-actions --actions build
-  mix scribe.gen.html Sales.Checkout Order orders total_amount:integer total_quantity:integer products_skus:array:string cart_uuid:string shipping_uuid:string
+  # mix scribe.gen.domain Sales.Checkout CheckoutProduct checkout_products sku:string name:string desc:string --no-default-actions --actions build
+  mix scribe.gen.html Sales.Checkout Order orders total_amount:integer total_quantity:integer products_skus:array:string cart_uuid:string shipping_uuid:string --actions report
 
   # Sales Billing
-  mix scribe.gen.domain Sales.Billing BillingProduct billing_products sku:string quantity:integer cost_per_unit:integer --no-default-actions --actions build
+  # mix scribe.gen.domain Sales.Billing BillingProduct billing_products sku:string quantity:integer cost_per_unit:integer --no-default-actions --actions build
 
   # Warehouse Fulfillment
   mix scribe.gen.domain Warehouse.Fulfillment FulfillmentProduct fulfillment_products sku:string label:string total_quantity:integer location:string --no-default-actions --actions build
-  mix scribe.gen.html Warehouse.Shipment Parcel parcels pickup_datetime:datetime label:string carrier_uuid:string
+  # mix scribe.gen.html Warehouse.Shipment Parcel parcels pickup_datetime:datetime label:string carrier_uuid:string
 }
 
 Online_Shop() {

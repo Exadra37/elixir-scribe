@@ -13,7 +13,7 @@
       |> Enum.into(%{
 <%= schema.fixture_params |> Enum.map(fn {key, code} -> "        #{key}: #{code}" end) |> Enum.join(",\n") %>
       })
-      |> <%= schema.human_singular <> "API." <> create_action %>()
+      |> <%= inspect(schema.alias) <> "API." <> create_action %>()
 
     <%= schema.singular %>
   end

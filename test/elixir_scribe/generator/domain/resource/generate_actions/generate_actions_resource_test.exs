@@ -40,12 +40,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
 
       assert_file("lib/elixir_scribe/domain/blog/post/read/read_post.ex", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Read.ReadPost do"
-        assert file =~ "def read!(id)"
+        assert file =~ "def read!(uuid)"
       end)
 
       assert_file("lib/elixir_scribe/domain/blog/post/edit/edit_post.ex", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Edit.EditPost do"
-        assert file =~ "def edit(id, attrs \\\\ %{})"
+        assert file =~ "def edit(uuid, attrs \\\\ %{})"
       end)
 
       assert_file("lib/elixir_scribe/domain/blog/post/create/create_post.ex", fn file ->
@@ -55,12 +55,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
 
       assert_file("lib/elixir_scribe/domain/blog/post/update/update_post.ex", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Update.UpdatePost do"
-        assert file =~ "def update(id, %{} = attrs)"
+        assert file =~ "def update(uuid, %{} = attrs)"
       end)
 
       assert_file("lib/elixir_scribe/domain/blog/post/delete/delete_post.ex", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.Delete.DeletePost do"
-        assert file =~ "def delete(id)"
+        assert file =~ "def delete(uuid)"
       end)
     end)
   end

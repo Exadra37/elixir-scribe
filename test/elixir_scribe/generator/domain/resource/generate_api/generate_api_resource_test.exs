@@ -31,13 +31,13 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
       ResourceAPI.generate_api(contract)
 
       assert_file("lib/elixir_scribe/domain/blog/post_api.ex", fn file ->
-        assert file =~ "def read!(id)"
+        assert file =~ "def read!(uuid)"
         assert file =~ "def list()"
         assert file =~ "def create(attrs)"
-        assert file =~ "def update(id, attrs)"
-        assert file =~ "def delete(id)"
+        assert file =~ "def update(uuid, attrs)"
+        assert file =~ "def delete(uuid)"
         assert file =~ "def new(attrs \\\\ %{})"
-        assert file =~ "def edit(id, attrs \\\\ %{})"
+        assert file =~ "def edit(uuid, attrs \\\\ %{})"
         assert file =~ "def import()"
         assert file =~ "def export()"
       end)

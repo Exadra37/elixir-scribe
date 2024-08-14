@@ -5,22 +5,25 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
   alias ElixirScribe.TemplateBuilderAPI
 
   def generate(%DomainContract{generate?: false} = domain_contract), do: domain_contract
-  def generate(%DomainContract{generate?: true} = domain_contract), do: generate_file(domain_contract)
+
+  def generate(%DomainContract{generate?: true} = domain_contract),
+    do: generate_test_fixture_file(domain_contract)
 
   @doc false
-  def generate_file(domain_contract) do
+  def generate_test_fixture_file(domain_contract) do
     base_template_paths = ElixirScribe.base_template_paths()
     binding = TemplateBuilderAPI.build_binding_template(domain_contract)
 
-    ensure_test_fixtures_file_exists(domain_contract, base_template_paths, binding)
-    inject_test_fixture(domain_contract, base_template_paths, binding)
+    domain_contract
+    |> ensure_test_fixtures_file_exists(base_template_paths, binding)
+    |> inject_test_fixture(base_template_paths, binding)
 
     domain_contract
   end
 
   @doc false
   def ensure_test_fixtures_file_exists(
-        %DomainContract{test_fixtures_file: test_fixtures_file},
+        %DomainContract{test_fixtures_file: test_fixtures_file} = domain_contract,
         base_template_paths,
         binding
       ) do
@@ -33,24 +36,28 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
         Mix.Phoenix.eval_from(base_template_paths, fixtures_module_template_path, binding)
       )
     end
+
+    domain_contract
   end
 
   defp inject_test_fixture(
-         %DomainContract{test_fixtures_file: test_fixtures_file} = domain_contract,
+         %DomainContract{test_fixtures_file: test_fixtures_file, opts: opts} = domain_contract,
          base_template_paths,
          binding
        ) do
-    ensure_test_fixtures_file_exists(domain_contract, base_template_paths, binding)
+    no_default_actions = Keyword.get(opts, :no_default_actions, false)
 
-    fixtures_file_template_path =
-      ElixirScribe.domain_tests_template_path() |> Path.join("fixtures.ex")
+    unless no_default_actions do
+      fixtures_file_template_path =
+        ElixirScribe.domain_tests_template_path() |> Path.join("fixtures.ex")
 
-    base_template_paths
-    |> Mix.Phoenix.eval_from(fixtures_file_template_path, binding)
-    |> Mix.Phoenix.prepend_newline()
-    |> TemplateBuilderAPI.inject_eex_before_final_end(test_fixtures_file, binding)
+      base_template_paths
+      |> Mix.Phoenix.eval_from(fixtures_file_template_path, binding)
+      |> Mix.Phoenix.prepend_newline()
+      |> TemplateBuilderAPI.inject_eex_before_final_end(test_fixtures_file, binding)
 
-    maybe_print_unimplemented_fixture_functions(domain_contract)
+      maybe_print_unimplemented_fixture_functions(domain_contract)
+    end
   end
 
   defp maybe_print_unimplemented_fixture_functions(%DomainContract{} = domain_contract) do
@@ -73,6 +80,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
       #{fixture_functions_needing_implementations |> Enum.map_join(&indent(&1, 2)) |> String.trim_trailing()}
       """)
     end
+
+    domain_contract
   end
 
   defp indent(string, spaces) do
