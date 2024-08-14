@@ -4,7 +4,7 @@
 
   ## Examples
 
-      iex> <%= schema.human_singular %>API.<%= schema.human_singular %>API.<%= action %>()
+      iex> <%=inspect schema.alias %>API.<%= action %>()
       [%<%= inspect schema.alias %>{}, ...]
 
   """

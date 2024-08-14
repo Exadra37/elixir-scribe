@@ -1,13 +1,13 @@
 
   @doc """
-  Updates the <%= schema.singular %> `uuid` with the given `attrs`.
+  Updates the `<%= schema.alias %>` for the given `uuid` with the provided `attrs`.
 
   ## Examples
 
-      iex> <%= schema.human_singular %>API.<%= action %>("38cd0012-79dc-4838-acc0-94d4143c4f2c", %{field: new_value})
+      iex> <%= inspect schema.alias %>API.<%= action %>("38cd0012-79dc-4838-acc0-94d4143c4f2c", %{field: new_value})
       {:ok, %<%= inspect schema.alias %>{}}
 
-      iex> <%= schema.human_singular %>API.<%= action %>("38cd0012-79dc-4838-acc0-94d4143c4f2c", %{field: bad_value})
+      iex> <%= inspect schema.alias %>API.<%= action %>("38cd0012-79dc-4838-acc0-94d4143c4f2c", %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
