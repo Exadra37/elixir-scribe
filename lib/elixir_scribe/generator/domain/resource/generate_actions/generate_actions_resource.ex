@@ -6,25 +6,25 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
   alias ElixirScribe.Generator.Domain.DomainContract
 
   @doc false
-  def generate(%DomainContract{} = context) do
+  def generate(%DomainContract{} = contract) do
     base_template_paths = ElixirScribe.base_template_paths()
 
-    binding = TemplateBuilderAPI.build_binding_template(context)
+    binding = TemplateBuilderAPI.build_binding_template(contract)
 
-    for {:eex, :resource, source_path, target_path, action} <- ResourceAPI.build_action_files_paths(context) do
+    for {:eex, :resource, source_path, target_path, action} <- ResourceAPI.build_action_files_paths(contract) do
 
       binding = TemplateBuilderAPI.rebuild_binding_template(binding, action, file_type: :lib_core)
 
       # When the file already exists we are asked if we want to overwrite it.
       created_or_overwritten? =
-        create_action_module_file(base_template_paths, target_path, binding, context.schema.generate?)
+        create_action_module_file(base_template_paths, target_path, binding, contract.schema.generate?)
 
       if created_or_overwritten? do
         inject_action_function_into_module(base_template_paths, source_path, target_path, binding)
       end
     end
 
-    context
+    contract
   end
 
   defp create_action_module_file(base_template_paths, target_path, binding, schema_generate?) do
