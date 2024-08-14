@@ -4,10 +4,10 @@
 
   ## Examples
 
-      iex> <%= schema.human_singular %>API.<%= action %>(%{field: value})
+      iex> <%= inspect schema.alias %>API.<%= action %>(%{field: value})
       {:ok, %<%= inspect schema.alias %>{}}
 
-      iex> <%= schema.human_singular %>API.<%= action %>(%{field: bad_value})
+      iex> <%= inspect schema.alias %>API.<%= action %>(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """

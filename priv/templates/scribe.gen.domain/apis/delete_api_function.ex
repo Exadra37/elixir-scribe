@@ -4,10 +4,10 @@
 
   ## Examples
 
-      iex> <%= schema.human_singular %>API.<%= action %>("38cd0012-79dc-4838-acc0-94d4143c4f2c")
+      iex> <%= inspect schema.alias %>API.<%= action %>("38cd0012-79dc-4838-acc0-94d4143c4f2c")
       {:ok, %<%= inspect schema.alias %>{}}
 
-      iex> <%= schema.human_singular %>API.<%= action %>("815af9955-19ab-2567-bdd1-49e4143c4g3d")
+      iex> <%= inspect schema.alias %>API.<%= action %>("815af9955-19ab-2567-bdd1-49e4143c4g3d")
       {:error, %Ecto.Changeset{}}
 
   """
