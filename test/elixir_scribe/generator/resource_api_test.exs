@@ -11,7 +11,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
   # INFO: Tests in the API module only care about testing the function can be invoked and that the API contract is respected (for now only guards and pattern matching). The unit tests for the functionality are done in their respective modules
 
   describe "build_domain_resource_contract/2" do
-    test "can be invoked" do
+    test "can be invoked and returns ab :ok tuple with a DonmainContract" do
       args = ["Blog", "Post", "posts", "title:string", "desc:string"]
       {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
 
@@ -26,7 +26,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
   end
 
   describe "build_files_to_generate/1" do
-    test "can be invoked" do
+    test "can be invoked and returns a list" do
       domain_contract = domain_contract_fixture()
 
       assert ResourceAPI.build_files_to_generate(domain_contract) |> is_list()
@@ -40,7 +40,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
   end
 
   describe "build_action_files_paths/1" do
-    test "can be invoked" do
+    test "can be invoked and returns a list" do
       domain_contract = domain_contract_fixture()
 
       assert ResourceAPI.build_action_files_paths(domain_contract) |> is_list()
@@ -54,7 +54,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
   end
 
   describe "build_test_action_files_paths/1" do
-    test "can be invoked" do
+    test "can be invoked and returns a list" do
       domain_contract = domain_contract_fixture()
 
       assert ResourceAPI.build_test_action_files_paths(domain_contract) |> is_list()
@@ -73,7 +73,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       :ok
     end
 
-    test "can be invoked", config do
+    test "can be invoked and returns a DomainContract", config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
@@ -94,7 +94,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       :ok
     end
 
-    test "can be invoked", config do
+    test "can be invoked and returns a Domain Contract", config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
@@ -115,7 +115,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       :ok
     end
 
-    test "can be invoked", config do
+    test "can be invoked and returns a Domain Contract", config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
@@ -136,7 +136,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       :ok
     end
 
-    test "can be invoked", config do
+    test "can be invoked and returns a Domain Contract", config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
@@ -157,7 +157,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       :ok
     end
 
-    test "can be invoked", config do
+    test "can be invoked and returns a Domain Contract", config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 

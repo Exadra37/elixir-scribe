@@ -5,11 +5,7 @@ defmodule ElixirScribe.Utils.StringAPITest do
   # INFO: Tests in the API module only care about testing the function can be invoked and that the API contract is respected (for now only guards and pattern matching). The unit tests for the functionality are done in their respective modules
 
   describe "capitalize/1" do
-    test "can be invoked" do
-      assert StringAPI.capitalize("whatever")
-    end
-
-    test "returns a string" do
+    test "can be invoked and returns a string" do
       assert StringAPI.capitalize("whatever") |> is_binary()
     end
 
@@ -21,11 +17,7 @@ defmodule ElixirScribe.Utils.StringAPITest do
   end
 
   describe "capitalize/2" do
-    test "can be invoked" do
-      assert StringAPI.capitalize("whatever word", "")
-    end
-
-    test "returns a string" do
+    test "can be invoked and returns a string" do
       assert StringAPI.capitalize("whatever word", "") |> is_binary()
     end
 
@@ -43,11 +35,7 @@ defmodule ElixirScribe.Utils.StringAPITest do
   end
 
   describe "human_capitalize/1" do
-    test "can be invoked" do
-      assert StringAPI.capitalize("whatever word")
-    end
-
-    test "returns a string" do
+    test "can be invoked and returns a string" do
       assert StringAPI.capitalize("whatever word") |> is_binary()
     end
 
@@ -59,11 +47,7 @@ defmodule ElixirScribe.Utils.StringAPITest do
   end
 
   describe "first_word/1" do
-    test "can be invoked" do
-      assert StringAPI.first_word("whatever word")
-    end
-
-    test "returns a string" do
+    test "can be invoked and returns a string" do
       assert StringAPI.first_word("whatever word") |> is_binary()
     end
 
@@ -75,11 +59,7 @@ defmodule ElixirScribe.Utils.StringAPITest do
   end
 
   describe "first_word/2" do
-    test "can be invoked" do
-      assert StringAPI.first_word("whatever_word", ["_"])
-    end
-
-    test "returns a string" do
+    test "can be invoked and returns a string" do
       assert StringAPI.first_word("whatever_word") |> is_binary()
     end
 
