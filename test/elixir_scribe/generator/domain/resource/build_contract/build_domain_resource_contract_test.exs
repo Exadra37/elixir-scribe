@@ -1,9 +1,9 @@
 defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResourceContractTest do
   use ElixirScribe.BaseCase, async: true
 
+  alias ElixirScribe.MixAPI
   alias ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResourceContract
   alias ElixirScribe.Generator.Domain.DomainContract
-  alias ElixirScribe.Generator.Domain.ResourceAPI
 
   defp assert_contract([domain | _] = args, expected_contract) do
     expected_keys = Map.keys(expected_contract)
@@ -20,7 +20,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
       {:binary_id, true}
     ]
 
-    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
+    {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
 
     assert domain_contract =
              %DomainContract{} = BuildDomainResourceContract.build!(valid_args, opts)

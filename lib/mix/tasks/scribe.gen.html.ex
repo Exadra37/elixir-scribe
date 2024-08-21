@@ -180,6 +180,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   """
   use Mix.Task
 
+  alias ElixirScribe.MixAPI
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.Generator.Schema.SchemaContract
   alias Mix.Tasks.Scribe.Gen
@@ -194,7 +195,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
       )
     end
 
-    {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
+    {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
 
     case ResourceAPI.build_domain_resource_contract(valid_args, opts) do
       {:ok, contract} ->

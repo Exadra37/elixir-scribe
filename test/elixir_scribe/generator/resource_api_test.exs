@@ -1,6 +1,7 @@
 Code.require_file("../../mix_test_helper.exs", __DIR__)
 
 defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
+  alias ElixirScribe.MixAPI
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.Generator.Domain.ResourceAPI
   use ElixirScribe.BaseCase, async: true
@@ -11,12 +12,12 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
 
   describe "parse_args/1" do
     test "can be invoked" do
-      assert {_parsed_args, _opts, _invalid_args} = ResourceAPI.parse_args([])
+      assert {_parsed_args, _opts, _invalid_args} = MixAPI.parse_cli_command([])
     end
 
     test "raises a FunctionClauseError when the argument isn't a list" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.parse_args(%{})
+        MixAPI.parse_cli_command(%{})
       end
     end
   end
@@ -24,7 +25,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
   describe "build_domain_resource_contract/2" do
     test "can be invoked" do
       args = ["Blog", "Post", "posts", "title:string", "desc:string"]
-      {valid_args, opts, _invalid_args} = args |> ResourceAPI.parse_args()
+      {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
 
       assert {:ok, %DomainContract{}} = ResourceAPI.build_domain_resource_contract(valid_args, opts)
     end

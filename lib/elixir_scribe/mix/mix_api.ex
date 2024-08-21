@@ -1,14 +1,19 @@
 defmodule ElixirScribe.MixAPI do
   @moduledoc false
 
-  alias ElixirScribe.TemplateBuilder.Options.BuildActions.BuildActionsFromOptions
-  alias ElixirScribe.Mix.Option.ParseAll.ParseAllOptions
-  alias ElixirScribe.TemplateBuilder.Options.MaybeAddBinaryId.MaybeAddBinaryIdOption
+  alias ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand
+  # alias ElixirScribe.TemplateBuilder.Options.BuildActions.BuildActionsFromOptions
+  # alias ElixirScribe.TemplateBuilder.Options.MaybeAddBinaryId.MaybeAddBinaryIdOption
 
-  def build_actions_from_options(opts) when is_list(opts), do: BuildActionsFromOptions.build(opts)
+  @doc """
+  Parses the provided list, that represents the CLI command, into one list of arguments and one list of options. The returned options will include all the options with their defaults.
 
-  def parse_all_options(opts) when is_list(opts), do: ParseAllOptions.parse(opts)
+  It returns a tuple in this format: `{parsed_args, all_opts, invalid}`.
+  """
+  def parse_cli_command(args) when is_list(args), do: ParseCLICommand.parse(args)
 
-  def maybe_add_binary_id_option(args) when is_list(args),
-    do: MaybeAddBinaryIdOption.maybe_add(args)
+  # def build_actions_from_options(opts) when is_list(opts), do: BuildActionsFromOptions.build(opts)
+
+  # def maybe_add_binary_id_option(args) when is_list(args),
+  #   do: MaybeAddBinaryIdOption.maybe_add(args)
 end

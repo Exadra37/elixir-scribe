@@ -12,12 +12,6 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   alias ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResource
-  alias ElixirScribe.Mix.Arg.ParseAll.ParseAllArgs
-
-  @doc """
-  Resource: Parse Args.
-  """
-  def parse_args(args) when is_list(args), do: ParseAllArgs.parse(args)
 
   @doc """
   Resource: Build DomainContract.
