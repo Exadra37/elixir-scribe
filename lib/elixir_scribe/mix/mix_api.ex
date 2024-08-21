@@ -5,7 +5,7 @@ defmodule ElixirScribe.MixAPI do
   # alias ElixirScribe.TemplateBuilder.Options.BuildActions.BuildActionsFromOptions
   # alias ElixirScribe.TemplateBuilder.Options.MaybeAddBinaryId.MaybeAddBinaryIdOption
 
-  @d
+  @doc """
   Parses the provided list, that represents the CLI command, into one list of arguments and one list of options. The returned options will include all the options with their defaults.
 
   It returns a tuple in this format: `{parsed_args, all_opts, invalid}`.
