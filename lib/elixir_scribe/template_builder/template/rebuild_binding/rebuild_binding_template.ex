@@ -13,7 +13,7 @@ defmodule ElixirScribe.TemplateBuilder.Template.RebuildBinding.RebuildBindingTem
       action_capitalized: StringAPI.capitalize(action),
       action_human_capitalized: StringAPI.human_capitalize(action),
       module_action_name:
-        TemplateBuilderAPI.build_module_action_name(context, action, opts),
+        TemplateBuilderAPI.build_module_action_name(context, action),
       absolute_module_action_name:
         TemplateBuilderAPI.build_absolute_module_action_name(context, action, opts)
     )
