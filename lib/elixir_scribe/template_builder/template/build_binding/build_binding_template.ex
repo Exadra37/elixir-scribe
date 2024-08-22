@@ -5,10 +5,10 @@ defmodule ElixirScribe.TemplateBuilder.Template.BuildBinding.BuildBindingTemplat
   alias ElixirScribe.Utils.StringAPI
 
   @doc false
-  def build(%DomainContract{} = context) do
-    resource_actions = ElixirScribe.resource_actions()
+  def build(%DomainContract{} = contract) do
+    resource_actions = contract.resource_actions
 
-    [context: context, schema: context.schema]
+    [context: contract, schema: contract.schema]
     |> add_resource_action_aliases(resource_actions)
     |> add_resource_action_aliases_capitalized(resource_actions)
     |> add_embeded_templates()
@@ -29,17 +29,20 @@ defmodule ElixirScribe.TemplateBuilder.Template.BuildBinding.BuildBindingTemplat
   defp add_resource_action_aliases_capitalized(binding, resource_actions) do
     new_bindings =
       resource_actions
-      |> Keyword.new(fn action ->
-        action_alias_capitalized =
-          action
-          |> ElixirScribe.resource_action_alias()
-          |> StringAPI.capitalize()
-
-        action_key = String.to_atom("#{action}_action_capitalized")
-        {action_key, action_alias_capitalized}
-      end)
+      |> Keyword.new(&new_action_binding/1)
 
     Keyword.merge(binding, new_bindings)
+  end
+
+  defp new_action_binding(action) do
+    action_alias_capitalized =
+      action
+      |> ElixirScribe.resource_action_alias()
+      |> StringAPI.capitalize()
+
+    action_key = String.to_atom("#{action}_action_capitalized")
+
+    {action_key, action_alias_capitalized}
   end
 
   defp add_embeded_templates(binding) do
