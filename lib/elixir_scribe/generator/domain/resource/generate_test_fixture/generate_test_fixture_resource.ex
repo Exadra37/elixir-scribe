@@ -30,7 +30,10 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
     unless File.exists?(test_fixtures_file) do
       fixtures_module_template_path =
         ElixirScribe.domain_tests_template_path() |> Path.join("fixtures_module.ex")
-
+dbg(binding)
+dbg(test_fixtures_file)
+dbg(base_template_paths)
+dbg(fixtures_module_template_path)
       Mix.Generator.create_file(
         test_fixtures_file,
         Mix.Phoenix.eval_from(base_template_paths, fixtures_module_template_path, binding)
