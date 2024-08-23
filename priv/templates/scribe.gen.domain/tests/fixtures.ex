@@ -1,4 +1,4 @@
-  alias <%= inspect contract..schema.module %>API
+  alias <%= inspect contract.schema.module %>API
 
 <%= for {attr, {_function_name, function_def, _needs_impl?}} <- contract.schema.fixture_unique_functions do %>  @doc """
   Generate a unique <%= contract.schema.singular %> <%= attr %>.

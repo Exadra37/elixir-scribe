@@ -2,7 +2,7 @@
   alias <%= inspect contract.schema.module %>
   alias <%= inspect contract.schema.module %><%= "." <> read_action_capitalized <> "." <> read_action_capitalized <> contract.schema.human_singular %>
 
-  import <%= contract..schema.module %>Fixtures
+  import <%= contract.schema.module %>Fixtures
 
   test "<%= action_first_word %>/1 deletes the <%= contract.schema.singular %>" do
     <%= contract.schema.singular %> = <%= contract.schema.singular %>_fixture()
