@@ -1,19 +1,19 @@
-  alias <%= inspect context.schema.module %>API
+  alias <%= inspect contract..schema.module %>API
 
-<%= for {attr, {_function_name, function_def, _needs_impl?}} <- schema.fixture_unique_functions do %>  @doc """
-  Generate a unique <%= schema.singular %> <%= attr %>.
+<%= for {attr, {_function_name, function_def, _needs_impl?}} <- contract.schema.fixture_unique_functions do %>  @doc """
+  Generate a unique <%= contract.schema.singular %> <%= attr %>.
   """
 <%= function_def %>
 <% end %>  @doc """
-  Generate a <%= schema.singular %>.
+  Generate a <%= contract.schema.singular %>.
   """
-  def <%= schema.singular %>_fixture(attrs \\ %{}) do
-    {:ok, <%= schema.singular %>} =
+  def <%= contract.schema.singular %>_fixture(attrs \\ %{}) do
+    {:ok, <%= contract.schema.singular %>} =
       attrs
       |> Enum.into(%{
-<%= schema.fixture_params |> Enum.map(fn {key, code} -> "        #{key}: #{code}" end) |> Enum.join(",\n") %>
+<%= contract.schema.fixture_params |> Enum.map(fn {key, code} -> "        #{key}: #{code}" end) |> Enum.join(",\n") %>
       })
-      |> <%= inspect(schema.alias) <> "API." <> create_action %>()
+      |> <%= inspect(contract.schema.alias) <> "API." <> create_action %>()
 
-    <%= schema.singular %>
+    <%= contract.schema.singular %>
   end

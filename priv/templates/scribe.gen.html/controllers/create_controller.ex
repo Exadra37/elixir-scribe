@@ -1,19 +1,19 @@
 defmodule <%= absolute_module_action_name %>Controller do
-  use <%= inspect context.web_module %>, :controller
+  use <%= inspect contract.web_module %>, :controller
 
-  alias <%= inspect schema.module %>API
+  alias <%= inspect contract.schema.module %>API
 
-  plug :put_view, html: <%= inspect context.web_module %>.<%= schema.web_namespace %>.<%= inspect schema.alias %>HTML
+  plug :put_view, html: <%= inspect contract.web_module %>.<%= contract.schema.web_namespace %>.<%= inspect contract.schema.alias %>HTML
 
-  def <%= action %>(conn, %{<%= inspect schema.singular %> => <%= schema.singular %>_params}) do
-    case <%= schema.human_singular %>API.<%= action %>(<%= schema.singular %>_params) do
-      {:ok, <%= schema.singular %>} ->
+  def <%= action %>(conn, %{<%= inspect contract.schema.singular %> => <%= contract.schema.singular %>_params}) do
+    case <%= contract.schema.human_singular %>API.<%= action %>(<%= contract.schema.singular %>_params) do
+      {:ok, <%= contract.schema.singular %>} ->
         conn
-        |> put_flash(:info, "<%= schema.human_singular %> created successfully.")
-        |> redirect(to: ~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}")
+        |> put_flash(:info, "<%= contract.schema.human_singular %> created successfully.")
+        |> redirect(to: ~p"<%= contract.schema.route_prefix %>/#{<%= contract.schema.singular %>}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "<%= new_action %>_<%= schema.singular %>.html", changeset: changeset)
+        render(conn, "<%= new_action %>_<%= contract.schema.singular %>.html", changeset: changeset)
     end
   end
 end

@@ -1,19 +1,19 @@
 defmodule <%= absolute_module_action_name %>ControllerTest do
-  use <%= inspect context.web_module %>.ConnCase
+  use <%= inspect contract.web_module %>.ConnCase
 
-  import <%= context.schema.module %>Fixtures
+  import <%= contract..schema.module %>Fixtures
 
   setup do
-    <%= schema.singular %> = <%= schema.singular %>_fixture()
-    %{<%= schema.singular %>: <%= schema.singular %>}
+    <%= contract.schema.singular %> = <%= contract.schema.singular %>_fixture()
+    %{<%= contract.schema.singular %>: <%= contract.schema.singular %>}
   end
 
-  test "deletes chosen <%= schema.singular %>", %{conn: conn, <%= schema.singular %>: <%= schema.singular %>} do
-    conn = delete(conn, ~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}")
-    assert redirected_to(conn) == ~p"<%= schema.route_prefix %>"
+  test "deletes chosen <%= contract.schema.singular %>", %{conn: conn, <%= contract.schema.singular %>: <%= contract.schema.singular %>} do
+    conn = delete(conn, ~p"<%= contract.schema.route_prefix %>/#{<%= contract.schema.singular %>}")
+    assert redirected_to(conn) == ~p"<%= contract.schema.route_prefix %>"
 
     assert_error_sent 404, fn ->
-      get(conn, ~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}")
+      get(conn, ~p"<%= contract.schema.route_prefix %>/#{<%= contract.schema.singular %>}")
     end
   end
 end

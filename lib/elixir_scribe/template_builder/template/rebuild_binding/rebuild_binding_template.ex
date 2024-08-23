@@ -5,7 +5,7 @@ defmodule ElixirScribe.TemplateBuilder.Template.RebuildBinding.RebuildBindingTem
   alias ElixirScribe.Utils.StringAPI
 
   def rebuild(binding, action, opts) when is_list(binding) and is_binary(action) and is_list(opts) do
-    context = Keyword.get(binding, :context)
+    contract = Keyword.get(binding, :contract)
 
     Keyword.merge(binding,
       action: action,
@@ -13,9 +13,9 @@ defmodule ElixirScribe.TemplateBuilder.Template.RebuildBinding.RebuildBindingTem
       action_capitalized: StringAPI.capitalize(action),
       action_human_capitalized: StringAPI.human_capitalize(action),
       module_action_name:
-        TemplateBuilderAPI.build_module_action_name(context, action),
+        TemplateBuilderAPI.build_module_action_name(contract, action),
       absolute_module_action_name:
-        TemplateBuilderAPI.build_absolute_module_action_name(context, action, opts)
+        TemplateBuilderAPI.build_absolute_module_action_name(contract, action, opts)
     )
   end
 end

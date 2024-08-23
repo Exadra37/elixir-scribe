@@ -1,11 +1,11 @@
-  alias <%= inspect schema.repo %><%= schema.repo_alias %>
-  alias <%= inspect schema.module %>
-  alias <%= inspect schema.module %>API
+  alias <%= inspect contract.schema.repo %><%= contract.schema.repo_alias %>
+  alias <%= inspect contract.schema.module %>
+  alias <%= inspect contract.schema.module %>API
 
   @doc false
   def <%= action_first_word %>(uuid, %{} = attrs) when is_binary(uuid) and is_map(attrs) do
     uuid
-    |> <%= schema.human_singular %>API.<%= read_action %>!()
-    |> <%= inspect schema.alias %>.changeset(attrs)
+    |> <%= contract.schema.human_singular %>API.<%= read_action %>!()
+    |> <%= inspect contract.schema.alias %>.changeset(attrs)
     |> Repo.update()
   end

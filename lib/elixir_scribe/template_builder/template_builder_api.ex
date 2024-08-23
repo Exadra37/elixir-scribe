@@ -20,19 +20,19 @@ defmodule ElixirScribe.TemplateBuilderAPI do
 
   def build_embeded_templates(), do: BuildModuleEmbedTemplates.build()
 
-  def build_absolute_module_action_name(%DomainContract{} = context, action, opts) when is_list(opts),
-    do: BuildAbsoluteModuleActionName.build(context, action, opts)
+  def build_absolute_module_action_name(%DomainContract{} = contract, action, opts) when is_list(opts),
+    do: BuildAbsoluteModuleActionName.build(contract, action, opts)
 
-  def build_absolute_module_action_name_aliases(%DomainContract{} = context, opts) when is_list(opts),
-    do: BuildAbsoluteModuleActionNameAliases.build(context, opts)
+  def build_absolute_module_action_name_aliases(%DomainContract{} = contract, opts) when is_list(opts),
+    do: BuildAbsoluteModuleActionNameAliases.build(contract, opts)
 
-  def build_absolute_module_name(%DomainContract{} = context, opts) when is_list(opts),
-    do: BuildAbsoluteModuleName.build(context, opts)
+  def build_absolute_module_name(%DomainContract{} = contract, opts) when is_list(opts),
+    do: BuildAbsoluteModuleName.build(contract, opts)
 
-  def build_module_action_name(%DomainContract{} = context, action) when is_binary(action),
-    do: BuildModuleActionName.build(context, action)
+  def build_module_action_name(%DomainContract{} = contract, action) when is_binary(action),
+    do: BuildModuleActionName.build(contract, action)
 
-    def scope_routes(%DomainContract{} = context), do: ScopeActionRoutes.scope(context)
+    def scope_routes(%DomainContract{} = contract), do: ScopeActionRoutes.scope(contract)
 
 
   @doc """
@@ -61,9 +61,9 @@ defmodule ElixirScribe.TemplateBuilderAPI do
   def build_template_action_filename(action, action_suffix, file_type, file_extension),
     do: BuildFilenameActionTemplate.build(action, action_suffix, file_type, file_extension)
 
-  def build_path_html_template(%DomainContract{} = context), do: BuildPathHtmlTemplate.build(context)
+  def build_path_html_template(%DomainContract{} = contract), do: BuildPathHtmlTemplate.build(contract)
 
-  def build_binding_template(%DomainContract{} = context), do: BuildBindingTemplate.build(context)
+  def build_binding_template(%DomainContract{} = contract), do: BuildBindingTemplate.build(contract)
 
   def rebuild_binding_template(binding, action, opts), do: RebuildBindingTemplate.rebuild(binding, action, opts)
 end

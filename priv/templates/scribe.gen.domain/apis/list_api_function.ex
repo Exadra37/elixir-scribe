@@ -1,11 +1,11 @@
 
   @doc """
-  Returns the list of <%= schema.plural %>.
+  Returns the list of <%= contract.schema.plural %>.
 
   ## Examples
 
-      iex> <%=inspect schema.alias %>API.<%= action %>()
-      [%<%= inspect schema.alias %>{}, ...]
+      iex> <%=inspect contract.schema.alias %>API.<%= action %>()
+      [%<%= inspect contract.schema.alias %>{}, ...]
 
   """
   def <%= action %>(), do: <%= module_action_name %>.<%= action_first_word %>()

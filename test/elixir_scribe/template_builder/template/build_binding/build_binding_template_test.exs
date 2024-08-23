@@ -18,8 +18,7 @@ defmodule ElixirScribe.TemplateBuilder.Template.BuildBinding.BuildBindingTemplat
 
     expected_bindings = [
       embeded_templates: expected_embeds,
-      context: contract,
-      schema: contract.schema,
+      contract: contract,
       list_action: "list",
       new_action: "new",
       read_action: "read",

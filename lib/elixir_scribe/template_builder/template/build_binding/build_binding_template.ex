@@ -8,7 +8,7 @@ defmodule ElixirScribe.TemplateBuilder.Template.BuildBinding.BuildBindingTemplat
   def build(%DomainContract{} = contract) do
     resource_actions = contract.resource_actions
 
-    [context: contract, schema: contract.schema]
+    [contract: contract, schema: contract.schema]
     |> add_resource_action_aliases(resource_actions)
     |> add_resource_action_aliases_capitalized(resource_actions)
     |> add_embeded_templates()

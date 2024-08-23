@@ -1,15 +1,15 @@
 <.header>
-  <%= schema.human_singular %> <%%= @<%= schema.singular %>.id %>
-  <:subtitle>This is a <%= schema.singular %> record from your database.</:subtitle>
+  <%= contract.schema.human_singular %> <%%= @<%= contract.schema.singular %>.id %>
+  <:subtitle>This is a <%= contract.schema.singular %> record from your database.</:subtitle>
   <:actions>
-    <.link href={~p"<%= schema.route_prefix %>/#{@<%= schema.singular %>}/edit"}>
-      <.button>Edit <%= schema.singular %></.button>
+    <.link href={~p"<%= contract.schema.route_prefix %>/#{@<%= contract.schema.singular %>}/edit"}>
+      <.button>Edit <%= contract.schema.singular %></.button>
     </.link>
   </:actions>
 </.header>
 
-<.list><%= for {k, _} <- schema.attrs do %>
-  <:item title="<%= Phoenix.Naming.humanize(Atom.to_string(k)) %>"><%%= @<%= schema.singular %>.<%= k %> %></:item><% end %>
+<.list><%= for {k, _} <- contract.schema.attrs do %>
+  <:item title="<%= Phoenix.Naming.humanize(Atom.to_string(k)) %>"><%%= @<%= contract.schema.singular %>.<%= k %> %></:item><% end %>
 </.list>
 
-<.back navigate={~p"<%= schema.route_prefix %>"}>Back to <%= schema.plural %></.back>
+<.back navigate={~p"<%= contract.schema.route_prefix %>"}>Back to <%= contract.schema.plural %></.back>

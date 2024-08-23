@@ -1,7 +1,7 @@
   # alias <%= module_action_name %>
-  # alias <%= inspect schema.module %>
+  # alias <%= inspect contract.schema.module %>
 
-  # import <%= context.schema.module %>Fixtures
+  # import <%= contract..schema.module %>Fixtures
 
   test "<%= action_first_word %>" do
     raise "TOOO: Implement test for #{__MODULE__}"

@@ -1,6 +1,6 @@
-defmodule <%= inspect context.schema.module %>Fixtures do
+defmodule <%= inspect contract..schema.module %>Fixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `<%= inspect context.module %>` context.
+  entities via the `<%= inspect contract.module %>` contract.
   """
 end

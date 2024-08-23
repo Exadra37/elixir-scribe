@@ -1,13 +1,13 @@
-defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>HTML do
-  use <%= inspect context.web_module %>, :html
+defmodule <%= inspect contract.web_module %>.<%= inspect Module.concat(contract.schema.web_namespace, contract.schema.alias) %>HTML do
+  use <%= inspect contract.web_module %>, :html
   <%= embeded_templates %>
-  embed_templates "<%= schema.singular %>_form.html"
+  embed_templates "<%= contract.schema.singular %>_form.html"
 
   @doc """
-  Renders a <%= schema.singular %> form.
+  Renders a <%= contract.schema.singular %> form.
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
 
-  def <%= schema.singular %>_form(assigns)
+  def <%= contract.schema.singular %>_form(assigns)
 end

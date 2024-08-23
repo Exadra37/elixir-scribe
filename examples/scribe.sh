@@ -19,27 +19,46 @@ Maybe_Create_App() {
   fi
 }
 
+Scribe_Domain_Resource_Behaviour() {
+  Maybe_Create_App
+
+  mix scribe.gen.html ShoppingCart Orders order items:array:string --no-default-actions --actions place_order,cancel_order
+  mix scribe.gen.html Accounting Invoices invoice items:array:string --no-default-actions --actions pay_invoice,cancel_invoice
+}
+
 Scribe_Domain_Criteria_1() {
+  Maybe_Create_App
+
   mix scribe.gen.domain Sales.Catalog Category categories name:string desc:string
 }
 
 Scribe_Domain_Criteria_2() {
+  Maybe_Create_App
+
   mix scribe.gen.domain Sales.Catalog Product products sku:string name:string desc:string --actions import,export
 }
 
 Scribe_Domain_Criteria_3() {
+  Maybe_Create_App
+
   mix scribe.gen.html Warehouse.Fulfillment FulfillmentOrder fulfillment_orders uuid:string label:string total_quantity:integer location:string products_sku:array:string --no-default-actions --actions list
 }
 
 Scribe_Html_Criteria_1() {
+  Maybe_Create_App
+
   mix scribe.gen.html Sales.Catalog Category categories name:string desc:string
 }
 
 Scribe_Html_Criteria_2() {
+  Maybe_Create_App
+
   mix scribe.gen.html Sales.Catalog Product products sku:string name:string desc:string --actions import,export
 }
 
 Scribe_Html_Criteria_3() {
+  Maybe_Create_App
+
   mix scribe.gen.html Warehouse.Fulfillment FulfillmentOrder fulfillment_orders uuid:string label:string total_quantity:integer location:string products_sku:array:string --no-default-actions --actions list
 }
 
@@ -167,6 +186,11 @@ Main() {
 
       todo )
         Todo_App
+        exit $?
+        ;;
+
+      behaviours )
+        Scribe_Domain_Resource_Behaviour
         exit $?
         ;;
 

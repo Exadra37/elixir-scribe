@@ -1,5 +1,5 @@
 defmodule <%= module_action_name %>Test do
-  use <%= inspect context.base_module %>.DataCase
+  use <%= inspect contract.base_module %>.DataCase
 
   alias <%= module_action_name %>
 

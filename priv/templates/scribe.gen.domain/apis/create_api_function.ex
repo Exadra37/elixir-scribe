@@ -1,13 +1,13 @@
 
   @doc """
-  Creates a <%= schema.singular %> from the given `attrs`.
+  Creates a <%= contract.schema.singular %> from the given `attrs`.
 
   ## Examples
 
-      iex> <%= inspect schema.alias %>API.<%= action %>(%{field: value})
-      {:ok, %<%= inspect schema.alias %>{}}
+      iex> <%= inspect contract.schema.alias %>API.<%= action %>(%{field: value})
+      {:ok, %<%= inspect contract.schema.alias %>{}}
 
-      iex> <%= inspect schema.alias %>API.<%= action %>(%{field: bad_value})
+      iex> <%= inspect contract.schema.alias %>API.<%= action %>(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
