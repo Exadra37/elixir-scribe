@@ -12,7 +12,7 @@
 
     assert {:ok, %<%= inspect contract.schema.alias %>{} = <%= contract.schema.singular %>} = <%= action_capitalized %><%= contract.schema.human_singular %>.<%= action_first_word %>(<%= contract.schema.singular %>.id, update_attrs)
     <%= for {field, value} <- contract.schema.params.update do %>
-    assert <%= contract.schema.singular %>.<%= field %> == <%= Mix.Phoenix.contract.schema.value(schema, field, value) %><% end %>
+    assert <%= contract.schema.singular %>.<%= field %> == <%= Mix.Phoenix.Schema.value(contract.schema, field, value) %><% end %>
   end
 
   test "<%= action_first_word %>/2 with invalid data returns error changeset" do

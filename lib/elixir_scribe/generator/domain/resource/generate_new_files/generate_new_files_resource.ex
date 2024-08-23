@@ -17,11 +17,14 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
       prompt_for_conflicts(contract)
     end
 
-    schema = ElixirScribe.to_phoenix_schema(contract.schema)
-    paths = ElixirScribe.base_template_paths()
-    binding = TemplateBuilderAPI.build_binding_template(contract)
+    if contract.schema.generate? do
+      schema = ElixirScribe.to_phoenix_schema(contract.schema)
+      paths = ElixirScribe.base_template_paths()
+      binding = TemplateBuilderAPI.build_binding_template(contract) |> Keyword.merge([schema: schema])
 
-    if schema.generate?, do: Mix.Tasks.Phx.Gen.Schema.copy_new_files(schema, paths, binding)
+      dbg(binding)
+      Mix.Tasks.Phx.Gen.Schema.copy_new_files(schema, paths, binding)
+    end
 
     contract
     |> ResourceAPI.generate_api()
