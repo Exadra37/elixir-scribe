@@ -1,6 +1,7 @@
 defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   @moduledoc false
 
+  alias ElixirScribe.Generator.Domain.Resource.GenerateSchema.GenerateSchemaResource
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResourceContract
   alias ElixirScribe.Generator.Domain.Resource.BuildFilesToGenerate.BuildFilesToGenerateResource
@@ -40,6 +41,12 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   def build_api_file_paths(%DomainContract{} = contract), do: BuildAPIFilePathsResource.build(contract)
 
   @doc """
+  Resource: Generate Schema.
+  """
+  def generate_schema(%DomainContract{} = contract),
+    do: GenerateSchemaResource.generate(contract)
+
+  @doc """
   Resource: Generate Actions.
   """
   def generate_actions(%DomainContract{} = contract),
@@ -49,7 +56,7 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   Resource: Generate Tests.
   """
   def generate_tests(%DomainContract{} = contract),
-    do: GenerateTestsResource.generate_tests(contract)
+    do: GenerateTestsResource.generate(contract)
 
   @doc """
   Resource: Generate Api.
@@ -66,5 +73,5 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPI do
   Resource: Generate New Files.
   """
   def generate_new_files(%DomainContract{} = contract, opts \\ []) when is_list(opts),
-    do: GenerateNewFilesResource.generate(contract)
+    do: GenerateNewFilesResource.generate(contract, opts)
 end

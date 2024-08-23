@@ -4,27 +4,26 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
 
-  @doc false
   def build(%DomainContract{generate?: false}), do: []
-  def build(%DomainContract{generate?: true} = context), do: build_files(context)
+  def build(%DomainContract{generate?: true} = contract), do: build_files(contract)
 
-  defp build_files(%DomainContract{} = context) do
-    resource_actions = context.opts |> Keyword.get(:resource_actions)
+  defp build_files(%DomainContract{} = contract) do
+    resource_actions = contract.opts |> Keyword.get(:resource_actions)
 
     for action <- resource_actions do
-      source_path = build_source_path(context.schema, action)
-      target_path = build_target_path(context, action)
+      source_path = build_source_path(contract.schema, action)
+      target_path = build_target_path(contract, action)
 
       {:eex, :resource, source_path, target_path, action}
     end
   end
 
-  defp build_target_path(context, action) do
+  defp build_target_path(contract, action) do
     plural_actions = ElixirScribe.resource_plural_actions()
-    resource_name = action in plural_actions && context.resource_name_plural || context.resource_name_singular
+    resource_name = action in plural_actions && contract.resource_name_plural || contract.resource_name_singular
     filename = "#{action}_" <> resource_name <> ".ex"
 
-    Path.join([context.lib_resource_dir, action, filename])
+    Path.join([contract.lib_resource_dir, action, filename])
   end
 
   defp build_source_path(schema, action) do

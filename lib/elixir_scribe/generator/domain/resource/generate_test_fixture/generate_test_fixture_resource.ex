@@ -4,26 +4,25 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
 
-  def generate(%DomainContract{generate?: false} = domain_contract), do: domain_contract
-
-  def generate(%DomainContract{generate?: true} = domain_contract),
-    do: generate_test_fixture_file(domain_contract)
+  def generate(%DomainContract{generate?: false} = contract), do: contract
+  def generate(%DomainContract{generate?: true} = contract),
+    do: generate_test_fixture_file(contract)
 
   @doc false
-  def generate_test_fixture_file(domain_contract) do
+  def generate_test_fixture_file(contract) do
     base_template_paths = ElixirScribe.base_template_paths()
-    binding = TemplateBuilderAPI.build_binding_template(domain_contract)
+    binding = TemplateBuilderAPI.build_binding_template(contract)
 
-    domain_contract
+    contract
     |> ensure_test_fixtures_file_exists(base_template_paths, binding)
     |> inject_test_fixture(base_template_paths, binding)
 
-    domain_contract
+    contract
   end
 
   @doc false
   def ensure_test_fixtures_file_exists(
-        %DomainContract{test_fixtures_file: test_fixtures_file} = domain_contract,
+        %DomainContract{test_fixtures_file: test_fixtures_file} = contract,
         base_template_paths,
         binding
       ) do
@@ -37,11 +36,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
       )
     end
 
-    domain_contract
+    contract
   end
 
   defp inject_test_fixture(
-         %DomainContract{test_fixtures_file: test_fixtures_file, opts: opts} = domain_contract,
+         %DomainContract{test_fixtures_file: test_fixtures_file, opts: opts} = contract,
          base_template_paths,
          binding
        ) do
@@ -56,14 +55,14 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
       |> Mix.Phoenix.prepend_newline()
       |> TemplateBuilderAPI.inject_eex_before_final_end(test_fixtures_file, binding)
 
-      maybe_print_unimplemented_fixture_functions(domain_contract)
+      maybe_print_unimplemented_fixture_functions(contract)
     end
   end
 
-  defp maybe_print_unimplemented_fixture_functions(%DomainContract{} = domain_contract) do
+  defp maybe_print_unimplemented_fixture_functions(%DomainContract{} = contract) do
     fixture_functions_needing_implementations =
       Enum.flat_map(
-        domain_contract.schema.fixture_unique_functions,
+        contract.schema.fixture_unique_functions,
         fn
           {_field, {_function_name, function_def, true}} -> [function_def]
           {_field, {_function_name, _function_def, false}} -> []
@@ -75,13 +74,13 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
 
       Some of the generated database columns are unique. Please provide
       unique implementations for the following fixture function(s) in
-      #{domain_contract.test_fixtures_file}:
+      #{contract.test_fixtures_file}:
 
       #{fixture_functions_needing_implementations |> Enum.map_join(&indent(&1, 2)) |> String.trim_trailing()}
       """)
     end
 
-    domain_contract
+    contract
   end
 
   defp indent(string, spaces) do
