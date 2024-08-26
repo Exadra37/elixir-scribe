@@ -4,8 +4,8 @@ defmodule ElixirScribe.Template.File.BuildPathForHtml.BuildPathForHtmlFile do
   alias ElixirScribe.Generator.DomainContract
 
   @doc false
-  def build(%DomainContract{} = context) do
-    template = Keyword.get(context.opts, :template, "default")
+  def build(%DomainContract{} = contract) do
+    template = Keyword.get(contract.opts, :html_template, "default")
 
     ElixirScribe.html_template_path()
     |> Path.join(template)

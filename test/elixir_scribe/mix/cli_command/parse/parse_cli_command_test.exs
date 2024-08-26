@@ -18,7 +18,8 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
         context: true,
         no_default_actions: false,
         actions: nil,
-        binary_id: true
+        binary_id: true,
+        html_template: "default"
       ]
 
       assert {valid_args, all_opts, invalid_args} = MixAPI.parse_cli_command(args)
@@ -61,7 +62,8 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
         context: true,
         no_default_actions: false,
         actions: "import,export",
-        binary_id: true
+        binary_id: true,
+        html_template: "default"
       ]
 
       assert {valid_args, all_opts, invalid_args} = MixAPI.parse_cli_command(args)

@@ -10,6 +10,8 @@ defmodule ElixirScribe.TemplateFileAPI do
   alias ElixirScribe.Template.File.BuildFilenameForAction.BuildFilenameForActionFile
   alias ElixirScribe.Template.File.BuildPathForHtml.BuildPathForHtmlFile
 
+  def build_dir_path_for_html_file(%DomainContract{} = contract), do: BuildPathForHtmlFile.build(contract)
+
   def build_template_action_filename(%BuildFilenameForActionFileContract{} = contract),
     do: BuildFilenameForActionFile.build(contract)
 
@@ -31,6 +33,4 @@ defmodule ElixirScribe.TemplateFileAPI do
 
   def inject_eex_before_final_end(content_to_inject, file_path, binding),
     do: InjectEexBeforeFinalEnd.inject(content_to_inject, file_path, binding)
-
-  def build_path_for_html_file(%DomainContract{} = contract), do: BuildPathForHtmlFile.build(contract)
 end

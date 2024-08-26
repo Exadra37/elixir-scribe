@@ -12,10 +12,11 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
     prefix: :string,
     live: :boolean,
     actions: :string,
-    no_default_actions: :boolean
+    no_default_actions: :boolean,
+    html_template: :string
   ]
 
-    @default_opts [schema: true, context: true, no_default_actions: false, actions: nil]
+    @default_opts [schema: true, context: true, no_default_actions: false, actions: nil, html_template: "default"]
 
   def parse(args) when is_list(args) do
     {opts, parsed_args, invalid_opts} =
