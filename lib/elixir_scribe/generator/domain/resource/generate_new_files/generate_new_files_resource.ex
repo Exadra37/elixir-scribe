@@ -1,9 +1,9 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResource do
   @moduledoc false
 
+  alias ElixirScribe.MixAPI
   alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Generator.DomainResourceAPI
-  alias ElixirScribe.TemplateFileAPI
 
   def generate(%DomainContract{generate?: false} = contract, _opts), do: contract
   def generate(%DomainContract{generate?: true} = contract, opts), do: generate_new_files(contract, opts)
@@ -28,6 +28,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
   defp prompt_for_conflicts(contract) do
     contract
     |> DomainResourceAPI.build_files_to_generate()
-    |> TemplateFileAPI.prompt_for_conflicts()
+    |> MixAPI.prompt_for_file_conflicts()
   end
 end

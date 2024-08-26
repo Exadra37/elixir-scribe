@@ -3,7 +3,6 @@ defmodule ElixirScribe.TemplateFileAPI do
 
   alias ElixirScribe.Template.BuildFilenameForActionFileContract
   alias ElixirScribe.Generator.DomainContract
-  alias ElixirScribe.Template.File.Conflicts.MixPromptFileConflicts
   alias ElixirScribe.Template.File.Copy.CopyFile
   alias ElixirScribe.Template.File.Inject.InjectContentBeforeFinalEnd
   alias ElixirScribe.Template.File.Inject.InjectEexBeforeFinalEnd
@@ -14,11 +13,6 @@ defmodule ElixirScribe.TemplateFileAPI do
 
   def build_template_action_filename(%BuildFilenameForActionFileContract{} = contract),
     do: BuildFilenameForActionFile.build(contract)
-
-  @doc """
-  Prompts to continue if any files exist.
-  """
-  def prompt_for_conflicts(files) when is_list(files), do: MixPromptFileConflicts.prompt(files)
 
   @doc """
   Copies files from source dir to target dir according to the given map.

@@ -1,6 +1,7 @@
 defmodule ElixirScribe.MixAPI do
   @moduledoc false
 
+  alias ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsShell
   alias ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand
   # alias ElixirScribe.Template.Options.BuildActions.BuildActionsFromOptions
   # alias ElixirScribe.Template.Options.MaybeAddBinaryId.MaybeAddBinaryIdOption
@@ -11,6 +12,11 @@ defmodule ElixirScribe.MixAPI do
   It returns a tuple in this format: `{parsed_args, all_opts, invalid}`.
   """
   def parse_cli_command(args) when is_list(args), do: ParseCLICommand.parse(args)
+
+  @doc """
+  Prompts to continue if any files exist.
+  """
+  def prompt_for_file_conflicts(files) when is_list(files), do: PromptForFileConflictsShell.prompt(files)
 
   # def build_actions_from_options(opts) when is_list(opts), do: BuildActionsFromOptions.build(opts)
 

@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Template.File.Conflicts.MixPromptFileConflicts do
+defmodule ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsShell do
   @moduledoc false
 
   # The function `prompt/1` was copied from the Phoenix Framework module at `/lib/mix/phoenix.ex`.

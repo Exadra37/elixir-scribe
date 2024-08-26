@@ -245,7 +245,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     context
     |> DomainResourceAPI.build_files_to_generate()
     |> Kernel.++(files)
-    |> TemplateFileAPI.prompt_for_conflicts()
+    |> MixAPI.prompt_for_file_conflicts()
   end
 
   @doc false
