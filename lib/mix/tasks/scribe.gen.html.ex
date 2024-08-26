@@ -257,7 +257,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   end
 
   defp build_files_without_action(context) do
-    html_template_path = TemplateFileAPI.build_path_html_template(context)
+    html_template_path = TemplateFileAPI.build_path_for_html_file(context)
 
     resource_form_source = Path.join([html_template_path, "resource_form.html.heex"])
 
@@ -310,7 +310,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
 
   defp build_html_action_files(files, context) do
     html_actions = ElixirScribe.resource_html_actions()
-    html_template_path = TemplateFileAPI.build_path_html_template(context)
+    html_template_path = TemplateFileAPI.build_path_for_html_file(context)
 
     for html_action <- html_actions, reduce: files do
       files ->

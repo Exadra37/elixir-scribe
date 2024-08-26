@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Template.File.BuildPath.BuildPathHtmlTemplate do
+defmodule ElixirScribe.Template.File.BuildPathForHtml.BuildPathForHtmlFile do
   @moduledoc false
 
   alias ElixirScribe.Generator.DomainContract
