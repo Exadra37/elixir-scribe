@@ -1,8 +1,9 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResource do
   @moduledoc false
 
-  alias ElixirScribe.Generator.Domain.DomainContract
-  alias ElixirScribe.TemplateBuilderAPI
+  alias ElixirScribe.TemplateBindingAPI
+  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.TemplateFileAPI
 
   def generate(%DomainContract{generate?: false} = contract), do: contract
   def generate(%DomainContract{generate?: true} = contract),
@@ -11,7 +12,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
   @doc false
   def generate_test_fixture_file(contract) do
     base_template_paths = ElixirScribe.base_template_paths()
-    binding = TemplateBuilderAPI.build_binding_template(contract)
+    binding = TemplateBindingAPI.build_binding_template(contract)
 
     contract
     |> ensure_test_fixtures_file_exists(base_template_paths, binding)
@@ -53,7 +54,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
       base_template_paths
       |> Mix.Phoenix.eval_from(fixtures_file_template_path, binding)
       |> Mix.Phoenix.prepend_newline()
-      |> TemplateBuilderAPI.inject_eex_before_final_end(test_fixtures_file, binding)
+      |> TemplateFileAPI.inject_eex_before_final_end(test_fixtures_file, binding)
 
       maybe_print_unimplemented_fixture_functions(contract)
     end

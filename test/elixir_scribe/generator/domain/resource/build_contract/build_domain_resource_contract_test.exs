@@ -3,7 +3,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
 
   alias ElixirScribe.MixAPI
   alias ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResourceContract
-  alias ElixirScribe.Generator.Domain.DomainContract
+  alias ElixirScribe.Generator.DomainContract
 
   defp assert_contract([domain | _] = args, expected_contract) do
     expected_keys = Map.keys(expected_contract)
@@ -57,7 +57,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
         resource_module_plural: ElixirScribe.Blog.Posts,
         resource_name_plural: "posts",
         resource_name_singular: "post",
-        self: ElixirScribe.Generator.Domain.DomainContract,
+        self: ElixirScribe.Generator.DomainContract,
         test_domain_dir: "test/elixir_scribe/domain/blog",
         test_file: "test/elixir_scribe/domain/blog_test.exs",
         test_fixtures_file: "test/support/fixtures/domain/blog/post_fixtures.ex",
@@ -97,7 +97,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
         resource_module_plural: ElixirScribe.Blog.Site.Posts,
         resource_name_plural: "posts",
         resource_name_singular: "post",
-        self: ElixirScribe.Generator.Domain.DomainContract,
+        self: ElixirScribe.Generator.DomainContract,
         test_domain_dir: "test/elixir_scribe/domain/blog/site",
         test_file: "test/elixir_scribe/domain/blog/site_test.exs",
         test_fixtures_file: "test/support/fixtures/domain/blog/site/post_fixtures.ex",
@@ -137,7 +137,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
         resource_module_plural: ElixirScribe.Blog.Site.Admin.Posts,
         resource_name_plural: "posts",
         resource_name_singular: "post",
-        self: ElixirScribe.Generator.Domain.DomainContract,
+        self: ElixirScribe.Generator.DomainContract,
         test_domain_dir: "test/elixir_scribe/domain/blog/site/admin",
         test_file: "test/elixir_scribe/domain/blog/site/admin_test.exs",
         test_fixtures_file: "test/support/fixtures/domain/blog/site/admin/post_fixtures.ex",

@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Generator.Domain.Resource.BuildFilesToGenerate.BuildFilesToGenerateResourceTest do
   use ElixirScribe.BaseCase, async: true
 
-  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.DomainResourceAPI
 
   @doc false
   test "files_to_generate/1 works as expected" do
@@ -50,6 +50,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildFilesToGenerate.BuildFiles
 
     domain_contract = domain_contract_fixture()
 
-    assert ResourceAPI.build_files_to_generate(domain_contract) === expected_files
+    assert DomainResourceAPI.build_files_to_generate(domain_contract) === expected_files
   end
 end

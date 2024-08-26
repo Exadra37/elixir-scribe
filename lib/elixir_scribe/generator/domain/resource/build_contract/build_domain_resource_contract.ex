@@ -4,8 +4,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
   # The logic to build the contract was borrowed from the Mix.Phoenix.Context
   # module of the Phoenix Framework and modified to suite ElixirScribe needs.
 
-  alias ElixirScribe.Generator.Domain.DomainContract
-  alias ElixirScribe.Generator.Schema.SchemaContract
+  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.SchemaContract
   alias ElixirScribe.Utils.StringAPI
 
   def build(args, opts) when is_list(args) and is_list(opts), do: new(args, opts)

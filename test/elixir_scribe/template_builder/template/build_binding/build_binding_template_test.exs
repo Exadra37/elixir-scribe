@@ -1,5 +1,5 @@
-defmodule ElixirScribe.TemplateBuilder.Template.BuildBinding.BuildBindingTemplateTest do
-  alias ElixirScribe.TemplateBuilderAPI
+defmodule ElixirScribe.Template.Binding.Build.BuildBindingTemplateTest do
+  alias ElixirScribe.TemplateBindingAPI
 
   use ElixirScribe.BaseCase, async: true
 
@@ -35,6 +35,6 @@ defmodule ElixirScribe.TemplateBuilder.Template.BuildBinding.BuildBindingTemplat
       delete_action_capitalized: "Delete"
     ]
 
-    assert TemplateBuilderAPI.build_binding_template(contract) === expected_bindings
+    assert TemplateBindingAPI.build_binding_template(contract) === expected_bindings
   end
 end

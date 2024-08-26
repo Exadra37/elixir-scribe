@@ -4,7 +4,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
 
   use ElixirScribe.BaseCase
 
-  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.DomainResourceAPI
 
   import MixTestHelper
 
@@ -28,7 +28,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
 
       contract = domain_contract_fixture(args)
 
-      ResourceAPI.generate_test_fixture(contract)
+      DomainResourceAPI.generate_test_fixture(contract)
 
       assert_file("test/support/fixtures/domain/blog/post_fixtures.ex", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.PostFixtures do"

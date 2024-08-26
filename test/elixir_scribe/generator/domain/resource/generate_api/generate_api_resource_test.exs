@@ -3,7 +3,7 @@ Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResourceTest do
   use ElixirScribe.BaseCase
 
-  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.DomainResourceAPI
 
   import MixTestHelper
 
@@ -24,7 +24,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
       ]
 
       contract = domain_contract_fixture(args)
-      ResourceAPI.generate_api(contract)
+      DomainResourceAPI.generate_api(contract)
 
       assert_file("lib/elixir_scribe/domain/blog/post_api.ex", fn file ->
         assert_default_actions(file, resource: "Post")
@@ -46,7 +46,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
       ]
 
       contract = domain_contract_fixture(args)
-      ResourceAPI.generate_api(contract)
+      DomainResourceAPI.generate_api(contract)
 
       assert_file("lib/elixir_scribe/domain/blog/post_api.ex", fn file ->
         assert_default_actions(file, resource: "Post")
@@ -71,7 +71,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
       ]
 
       contract = domain_contract_fixture(args)
-      ResourceAPI.generate_api(contract)
+      DomainResourceAPI.generate_api(contract)
 
       assert_file("lib/elixir_scribe/domain/blog/post_api.ex", fn file ->
         refute_default_actions(file, resource: "Post")
@@ -93,7 +93,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
       ]
 
       contract = domain_contract_fixture(args)
-      ResourceAPI.generate_api(contract)
+      DomainResourceAPI.generate_api(contract)
 
       assert_file("lib/elixir_scribe/domain/blog/guest_post_api.ex", fn file ->
 

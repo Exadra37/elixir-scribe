@@ -1,11 +1,11 @@
 defmodule ElixirScribe.Generator.Domain.Resource.BuildAPIFilePaths.BuildAPIFilePathsResourceTest do
-  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.DomainResourceAPI
   use ElixirScribe.BaseCase, async: true
 
   test "returns nil when generate? is set to false in the Domain Contract" do
     contract = domain_contract_fixture() |> Map.put(:generate?, false)
 
-    assert ResourceAPI.build_api_file_paths(contract) === nil
+    assert DomainResourceAPI.build_api_file_paths(contract) === nil
   end
 
   test "returns the API file paths" do
@@ -14,6 +14,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildAPIFilePaths.BuildAPIFileP
 
     contract = domain_contract_fixture()
 
-    assert ResourceAPI.build_api_file_paths(contract) === expected_files
+    assert DomainResourceAPI.build_api_file_paths(contract) === expected_files
   end
 end

@@ -1,6 +1,6 @@
-defmodule ElixirScribe.TemplateBuilder.Template.BuildFilename.BuildFilenameActionTemplateTest do
-alias ElixirScribe.TemplateBuilderAPI
-alias ElixirScribe.TemplateBuilder.BuildFilenameActionTemplateContract
+defmodule ElixirScribe.Template.File.BuildFilenameForAction.BuildFilenameForActionFileTest do
+alias ElixirScribe.TemplateFileAPI
+alias ElixirScribe.Template.BuildFilenameForActionFileContract
 
   use ElixirScribe.BaseCase, async: true
 
@@ -13,9 +13,9 @@ alias ElixirScribe.TemplateBuilder.BuildFilenameActionTemplateContract
       file_extension: ".ex"
     }
 
-    contract = BuildFilenameActionTemplateContract.new!(attrs)
+    contract = BuildFilenameForActionFileContract.new!(attrs)
 
-    assert TemplateBuilderAPI.build_template_action_filename(contract) === "read_schema.ex"
+    assert TemplateFileAPI.build_template_action_filename(contract) === "read_schema.ex"
   end
 
   test "it builds the default template filename for an action not in the the default resource actions" do
@@ -26,8 +26,8 @@ alias ElixirScribe.TemplateBuilder.BuildFilenameActionTemplateContract
       file_extension: ".ex"
     }
 
-    contract = BuildFilenameActionTemplateContract.new!(attrs)
+    contract = BuildFilenameForActionFileContract.new!(attrs)
 
-    assert TemplateBuilderAPI.build_template_action_filename(contract) === "default_schema.ex"
+    assert TemplateFileAPI.build_template_action_filename(contract) === "default_schema.ex"
   end
 end

@@ -85,7 +85,7 @@ defmodule ElixirScribe do
 
   """
 
-  # alias ElixirScribe.Generator.Domain.DomainContract
+  # alias ElixirScribe.Generator.DomainContract
 
   @doc false
   def base_template_paths(), do: [".", :elixir_scribe, :phoenix]
@@ -174,7 +174,7 @@ defmodule ElixirScribe do
   end
 
   @doc false
-  def schema_template_folder_name(%ElixirScribe.Generator.Schema.SchemaContract{} = schema) do
+  def schema_template_folder_name(%ElixirScribe.Generator.SchemaContract{} = schema) do
     if schema.generate? do
       "schema_access"
     else
@@ -194,9 +194,9 @@ defmodule ElixirScribe do
   @doc false
   def app_path_types(), do: @app_path_types
 
-  # @TODO Remove once Mix.Phoenix.Schema is ported to ElixirScribe.Generator.Schema.SchemaContract
+  # @TODO Remove once Mix.Phoenix.Schema is ported to ElixirScribe.Generator.SchemaContract
   @doc false
-  def to_phoenix_schema(%ElixirScribe.Generator.Schema.SchemaContract{} = schema) do
+  def to_phoenix_schema(%ElixirScribe.Generator.SchemaContract{} = schema) do
     attrs = Map.from_struct(schema)
     struct(Mix.Phoenix.Schema, attrs)
   end

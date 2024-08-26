@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Generator.Domain.Resource.BuildAPIFilePaths.BuildAPIFilePathsResource do
   @moduledoc false
 
-  alias ElixirScribe.Generator.Domain.DomainContract
+  alias ElixirScribe.Generator.DomainContract
 
   def build(%DomainContract{generate?: false}), do: nil
   def build(%DomainContract{generate?: true} = contract), do: build_api_file(contract)

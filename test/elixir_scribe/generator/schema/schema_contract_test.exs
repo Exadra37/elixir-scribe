@@ -1,7 +1,7 @@
-defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
+defmodule ElixirScribe.Generator.SchemaContractTest do
   use ElixirScribe.BaseCase, async: true
 
-  alias ElixirScribe.Generator.Schema.SchemaContract
+  alias ElixirScribe.Generator.SchemaContract
 
   test "new!/4 Creates a Resource Schema Contract for a one level Domain" do
     domain = "Blog"
@@ -45,7 +45,7 @@ defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
       route_helper: "blog_post",
       route_prefix: "/blog/posts",
       sample_id: "11111111-1111-1111-1111-111111111111",
-      self: ElixirScribe.Generator.Schema.SchemaContract,
+      self: ElixirScribe.Generator.SchemaContract,
       singular: "post",
       # https://github.com/phoenixframework/phoenix/issues/5874#issuecomment-2241190340
       # The string_attr it's only used to test the generators created the expected code
@@ -126,7 +126,7 @@ defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
       route_helper: "blog_site_post",
       route_prefix: "/blog/site/posts",
       sample_id: "11111111-1111-1111-1111-111111111111",
-      self: ElixirScribe.Generator.Schema.SchemaContract,
+      self: ElixirScribe.Generator.SchemaContract,
       singular: "post",
       # https://github.com/phoenixframework/phoenix/issues/5874#issuecomment-2241190340
       # The string_attr it's only used to test the generators created the expected code
@@ -208,7 +208,7 @@ defmodule ElixirScribe.Generator.Schema.SchemaContractTest do
       route_helper: "blog_post",
       route_prefix: "/blog/posts",
       sample_id: "11111111-1111-1111-1111-111111111111",
-      self: ElixirScribe.Generator.Schema.SchemaContract,
+      self: ElixirScribe.Generator.SchemaContract,
       singular: "post",
       # https://github.com/phoenixframework/phoenix/issues/5874#issuecomment-2241190340
       # The string_attr it's only used to test the generators created the expected code

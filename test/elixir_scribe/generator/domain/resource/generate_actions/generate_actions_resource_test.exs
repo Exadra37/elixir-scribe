@@ -1,7 +1,7 @@
 Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActionsResourceTest do
-  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.DomainResourceAPI
   use ElixirScribe.BaseCase
 
   import MixTestHelper
@@ -26,7 +26,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
 
       contract = domain_contract_fixture(args)
 
-      ResourceAPI.generate_actions(contract)
+      DomainResourceAPI.generate_actions(contract)
 
       assert_file("lib/elixir_scribe/domain/blog/post/list/list_posts.ex", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.List.ListPosts do"

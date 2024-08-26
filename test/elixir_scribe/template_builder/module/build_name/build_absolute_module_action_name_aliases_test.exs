@@ -1,5 +1,5 @@
-defmodule ElixirScribe.TemplateBuilder.Module.BuildName.BuildAbsoluteModuleActionNameAliasesTest do
-  alias ElixirScribe.TemplateBuilderAPI
+defmodule ElixirScribe.Template.Module.BuildName.BuildAbsoluteModuleActionNameAliasesTest do
+  alias ElixirScribe.TemplateModuleAPI
 
   use ElixirScribe.BaseCase, async: true
 
@@ -19,7 +19,7 @@ defmodule ElixirScribe.TemplateBuilder.Module.BuildName.BuildAbsoluteModuleActio
       """
       |> String.trim_trailing()
 
-    assert TemplateBuilderAPI.build_absolute_module_action_name_aliases(contract,
+    assert TemplateModuleAPI.build_absolute_module_action_name_aliases(contract,
              file_type: :lib_core
            ) === expected_aliases
   end

@@ -1,5 +1,5 @@
-defmodule ElixirScribe.TemplateBuilder.Options.BuildEmbedTemplates.BuildModuleEmbedTemplatesTest do
-  alias ElixirScribe.TemplateBuilderAPI
+defmodule ElixirScribe.Template.Options.BuildEmbedTemplates.BuildModuleEmbedTemplatesTest do
+  alias ElixirScribe.TemplateModuleAPI
   use ElixirScribe.BaseCase, async: true
 
   test "it builds an build_embeded_templates statement for each HTML resource action" do
@@ -13,6 +13,6 @@ defmodule ElixirScribe.TemplateBuilder.Options.BuildEmbedTemplates.BuildModuleEm
       """
       |> String.trim_trailing()
 
-    assert TemplateBuilderAPI.build_embeded_templates() == expected_embeds
+    assert TemplateModuleAPI.build_embeded_templates() == expected_embeds
   end
 end

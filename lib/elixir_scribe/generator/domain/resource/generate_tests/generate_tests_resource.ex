@@ -1,20 +1,21 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsResource do
   @moduledoc false
 
-  alias ElixirScribe.Generator.Domain.ResourceAPI
-  alias ElixirScribe.Generator.Domain.DomainContract
-  alias ElixirScribe.TemplateBuilderAPI
+  alias ElixirScribe.TemplateBindingAPI
+  alias ElixirScribe.Generator.DomainResourceAPI
+  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.TemplateFileAPI
 
   def generate(%DomainContract{generate?: false} = contract), do: contract
   def generate(%DomainContract{generate?: true} = contract) do
     base_template_paths = ElixirScribe.base_template_paths()
-    binding = TemplateBuilderAPI.build_binding_template(contract)
+    binding = TemplateBindingAPI.build_binding_template(contract)
 
-    for {:eex, :resource_test, source_path, target_path, action} <- ResourceAPI.build_test_action_files_paths(contract) do
+    for {:eex, :resource_test, source_path, target_path, action} <- DomainResourceAPI.build_test_action_files_paths(contract) do
       contract = %{contract | test_file: target_path}
 
       unless File.exists?(contract.test_file) do
-        binding = TemplateBuilderAPI.rebuild_binding_template(binding, action, file_type: :lib_core)
+        binding = TemplateBindingAPI.rebuild_binding_template(binding, action, file_type: :lib_core)
 
         # When the file already exists we are asked if we want to overwrite it.
         created_or_overwritten? =
@@ -48,6 +49,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
   defp inject_action_function_into_module(base_template_paths, source_path, target_path, binding) do
     base_template_paths
     |> Mix.Phoenix.eval_from(source_path, binding)
-    |> TemplateBuilderAPI.inject_eex_before_final_end(target_path, binding)
+    |> TemplateFileAPI.inject_eex_before_final_end(target_path, binding)
   end
 end

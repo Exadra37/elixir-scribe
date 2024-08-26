@@ -163,9 +163,9 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
   use Mix.Task
 
   alias ElixirScribe.MixAPI
-  alias ElixirScribe.Generator.Domain.DomainContract
+  alias ElixirScribe.Generator.DomainContract
   alias Mix.Tasks.Phx.Gen
-  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.DomainResourceAPI
 
   @doc false
   def run(args) do
@@ -177,10 +177,10 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
 
     {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
 
-    case ResourceAPI.build_domain_resource_contract(valid_args, opts) do
+    case DomainResourceAPI.build_domain_resource_contract(valid_args, opts) do
       {:ok, contract} ->
         contract
-        |> ResourceAPI.generate_new_files()
+        |> DomainResourceAPI.generate_new_files()
         |> print_shell_instructions()
 
       {:error, reason} ->

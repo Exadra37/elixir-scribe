@@ -1,9 +1,9 @@
 Code.require_file("../../mix_test_helper.exs", __DIR__)
 
-defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
+defmodule ElixirScribe.Generator.DomainResourceAPITest do
   alias ElixirScribe.MixAPI
-  alias ElixirScribe.Generator.Domain.DomainContract
-  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.DomainResourceAPI
   use ElixirScribe.BaseCase, async: true
 
   import MixTestHelper
@@ -15,12 +15,12 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       args = ["Blog", "Post", "posts", "title:string", "desc:string"]
       {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
 
-      assert {:ok, %DomainContract{}} = ResourceAPI.build_domain_resource_contract(valid_args, opts)
+      assert {:ok, %DomainContract{}} = DomainResourceAPI.build_domain_resource_contract(valid_args, opts)
     end
 
     test "raises FunctionClausedError when arguments aren't a list" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.build_domain_resource_contract(%{}, %{})
+        DomainResourceAPI.build_domain_resource_contract(%{}, %{})
       end
     end
   end
@@ -29,12 +29,12 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
     test "can be invoked and returns a list" do
       domain_contract = domain_contract_fixture()
 
-      assert ResourceAPI.build_files_to_generate(domain_contract) |> is_list()
+      assert DomainResourceAPI.build_files_to_generate(domain_contract) |> is_list()
     end
 
     test "raises FunctionClausedError when the argument isn't a %DomainContract{}" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.build_files_to_generate(%{})
+        DomainResourceAPI.build_files_to_generate(%{})
       end
     end
   end
@@ -43,12 +43,12 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
     test "can be invoked and returns a list" do
       domain_contract = domain_contract_fixture()
 
-      assert ResourceAPI.build_action_files_paths(domain_contract) |> is_list()
+      assert DomainResourceAPI.build_action_files_paths(domain_contract) |> is_list()
     end
 
     test "raises FunctionClausedError when the argument isn't a %DomainContract{}" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.build_action_files_paths(%{})
+        DomainResourceAPI.build_action_files_paths(%{})
       end
     end
   end
@@ -57,12 +57,12 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
     test "can be invoked and returns a list" do
       domain_contract = domain_contract_fixture()
 
-      assert ResourceAPI.build_test_action_files_paths(domain_contract) |> is_list()
+      assert DomainResourceAPI.build_test_action_files_paths(domain_contract) |> is_list()
     end
 
     test "raises FunctionClausedError when the argument isn't a %DomainContract{}" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.build_test_action_files_paths(%{})
+        DomainResourceAPI.build_test_action_files_paths(%{})
       end
     end
   end
@@ -77,13 +77,13 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
-        assert %DomainContract{} = ResourceAPI.generate_actions(domain_contract)
+        assert %DomainContract{} = DomainResourceAPI.generate_actions(domain_contract)
       end)
     end
 
     test "raises FunctionClausedError when the argument isn't a %DomainContract{}" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.generate_actions(%{})
+        DomainResourceAPI.generate_actions(%{})
       end
     end
   end
@@ -98,13 +98,13 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
-        assert %DomainContract{} = ResourceAPI.generate_tests(domain_contract)
+        assert %DomainContract{} = DomainResourceAPI.generate_tests(domain_contract)
       end)
     end
 
     test "raises FunctionClausedError when the argument isn't a %DomainContract{}" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.generate_tests(%{})
+        DomainResourceAPI.generate_tests(%{})
       end
     end
   end
@@ -119,13 +119,13 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
-        assert %DomainContract{} = ResourceAPI.generate_api(domain_contract)
+        assert %DomainContract{} = DomainResourceAPI.generate_api(domain_contract)
       end)
     end
 
     test "raises FunctionClausedError when the argument isn't a %DomainContract{}" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.generate_api(%{})
+        DomainResourceAPI.generate_api(%{})
       end
     end
   end
@@ -140,13 +140,13 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
-        assert %DomainContract{} = ResourceAPI.generate_test_fixture(domain_contract)
+        assert %DomainContract{} = DomainResourceAPI.generate_test_fixture(domain_contract)
       end)
     end
 
     test "raises FunctionClausedError when the argument isn't a %DomainContract{}" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.generate_test_fixture(%{})
+        DomainResourceAPI.generate_test_fixture(%{})
       end
     end
   end
@@ -161,13 +161,13 @@ defmodule ElixirScribe.Generator.Domain.ResourceAPITest do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
-        assert %DomainContract{} = ResourceAPI.generate_new_files(domain_contract)
+        assert %DomainContract{} = DomainResourceAPI.generate_new_files(domain_contract)
       end)
     end
 
     test "raises FunctionClausedError when the argument isn't a %DomainContract{}" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        ResourceAPI.generate_new_files(%{})
+        DomainResourceAPI.generate_new_files(%{})
       end
     end
   end

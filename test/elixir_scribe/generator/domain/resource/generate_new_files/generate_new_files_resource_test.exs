@@ -3,7 +3,7 @@ Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResourceTest do
   use ElixirScribe.BaseCase
 
-  alias ElixirScribe.Generator.Domain.ResourceAPI
+  alias ElixirScribe.Generator.DomainResourceAPI
 
   import MixTestHelper
 
@@ -29,7 +29,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
       ]
 
       domain_contract = domain_contract_fixture(args)
-      ResourceAPI.generate_new_files(domain_contract)
+      DomainResourceAPI.generate_new_files(domain_contract)
 
       ### RESOURCE SCHEMA ###
 

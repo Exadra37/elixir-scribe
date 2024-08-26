@@ -1,9 +1,9 @@
 defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource do
   @moduledoc false
 
-  alias ElixirScribe.TemplateBuilder.BuildFilenameActionTemplateContract
-  alias ElixirScribe.Generator.Domain.DomainContract
-  alias ElixirScribe.TemplateBuilderAPI
+  alias ElixirScribe.Template.BuildFilenameForActionFileContract
+  alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.TemplateFileAPI
 
   def build(%DomainContract{generate?: false}), do: []
   def build(%DomainContract{generate?: true} = contract), do: build_files(contract)
@@ -38,9 +38,9 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
   defp build_template_action_filename(action, true) do
     attrs = %{action: action, action_suffix: "_", file_type: "schema", file_extension: ".ex"}
 
-    contract = BuildFilenameActionTemplateContract.new!(attrs)
+    contract = BuildFilenameForActionFileContract.new!(attrs)
 
-    TemplateBuilderAPI.build_template_action_filename(contract)
+    TemplateFileAPI.build_template_action_filename(contract)
   end
   defp build_template_action_filename(_action, false), do: "any_action.ex"
 end

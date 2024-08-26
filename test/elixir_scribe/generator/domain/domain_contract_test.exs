@@ -1,7 +1,7 @@
-defmodule ElixirScribe.Generator.Domain.DomainContractTest do
+defmodule ElixirScribe.Generator.DomainContractTest do
   use ElixirScribe.BaseCase, async: true
 
-  alias ElixirScribe.Generator.Domain.DomainContract
+  alias ElixirScribe.Generator.DomainContract
 
   setup do
     contract_attrs = %{
@@ -33,7 +33,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
       resource_module_plural: ElixirScribe.Blog.Posts,
       resource_name_plural: "posts",
       resource_name_singular: "post",
-      schema: %ElixirScribe.Generator.Schema.SchemaContract{
+      schema: %ElixirScribe.Generator.SchemaContract{
         alias: Post,
         api_route_prefix: "/api/blog/posts",
         assocs: [],
@@ -77,7 +77,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
         route_helper: "blog_post",
         route_prefix: "/blog/posts",
         sample_id: "11111111-1111-1111-1111-111111111111",
-        self: ElixirScribe.Generator.Schema.SchemaContract,
+        self: ElixirScribe.Generator.SchemaContract,
         singular: "post",
         string_attr: :title,
         table: "posts",
@@ -87,7 +87,7 @@ defmodule ElixirScribe.Generator.Domain.DomainContractTest do
         web_namespace: "Blog",
         web_path: "blog"
       },
-      self: ElixirScribe.Generator.Domain.DomainContract,
+      self: ElixirScribe.Generator.DomainContract,
       test_domain_dir: "test/elixir_scribe/domain/blog",
       test_file: "test/elixir_scribe/domain/blog_test.exs",
       test_fixtures_file: "test/support/fixtures/domain/blog/post_fixtures.ex",
