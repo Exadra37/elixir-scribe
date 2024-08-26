@@ -15,7 +15,7 @@ defmodule ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsSh
         {_kind, _, _, path} -> [path]
         {_kind, _, _, path, _action} -> [path]
       end)
-
+dbg(generator_files)
     case Enum.filter(file_paths, &File.exists?(&1)) do
       [] ->
         :ok

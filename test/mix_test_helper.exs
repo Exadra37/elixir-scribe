@@ -47,7 +47,7 @@ defmodule MixTestHelper do
         function.()
       end)
     after
-      # File.rm_rf!(path)
+      File.rm_rf!(path)
       Application.put_env(:phoenix, :generators, conf_before)
     end
   end
@@ -121,7 +121,6 @@ defmodule MixTestHelper do
   end
 
   defp write_file!(content, path) do
-    dbg(path)
     File.write!(path, content)
   end
 
