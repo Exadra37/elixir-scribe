@@ -1,6 +1,7 @@
 defmodule ElixirScribe.TemplateBuilderAPI do
   @moduledoc false
 
+  alias ElixirScribe.TemplateBuilder.BuildFilenameActionTemplateContract
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.TemplateBuilder.Template.Conflicts.MixPromptFileConflicts
   alias ElixirScribe.TemplateBuilder.Template.Copy.CopyFile
@@ -58,8 +59,8 @@ defmodule ElixirScribe.TemplateBuilderAPI do
 
 
 
-  def build_template_action_filename(action, action_suffix, file_type, file_extension),
-    do: BuildFilenameActionTemplate.build(action, action_suffix, file_type, file_extension)
+  def build_template_action_filename(%BuildFilenameActionTemplateContract{} = contract),
+    do: BuildFilenameActionTemplate.build(contract)
 
   def build_path_html_template(%DomainContract{} = contract), do: BuildPathHtmlTemplate.build(contract)
 

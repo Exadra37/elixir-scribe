@@ -1,6 +1,7 @@
 defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource do
   @moduledoc false
 
+  alias ElixirScribe.TemplateBuilder.BuildFilenameActionTemplateContract
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
 
@@ -35,7 +36,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
   end
 
   defp build_template_action_filename(action, true) do
-    TemplateBuilderAPI.build_template_action_filename(action, "_", "schema", ".ex")
+    attrs = %{action: action, action_suffix: "_", file_type: "schema", file_extension: ".ex"}
+
+    contract = BuildFilenameActionTemplateContract.new!(attrs)
+
+    TemplateBuilderAPI.build_template_action_filename(contract)
   end
   defp build_template_action_filename(_action, false), do: "any_action.ex"
 end

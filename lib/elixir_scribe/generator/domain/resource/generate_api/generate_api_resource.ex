@@ -1,6 +1,7 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource do
   @moduledoc false
 
+  alias ElixirScribe.TemplateBuilder.BuildFilenameActionTemplateContract
   alias ElixirScribe.Generator.Domain.DomainContract
   alias ElixirScribe.TemplateBuilderAPI
   alias ElixirScribe.Generator.Domain.ResourceAPI
@@ -49,20 +50,26 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
         build_api_binding(contract, binding)
         |> TemplateBuilderAPI.rebuild_binding_template(action, file_type: :lib_core)
 
-      api_action_template_path =
-        if contract.schema.generate? do
-          action_template_filename =
-            TemplateBuilderAPI.build_template_action_filename(action, "_", "api_function", ".ex")
-
-          ElixirScribe.domain_api_template_path() |> Path.join(action_template_filename)
-        else
-          ElixirScribe.domain_api_template_path()
-          |> Path.join("api_function_no_schema_access.ex")
-        end
+      api_action_template_path = build_api_action_template_path(action, contract.schema.generate?)
 
       base_template_paths
       |> Mix.Phoenix.eval_from(api_action_template_path, binding)
       |> TemplateBuilderAPI.inject_eex_before_final_end(contract.api_file, binding)
     end
+  end
+
+  defp build_api_action_template_path(action, true) do
+    attrs = %{action: action, action_suffix: "_", file_type: "api_function", file_extension: ".ex"}
+
+    contract = BuildFilenameActionTemplateContract.new!(attrs)
+
+    action_template_filename = TemplateBuilderAPI.build_template_action_filename(contract)
+
+    ElixirScribe.domain_api_template_path() |> Path.join(action_template_filename)
+  end
+
+  defp build_api_action_template_path(_action, false) do
+     ElixirScribe.domain_api_template_path()
+          |> Path.join("api_function_no_schema_access.ex")
   end
 end

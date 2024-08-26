@@ -23,11 +23,6 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
       |> maybe_add_binary_id_option()
       |> extract_args_and_opts()
 
-    # dbg(args)
-    # dbg(opts)
-    # dbg(invalid_opts)
-    # dbg(parsed_args)
-
     all_opts = opts |> parse_options()
 
     {parsed_args, all_opts, invalid_opts}

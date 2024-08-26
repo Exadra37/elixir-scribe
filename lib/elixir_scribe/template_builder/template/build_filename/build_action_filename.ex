@@ -1,14 +1,15 @@
 defmodule ElixirScribe.TemplateBuilder.Template.BuildFilename.BuildFilenameActionTemplate do
   @moduledoc false
+alias ElixirScribe.TemplateBuilder.BuildFilenameActionTemplateContract
 
   @doc false
-  def build(action, action_suffix, file_type, file_extension) do
-    case action in ElixirScribe.resource_actions() do
+  def build(%BuildFilenameActionTemplateContract{} = contract) do
+    case contract.action in ElixirScribe.resource_actions() do
       true ->
-        "#{action}#{action_suffix}#{file_type}#{file_extension}"
+        "#{contract.action}#{contract.action_suffix}#{contract.file_type}#{contract.file_extension}"
 
       false ->
-        "default#{action_suffix}#{file_type}#{file_extension}"
+        "default#{contract.action_suffix}#{contract.file_type}#{contract.file_extension}"
     end
   end
 end
