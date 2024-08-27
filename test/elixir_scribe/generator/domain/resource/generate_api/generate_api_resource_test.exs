@@ -1,4 +1,4 @@
-Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
+Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResourceTest do
   use ElixirScribe.BaseCase

@@ -226,13 +226,22 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     paths = ElixirScribe.base_template_paths()
     files = files_to_be_generated(context)
 
+    dbg(files)
+
     prompt_for_conflicts(context, files)
 
     binding =
       TemplateBindingAPI.build_binding_template(context)
       |> Keyword.merge(inputs: inputs(context.schema))
 
-    MixAPI.copy_file(paths, ".", binding, files)
+
+    Enum.each(files, fn {format, file_type, source_file_path, target, action} ->
+      opts = [file_type: file_type]
+      binding = TemplateBindingAPI.rebuild_binding_template(binding, action, opts)
+      mapping = [{format, source_file_path, target}]
+      dbg(mapping)
+      Mix.Phoenix.copy_from(paths, ".", binding, mapping)
+    end)
 
     DomainResourceAPI.generate_new_files(context, prompt_for_conflicts?: false)
 

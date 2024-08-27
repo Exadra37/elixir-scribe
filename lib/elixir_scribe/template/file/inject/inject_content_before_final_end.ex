@@ -6,7 +6,7 @@ defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeFinalEnd do
     file = File.read!(file_path)
 
     if String.contains?(file, content_to_inject) do
-      :ok
+      {:noop, :already_exists}
     else
       Mix.shell().info([:green, "* injecting ", :reset, Path.relative_to_cwd(file_path)])
 
