@@ -284,11 +284,11 @@ defmodule ElixirScribe.Behaviour.TypedContract do
 
       @behaviour ElixirScribe.Behaviour.TypedContract
 
-      @contract_spec Keyword.get(opts, :keys, %{})
+      @contract_spec Keyword.get(opts, :keys, %{required: [], optional: []})
 
       @contract_keys @contract_spec.required ++ @contract_spec.optional
 
-      @struct_keys @contract_keys |> Map.put(:extra, self: __MODULE__)
+      @struct_keys @contract_spec |> Map.put(:extra, self: __MODULE__)
 
       @enforce_keys @struct_keys.required
 
