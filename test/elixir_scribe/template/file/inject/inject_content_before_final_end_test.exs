@@ -36,6 +36,8 @@ defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeFinalEndTest do
 
       assert :ok = TemplateFileAPI.inject_content_before_final_end(content_to_inject, "api.ex")
 
+      assert_received {:mix_shell, :info, ["* injecting api.ex"]}
+
       assert_file("api.ex", fn file ->
         assert file === expected_api_content
       end)
@@ -60,6 +62,8 @@ defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeFinalEndTest do
       File.write!("api.ex", expected_api_content)
 
       assert {:noop, :already_exists} = TemplateFileAPI.inject_content_before_final_end(content_to_inject, "api.ex")
+
+      refute_received {:mix_shell, :info, ["* injecting api.ex"]}
 
       assert_file("api.ex", fn file ->
         assert file === expected_api_content
