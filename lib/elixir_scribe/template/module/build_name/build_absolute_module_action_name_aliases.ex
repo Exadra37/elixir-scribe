@@ -11,7 +11,8 @@ defmodule ElixirScribe.Template.Module.BuildName.BuildAbsoluteModuleActionNameAl
     for action <- resource_actions, reduce: "" do
       aliases ->
         aliases <>
-          "\n  alias " <> TemplateModuleAPI.build_absolute_module_action_name(context, action, opts)
+          "\n  alias " <>
+          TemplateModuleAPI.build_absolute_module_action_name(context, action, opts)
     end
   end
 end

@@ -21,7 +21,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
 
   defp build_target_path(contract, action) do
     plural_actions = ElixirScribe.resource_plural_actions()
-    resource_name = action in plural_actions && contract.resource_name_plural || contract.resource_name_singular
+
+    resource_name =
+      (action in plural_actions && contract.resource_name_plural) ||
+        contract.resource_name_singular
+
     filename = "#{action}_" <> resource_name <> ".ex"
 
     Path.join([contract.lib_resource_dir, action, filename])
@@ -42,5 +46,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
 
     TemplateFileAPI.build_template_action_filename(contract)
   end
+
   defp build_template_action_filename(_action, false), do: "any_action.ex"
 end

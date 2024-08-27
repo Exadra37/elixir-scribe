@@ -107,7 +107,6 @@ defmodule ElixirScribe.Generator.DomainContractTest do
 
   describe "Builds the contract successfully with" do
     test "new/1", %{contract_attrs: contract_attrs} do
-
       assert {:ok, domain_contract = %DomainContract{}} = DomainContract.new(contract_attrs)
 
       expected_fields = Map.keys(contract_attrs)
@@ -116,7 +115,6 @@ defmodule ElixirScribe.Generator.DomainContractTest do
     end
 
     test "new!/1", %{contract_attrs: contract_attrs} do
-
       assert domain_contract = %DomainContract{} = DomainContract.new!(contract_attrs)
 
       expected_fields = Map.keys(contract_attrs)

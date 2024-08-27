@@ -22,8 +22,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.Build
 
   defp build_target_path(contract, action) do
     plural_actions = ElixirScribe.resource_plural_actions()
-    resource_name = action in plural_actions && contract.resource_name_plural || contract.resource_name_singular
-    filename= "#{action}_" <> resource_name <> "_test.exs"
+
+    resource_name =
+      (action in plural_actions && contract.resource_name_plural) ||
+        contract.resource_name_singular
+
+    filename = "#{action}_" <> resource_name <> "_test.exs"
 
     Path.join([contract.test_resource_dir, action, filename])
   end
@@ -37,11 +41,17 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.Build
   end
 
   defp build_template_action_filename(action, true) do
-    attrs = %{action: action, action_suffix: "_", file_type: "schema", file_extension: "_test.exs"}
+    attrs = %{
+      action: action,
+      action_suffix: "_",
+      file_type: "schema",
+      file_extension: "_test.exs"
+    }
 
     contract = BuildFilenameForActionFileContract.new!(attrs)
 
     TemplateFileAPI.build_template_action_filename(contract)
   end
+
   defp build_template_action_filename(_action, false), do: "action_test_no_schema_access.exs"
 end

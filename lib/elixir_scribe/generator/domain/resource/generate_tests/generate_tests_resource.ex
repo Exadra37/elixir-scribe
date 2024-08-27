@@ -7,22 +7,35 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
   alias ElixirScribe.TemplateFileAPI
 
   def generate(%DomainContract{generate?: false} = contract), do: contract
+
   def generate(%DomainContract{generate?: true} = contract) do
     base_template_paths = ElixirScribe.base_template_paths()
     binding = TemplateBindingAPI.build_binding_template(contract)
 
-    for {:eex, :resource_test, source_path, target_path, action} <- DomainResourceAPI.build_test_action_files_paths(contract) do
+    for {:eex, :resource_test, source_path, target_path, action} <-
+          DomainResourceAPI.build_test_action_files_paths(contract) do
       contract = %{contract | test_file: target_path}
 
       unless File.exists?(contract.test_file) do
-        binding = TemplateBindingAPI.rebuild_binding_template(binding, action, file_type: :lib_core)
+        binding =
+          TemplateBindingAPI.rebuild_binding_template(binding, action, file_type: :lib_core)
 
         # When the file already exists we are asked if we want to overwrite it.
         created_or_overwritten? =
-          create_test_action_module_file(base_template_paths, target_path, binding, contract.schema.generate?)
+          create_test_action_module_file(
+            base_template_paths,
+            target_path,
+            binding,
+            contract.schema.generate?
+          )
 
         if created_or_overwritten? do
-          inject_action_function_into_module(base_template_paths, source_path, target_path, binding)
+          inject_action_function_into_module(
+            base_template_paths,
+            source_path,
+            target_path,
+            binding
+          )
         end
       end
     end
@@ -41,6 +54,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
     ElixirScribe.resource_test_actions_template_path()
     |> Path.join("action_test.exs")
   end
+
   defp build_module_template_path(false) do
     ElixirScribe.resource_test_actions_template_path()
     |> Path.join("action_test_no_schema_access.exs")

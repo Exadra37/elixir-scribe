@@ -1,6 +1,6 @@
 defmodule ElixirScribe.Template.File.BuildFilenameForAction.BuildFilenameForActionFile do
   @moduledoc false
-alias ElixirScribe.Template.BuildFilenameForActionFileContract
+  alias ElixirScribe.Template.BuildFilenameForActionFileContract
 
   @doc false
   def build(%BuildFilenameForActionFileContract{} = contract) do

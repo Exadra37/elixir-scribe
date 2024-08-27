@@ -1,5 +1,5 @@
 defmodule ElixirScribe.Template.Binding.Rebuild.RebuildBindingTemplateTest do
-   alias ElixirScribe.TemplateBindingAPI
+  alias ElixirScribe.TemplateBindingAPI
 
   use ElixirScribe.BaseCase, async: true
 
@@ -26,6 +26,8 @@ defmodule ElixirScribe.Template.Binding.Rebuild.RebuildBindingTemplateTest do
       absolute_module_action_name: "ElixirScribe.Site.Blog.Post.BatchUpdate.BatchUpdatePost"
     ]
 
-    assert TemplateBindingAPI.rebuild_binding_template(bindings, "batch_update", [file_type: :resource]) === expected_bindings
+    assert TemplateBindingAPI.rebuild_binding_template(bindings, "batch_update",
+             file_type: :resource
+           ) === expected_bindings
   end
 end

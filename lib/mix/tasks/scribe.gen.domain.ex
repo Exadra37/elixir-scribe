@@ -184,7 +184,7 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
         |> print_shell_instructions()
 
       {:error, reason} ->
-        Mix.raise reason
+        Mix.raise(reason)
     end
   end
 

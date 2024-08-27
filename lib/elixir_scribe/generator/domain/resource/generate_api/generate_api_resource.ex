@@ -9,6 +9,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.Generator.DomainResourceAPI
 
   def generate(%DomainContract{generate?: false}), do: []
+
   def generate(%DomainContract{generate?: true} = contract) do
     base_template_paths = ElixirScribe.base_template_paths()
     binding = TemplateBindingAPI.build_binding_template(contract)
@@ -25,7 +26,9 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
       absolute_module_name:
         TemplateModuleAPI.build_absolute_module_name(contract, file_type: :lib_core),
       aliases:
-        TemplateModuleAPI.build_absolute_module_action_name_aliases(contract, file_type: :lib_core)
+        TemplateModuleAPI.build_absolute_module_action_name_aliases(contract,
+          file_type: :lib_core
+        )
     )
   end
 
@@ -61,7 +64,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   end
 
   defp build_api_action_template_path(action, true) do
-    attrs = %{action: action, action_suffix: "_", file_type: "api_function", file_extension: ".ex"}
+    attrs = %{
+      action: action,
+      action_suffix: "_",
+      file_type: "api_function",
+      file_extension: ".ex"
+    }
 
     contract = BuildFilenameForActionFileContract.new!(attrs)
 
@@ -71,7 +79,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   end
 
   defp build_api_action_template_path(_action, false) do
-     ElixirScribe.domain_api_template_path()
-          |> Path.join("api_function_no_schema_access.ex")
+    ElixirScribe.domain_api_template_path()
+    |> Path.join("api_function_no_schema_access.ex")
   end
 end

@@ -1,9 +1,8 @@
 defmodule ElixirScribe.Template.File.BuildFilenameForAction.BuildFilenameForActionFileTest do
-alias ElixirScribe.TemplateFileAPI
-alias ElixirScribe.Template.BuildFilenameForActionFileContract
+  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.BuildFilenameForActionFileContract
 
   use ElixirScribe.BaseCase, async: true
-
 
   test "it builds the template filename for an action in the default resource actions" do
     attrs = %{

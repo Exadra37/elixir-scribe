@@ -20,7 +20,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
         "posts",
         "slug:unique",
         "secret:redact",
-        "title:string",
+        "title:string"
       ]
 
       contract = domain_contract_fixture(args)
@@ -56,7 +56,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
     end)
   end
 
-  test "generates the Resource API file without the default actions when creating only extra actions (export,import)", config do
+  test "generates the Resource API file without the default actions when creating only extra actions (export,import)",
+       config do
     in_tmp_project(config.test, fn ->
       args = [
         "Blog",
@@ -81,7 +82,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
     end)
   end
 
-  test "generates the Resource API file correctly for a two words resource (guest_posts)", config do
+  test "generates the Resource API file correctly for a two words resource (guest_posts)",
+       config do
     in_tmp_project(config.test, fn ->
       args = [
         "Blog",
@@ -96,7 +98,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
       DomainResourceAPI.generate_api(contract)
 
       assert_file("lib/elixir_scribe/domain/blog/guest_post_api.ex", fn file ->
-
         # We need to assert and refute because the struct is used several times
         assert file =~ "%GuestPost"
         refute file =~ "%Guest post"
@@ -117,14 +118,17 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
     assert file =~ "def read!(uuid) when is_binary(uuid), do: Read#{resource}.read!(uuid)"
 
     assert file =~ "iex> #{resource}API.edit(\""
-    assert file =~ "def edit(uuid, attrs \\\\ %{}) when is_binary(uuid) and is_map(attrs), do: Edit#{resource}.edit(uuid, attrs)"
 
+    assert file =~
+             "def edit(uuid, attrs \\\\ %{}) when is_binary(uuid) and is_map(attrs), do: Edit#{resource}.edit(uuid, attrs)"
 
     assert file =~ "iex> #{resource}API.create(%{"
     assert file =~ "def create(attrs) when is_map(attrs), do: Create#{resource}.create(attrs)"
 
     assert file =~ "iex> #{resource}API.update(\""
-    assert file =~ "def update(uuid, attrs) when is_binary(uuid) and is_map(attrs), do: Update#{resource}.update(uuid, attrs)"
+
+    assert file =~
+             "def update(uuid, attrs) when is_binary(uuid) and is_map(attrs), do: Update#{resource}.update(uuid, attrs)"
 
     assert file =~ "iex> #{resource}API.delete(\""
     assert file =~ "def delete(uuid) when is_binary(uuid), do: Delete#{resource}.delete(uuid)"
@@ -141,14 +145,17 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
     refute file =~ "def read!(uuid) when is_binary(uuid), do: Read#{resource}.read!(uuid)"
 
     refute file =~ "iex> #{resource}API.edit(\""
-    refute file =~ "def edit(uuid, attrs \\\\ %{}) when is_binary(uuid) and is_map(attrs), do: Edit#{resource}.edit(uuid, attrs)"
 
+    refute file =~
+             "def edit(uuid, attrs \\\\ %{}) when is_binary(uuid) and is_map(attrs), do: Edit#{resource}.edit(uuid, attrs)"
 
     refute file =~ "iex> #{resource}API.create(%{"
     refute file =~ "def create(attrs) when is_map(attrs), do: Create#{resource}.create(attrs)"
 
     refute file =~ "iex> #{resource}API.update(\""
-    refute file =~ "def update(uuid, attrs) when is_binary(uuid) and is_map(attrs), do: Update#{resource}.update(uuid, attrs)"
+
+    refute file =~
+             "def update(uuid, attrs) when is_binary(uuid) and is_map(attrs), do: Update#{resource}.update(uuid, attrs)"
 
     refute file =~ "iex> #{resource}API.delete(\""
     refute file =~ "def delete(uuid) when is_binary(uuid), do: Delete#{resource}.delete(uuid)"

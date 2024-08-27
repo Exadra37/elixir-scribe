@@ -6,7 +6,9 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
   alias ElixirScribe.Generator.DomainResourceAPI
 
   def generate(%DomainContract{generate?: false} = contract, _opts), do: contract
-  def generate(%DomainContract{generate?: true} = contract, opts), do: generate_new_files(contract, opts)
+
+  def generate(%DomainContract{generate?: true} = contract, opts),
+    do: generate_new_files(contract, opts)
 
   defp generate_new_files(%DomainContract{} = contract, opts) when is_list(opts) do
     prompt_for_conflicts? = Keyword.get(opts, :prompt_for_conflicts?, true)

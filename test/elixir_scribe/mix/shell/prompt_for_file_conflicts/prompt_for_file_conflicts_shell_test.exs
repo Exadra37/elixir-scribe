@@ -1,7 +1,6 @@
 Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsShellTest do
-
   alias ElixirScribe.MixAPI
   use ElixirScribe.BaseCase
 
@@ -17,7 +16,7 @@ defmodule ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsSh
       files = [
         {:eex, "from/schema_template", "schema.ex"},
         {:eex, :api, "from/api_template_file", "api_file.ex"},
-        {:eex, :resource, "from/resource_template_file", "create_resource.ex", "create"},
+        {:eex, :resource, "from/resource_template_file", "create_resource.ex", "create"}
       ]
 
       File.touch("schema.ex")
@@ -48,7 +47,8 @@ defmodule ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsSh
 
       MixAPI.prompt_for_file_conflicts([{:ex, :any, file}])
 
-      refute_received {:mix_shell, :info, ["The following files conflict with new files to be generated:" <> _]}
+      refute_received {:mix_shell, :info,
+                       ["The following files conflict with new files to be generated:" <> _]}
 
       refute_received {:mix_shell_input, :yes?, true}
     end)

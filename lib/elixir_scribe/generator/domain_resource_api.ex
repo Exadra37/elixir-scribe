@@ -9,7 +9,9 @@ defmodule ElixirScribe.Generator.DomainResourceAPI do
   alias ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActionsResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsResource
   alias ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActionFilesPathsResource
+
   alias ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.BuildTestActionFilesPathsResource
+
   alias ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResource
   alias ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResource
@@ -26,19 +28,23 @@ defmodule ElixirScribe.Generator.DomainResourceAPI do
   @doc """
   Resource: Files To Generate.
   """
-  def build_files_to_generate(%DomainContract{} = contract), do: BuildFilesToGenerateResource.build(contract)
+  def build_files_to_generate(%DomainContract{} = contract),
+    do: BuildFilesToGenerateResource.build(contract)
 
   @doc """
   Resource: Build Action Files To Generate
   """
-  def build_action_files_paths(%DomainContract{} = contract), do: BuildActionFilesPathsResource.build(contract)
+  def build_action_files_paths(%DomainContract{} = contract),
+    do: BuildActionFilesPathsResource.build(contract)
 
   @doc """
   Resource: Build Test Action Files To Generate
   """
-  def build_test_action_files_paths(%DomainContract{} = contract), do: BuildTestActionFilesPathsResource.build(contract)
+  def build_test_action_files_paths(%DomainContract{} = contract),
+    do: BuildTestActionFilesPathsResource.build(contract)
 
-  def build_api_file_paths(%DomainContract{} = contract), do: BuildAPIFilePathsResource.build(contract)
+  def build_api_file_paths(%DomainContract{} = contract),
+    do: BuildAPIFilePathsResource.build(contract)
 
   @doc """
   Resource: Generate Schema.

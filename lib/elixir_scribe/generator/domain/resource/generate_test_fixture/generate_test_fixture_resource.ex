@@ -6,6 +6,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
   alias ElixirScribe.TemplateFileAPI
 
   def generate(%DomainContract{generate?: false} = contract), do: contract
+
   def generate(%DomainContract{generate?: true} = contract),
     do: generate_test_fixture_file(contract)
 

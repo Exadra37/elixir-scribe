@@ -207,11 +207,11 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
         |> print_shell_instructions()
 
       {:error, reasons} when is_list(reasons) ->
-        Mix.raise """
+        Mix.raise("""
         The contract doesn't conform with the specification:
 
         #{inspect(reasons)}
-        """
+        """)
 
       {:error, msg, context} ->
         Mix.raise("""
@@ -233,7 +233,6 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     binding =
       TemplateBindingAPI.build_binding_template(context)
       |> Keyword.merge(inputs: inputs(context.schema))
-
 
     Enum.each(files, fn {format, file_type, source_file_path, target, action} ->
       opts = [file_type: file_type]
@@ -310,7 +309,14 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
 
         resource_name = resource_name_for_action(context, action)
         controller = "#{action}_#{resource_name}_controller_test.exs"
-        target = Path.join([context.test_web_domain_dir, context.resource_name_singular, action, controller])
+
+        target =
+          Path.join([
+            context.test_web_domain_dir,
+            context.resource_name_singular,
+            action,
+            controller
+          ])
 
         file = {:eex, :controller_test, source, target, action}
         [file | files]

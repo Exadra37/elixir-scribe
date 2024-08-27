@@ -1,7 +1,7 @@
 Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateSchema.GenerateSchemaResourceTest do
-alias ElixirScribe.Generator.DomainResourceAPI
+  alias ElixirScribe.Generator.DomainResourceAPI
 
   use ElixirScribe.BaseCase
   import MixTestHelper

@@ -10,11 +10,13 @@ defmodule ElixirScribe.TemplateModuleAPI do
 
   def build_embeded_templates(), do: BuildModuleEmbedTemplates.build()
 
-  def build_absolute_module_action_name(%DomainContract{} = contract, action, opts) when is_list(opts),
-    do: BuildAbsoluteModuleActionName.build(contract, action, opts)
+  def build_absolute_module_action_name(%DomainContract{} = contract, action, opts)
+      when is_list(opts),
+      do: BuildAbsoluteModuleActionName.build(contract, action, opts)
 
-  def build_absolute_module_action_name_aliases(%DomainContract{} = contract, opts) when is_list(opts),
-    do: BuildAbsoluteModuleActionNameAliases.build(contract, opts)
+  def build_absolute_module_action_name_aliases(%DomainContract{} = contract, opts)
+      when is_list(opts),
+      do: BuildAbsoluteModuleActionNameAliases.build(contract, opts)
 
   def build_absolute_module_name(%DomainContract{} = contract, opts) when is_list(opts),
     do: BuildAbsoluteModuleName.build(contract, opts)

@@ -16,7 +16,8 @@ defmodule ElixirScribe.MixAPI do
   @doc """
   Prompts to continue if any files exist.
   """
-  def prompt_for_file_conflicts(files) when is_list(files), do: PromptForFileConflictsShell.prompt(files)
+  def prompt_for_file_conflicts(files) when is_list(files),
+    do: PromptForFileConflictsShell.prompt(files)
 
   # def build_actions_from_options(opts) when is_list(opts), do: BuildActionsFromOptions.build(opts)
 

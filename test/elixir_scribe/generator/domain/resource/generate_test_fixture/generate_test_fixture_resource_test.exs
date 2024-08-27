@@ -1,7 +1,6 @@
 Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResourceTest do
-
   use ElixirScribe.BaseCase
 
   alias ElixirScribe.Generator.DomainResourceAPI

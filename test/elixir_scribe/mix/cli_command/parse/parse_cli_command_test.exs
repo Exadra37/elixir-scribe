@@ -130,11 +130,11 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
   describe ":binary_id option" do
     test "its set to true by default" do
       args = [
-          "Blog",
-          "Post",
-          "posts",
-          "slug:unique"
-        ]
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique"
+      ]
 
       assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
 
@@ -143,12 +143,12 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
 
     test "can be set to false by using --no-binary-id" do
       args = [
-          "Blog",
-          "Post",
-          "posts",
-          "slug:unique",
-          "--no-binary-id"
-        ]
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "--no-binary-id"
+      ]
 
       assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
 
@@ -159,12 +159,12 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
   describe ":resource_actions option" do
     test "by default is set to the ElixirScribe.resource_actions()" do
       args = [
-          "Blog",
-          "Post",
-          "posts",
-          "slug:unique",
-          "--no-binary-id"
-        ]
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "--no-binary-id"
+      ]
 
       assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
 
@@ -173,13 +173,13 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
 
     test "contains all actions passed by the --action flag in addition to the ElixirScribe.resource_actions()" do
       args = [
-          "Blog",
-          "Post",
-          "posts",
-          "slug:unique",
-          "--actions",
-          "import,export"
-        ]
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "--actions",
+        "import,export"
+      ]
 
       expected_actions = ElixirScribe.resource_actions() ++ ["import", "export"]
 
@@ -190,14 +190,14 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
 
     test "only contains the actions passed by the --action flag when --no-default-actions is also provided" do
       args = [
-          "Blog",
-          "Post",
-          "posts",
-          "slug:unique",
-          "--actions",
-          "import,export",
-          "--no-default-actions"
-        ]
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "--actions",
+        "import,export",
+        "--no-default-actions"
+      ]
 
       expected_actions = ["import", "export"]
 

@@ -72,15 +72,18 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
 
       assert File.exists?("lib/elixir_scribe/domain/blog/post/create/create_post.ex") === true
 
-      assert File.exists?("test/elixir_scribe/domain/blog/post/create/create_post_test.exs") === true
+      assert File.exists?("test/elixir_scribe/domain/blog/post/create/create_post_test.exs") ===
+               true
 
       assert File.exists?("lib/elixir_scribe/domain/blog/post/update/update_post.ex") === true
 
-      assert File.exists?("test/elixir_scribe/domain/blog/post/update/update_post_test.exs") === true
+      assert File.exists?("test/elixir_scribe/domain/blog/post/update/update_post_test.exs") ===
+               true
 
       assert File.exists?("lib/elixir_scribe/domain/blog/post/delete/delete_post.ex") === true
 
-      assert File.exists?("test/elixir_scribe/domain/blog/post/delete/delete_post_test.exs") === true
+      assert File.exists?("test/elixir_scribe/domain/blog/post/delete/delete_post_test.exs") ===
+               true
 
       ### TEST FIXTURES ###
 

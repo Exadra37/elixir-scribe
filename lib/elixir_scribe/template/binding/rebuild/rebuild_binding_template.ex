@@ -4,7 +4,8 @@ defmodule ElixirScribe.Template.Binding.Rebuild.RebuildBindingTemplate do
   alias ElixirScribe.TemplateModuleAPI
   alias ElixirScribe.Utils.StringAPI
 
-  def rebuild(bindings, action, opts) when is_list(bindings) and is_binary(action) and is_list(opts) do
+  def rebuild(bindings, action, opts)
+      when is_list(bindings) and is_binary(action) and is_list(opts) do
     contract = Keyword.get(bindings, :contract)
 
     Keyword.merge(bindings,
@@ -12,8 +13,7 @@ defmodule ElixirScribe.Template.Binding.Rebuild.RebuildBindingTemplate do
       action_first_word: StringAPI.first_word(action),
       action_capitalized: StringAPI.capitalize(action),
       action_human_capitalized: StringAPI.human_capitalize(action),
-      module_action_name:
-        TemplateModuleAPI.build_module_action_name(contract, action),
+      module_action_name: TemplateModuleAPI.build_module_action_name(contract, action),
       absolute_module_action_name:
         TemplateModuleAPI.build_absolute_module_action_name(contract, action, opts)
     )

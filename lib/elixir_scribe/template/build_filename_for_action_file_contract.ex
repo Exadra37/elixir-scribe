@@ -14,7 +14,7 @@ defmodule ElixirScribe.Template.BuildFilenameForActionFileContract do
       action: is_binary() |> spec(),
       action_suffix: is_binary() |> spec(),
       file_type: is_binary() |> spec(),
-      file_extension: is_binary() |> spec(),
+      file_extension: is_binary() |> spec()
     })
   end
 end

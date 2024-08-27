@@ -15,7 +15,8 @@ defmodule ElixirScribe.Generator.DomainResourceAPITest do
       args = ["Blog", "Post", "posts", "title:string", "desc:string"]
       {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
 
-      assert {:ok, %DomainContract{}} = DomainResourceAPI.build_domain_resource_contract(valid_args, opts)
+      assert {:ok, %DomainContract{}} =
+               DomainResourceAPI.build_domain_resource_contract(valid_args, opts)
     end
 
     test "raises FunctionClausedError when arguments aren't a list" do

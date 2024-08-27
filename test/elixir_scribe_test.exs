@@ -47,13 +47,15 @@ defmodule ElixirScribeTest do
 
   describe "controller_template_path/0" do
     test "returns the controller template path" do
-      assert ElixirScribe.controller_template_path() === "priv/templates/scribe.gen.html/controllers"
+      assert ElixirScribe.controller_template_path() ===
+               "priv/templates/scribe.gen.html/controllers"
     end
   end
 
   describe "controller_test_template_path/0" do
     test "returns the controller test template path" do
-      assert ElixirScribe.controller_test_template_path() === "priv/templates/scribe.gen.html/tests/controllers"
+      assert ElixirScribe.controller_test_template_path() ===
+               "priv/templates/scribe.gen.html/tests/controllers"
     end
   end
 
@@ -65,7 +67,8 @@ defmodule ElixirScribeTest do
 
   describe "domain_tests_template_path/0" do
     test "returns the default domain tests template path" do
-      assert ElixirScribe.domain_tests_template_path() === "priv/templates/scribe.gen.domain/tests"
+      assert ElixirScribe.domain_tests_template_path() ===
+               "priv/templates/scribe.gen.domain/tests"
     end
   end
 
@@ -77,13 +80,22 @@ defmodule ElixirScribeTest do
 
   describe "resource_actions_template_path/0" do
     test "returns the default domain actions template path" do
-      assert ElixirScribe.resource_actions_template_path() === "priv/templates/scribe.gen.domain/actions"
+      assert ElixirScribe.resource_actions_template_path() ===
+               "priv/templates/scribe.gen.domain/actions"
     end
   end
 
   describe "resource_actions/0" do
     test "returns the resource actions in the expected order" do
-      assert ElixirScribe.resource_actions() === ["list", "new", "read", "edit", "create", "update", "delete"]
+      assert ElixirScribe.resource_actions() === [
+               "list",
+               "new",
+               "read",
+               "edit",
+               "create",
+               "update",
+               "delete"
+             ]
     end
   end
 

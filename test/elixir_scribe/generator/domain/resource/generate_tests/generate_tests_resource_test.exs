@@ -1,7 +1,6 @@
 Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsResourceTest do
-
   alias ElixirScribe.Generator.DomainResourceAPI
   use ElixirScribe.BaseCase
 
@@ -65,4 +64,4 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
       end)
     end)
   end
- end
+end

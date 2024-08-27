@@ -71,7 +71,8 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
     expected_keys = Map.keys(expected_contract)
 
     assert schema_contract =
-             %SchemaContract{} = SchemaContract.new!(schema_name, schema_plural, cli_attrs, options)
+             %SchemaContract{} =
+             SchemaContract.new!(schema_name, schema_plural, cli_attrs, options)
 
     contract = Map.from_struct(schema_contract)
     {attrs, contract} = Map.pop!(contract, :attrs)
@@ -153,7 +154,8 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
     expected_keys = Map.keys(expected_contract)
 
     assert schema_contract =
-             %SchemaContract{} = SchemaContract.new!(schema_name, schema_plural, cli_attrs, options)
+             %SchemaContract{} =
+             SchemaContract.new!(schema_name, schema_plural, cli_attrs, options)
 
     contract = Map.from_struct(schema_contract)
     {attrs, contract} = Map.pop!(contract, :attrs)
@@ -234,7 +236,8 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
     expected_keys = Map.keys(expected_contract)
 
     assert schema_contract =
-             %SchemaContract{} = SchemaContract.new!(schema_name, schema_plural, cli_attrs, options)
+             %SchemaContract{} =
+             SchemaContract.new!(schema_name, schema_plural, cli_attrs, options)
 
     contract = Map.from_struct(schema_contract)
     {attrs, contract} = Map.pop!(contract, :attrs)
