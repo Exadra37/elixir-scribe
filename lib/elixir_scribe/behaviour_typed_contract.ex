@@ -335,7 +335,7 @@ defmodule ElixirScribe.Behaviour.TypedContract do
 
       @impl true
       @doc """
-      Updates the Elixir Scribe Typed Contract for the given key and value.
+      Updates the Elixir Scribe Typed Contract for the given attribute and value.
 
       Accepted attributes: #{inspect(@contract_keys)}.
 
@@ -351,7 +351,7 @@ defmodule ElixirScribe.Behaviour.TypedContract do
 
       @impl true
       @doc """
-      Updates the Elixir Scribe Typed Contract for the given key and value.
+      Updates the Elixir Scribe Typed Contract for the given attribute and value.
 
       Accepted attributes: #{inspect(@contract_keys)}.
 
@@ -366,12 +366,12 @@ defmodule ElixirScribe.Behaviour.TypedContract do
       end
 
       @impl true
-      def conforms(typed_contract) do
+      def conforms(%__MODULE__{} = typed_contract) do
         typed_contract |> conform(type_spec())
       end
 
       @impl true
-      def conforms!(typed_contract) do
+      def conforms!(%__MODULE__{} = typed_contract) do
         typed_contract |> conform!(type_spec())
       end
 
