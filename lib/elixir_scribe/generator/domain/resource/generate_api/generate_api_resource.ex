@@ -57,7 +57,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
 
       api_action_template_path = build_api_action_template_path(action, contract.schema.generate?)
 
-      TemplateFileAPI.inject_eex_template_before_module_end(base_template_paths, api_action_template_path, contract.api_file, binding)
+      TemplateFileAPI.inject_eex_template_before_module_end(
+        base_template_paths,
+        api_action_template_path,
+        contract.api_file,
+        binding
+      )
     end
   end
 

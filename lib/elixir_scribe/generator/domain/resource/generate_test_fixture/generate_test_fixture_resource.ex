@@ -52,7 +52,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
       fixtures_file_template_path =
         ElixirScribe.domain_tests_template_path() |> Path.join("fixtures.ex")
 
-      TemplateFileAPI.inject_eex_template_before_module_end(base_template_paths, fixtures_file_template_path, test_fixtures_file, binding)
+      TemplateFileAPI.inject_eex_template_before_module_end(
+        base_template_paths,
+        fixtures_file_template_path,
+        test_fixtures_file,
+        binding
+      )
 
       maybe_print_unimplemented_fixture_functions(contract)
     end

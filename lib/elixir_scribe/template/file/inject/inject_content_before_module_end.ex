@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeFinalEnd do
+defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeModuleEnd do
   @moduledoc false
 
   def inject(content_to_inject, file_path) do

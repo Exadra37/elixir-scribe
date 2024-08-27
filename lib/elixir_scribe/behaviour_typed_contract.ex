@@ -284,7 +284,11 @@ defmodule ElixirScribe.Behaviour.TypedContract do
 
       @behaviour ElixirScribe.Behaviour.TypedContract
 
-      @struct_keys Keyword.get(opts, :keys, %{}) |> Map.put(:extra, self: __MODULE__)
+      @contract_spec Keyword.get(opts, :keys, %{})
+
+      @contract_keys @contract_spec.required ++ @contract_spec.optional
+
+      @struct_keys @contract_keys |> Map.put(:extra, self: __MODULE__)
 
       @enforce_keys @struct_keys.required
 
@@ -300,18 +304,45 @@ defmodule ElixirScribe.Behaviour.TypedContract do
       def fields(), do: @fields
 
       @impl true
+      @doc """
+      Accepts a map with the attributes to create an ELixir Scribe Typed Contract.
+
+      Accepted attributes: #{inspect(@contract_spec)}.
+
+      Success response: {:ok, %#{__MODULE__}{}}
+
+      Error response: {:error, list(map())}
+      """
       def new(attrs) when is_map(attrs) do
         struct(__MODULE__, attrs)
         |> conform(type_spec())
       end
 
       @impl true
+      @doc """
+      Accepts a map with the attributes to create an ELixir Scribe Typed Contract.
+
+      Accepted attributes: #{inspect(@contract_spec)}.
+
+      Success response: %#{__MODULE__}{}
+
+      Raises an error when it fails to create the contract.
+      """
       def new!(attrs) when is_map(attrs) do
         struct(__MODULE__, attrs)
         |> conform!(type_spec())
       end
 
       @impl true
+      @doc """
+      Updates the Elixir Scribe Typed Contract for the given key and value.
+
+      Accepted attributes: #{inspect(@contract_keys)}.
+
+      Success response: {:ok, %#{__MODULE__}{}}
+
+      Error response: {:error, list(map())}
+      """
       def update(%__MODULE__{} = typed_contract, key, value) do
         typed_contract
         |> Map.put(key, value)
@@ -319,6 +350,15 @@ defmodule ElixirScribe.Behaviour.TypedContract do
       end
 
       @impl true
+      @doc """
+      Updates the Elixir Scribe Typed Contract for the given key and value.
+
+      Accepted attributes: #{inspect(@contract_keys)}.
+
+      Success response: {:ok, %#{__MODULE__}{}}
+
+      Raises an error when it fails to update the contract.
+      """
       def update!(%__MODULE__{} = typed_contract, key, value) do
         typed_contract
         |> Map.put(key, value)

@@ -4,7 +4,7 @@ defmodule ElixirScribe.Generator.DomainResourceAPITest do
   alias ElixirScribe.MixAPI
   alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Generator.DomainResourceAPI
-  use ElixirScribe.BaseCase, async: true
+  use ElixirScribe.BaseCase
 
   import MixTestHelper
 

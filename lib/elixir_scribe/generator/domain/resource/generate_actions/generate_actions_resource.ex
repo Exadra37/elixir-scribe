@@ -51,6 +51,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
   end
 
   defp inject_action_function_into_module(base_template_paths, source_path, target_path, binding) do
-    TemplateFileAPI.inject_eex_template_before_module_end(base_template_paths, source_path, target_path, binding)
+    TemplateFileAPI.inject_eex_template_before_module_end(
+      base_template_paths,
+      source_path,
+      target_path,
+      binding
+    )
   end
 end
