@@ -1,6 +1,7 @@
 defmodule ElixirScribe.MixAPI do
   @moduledoc false
 
+  alias ElixirScribe.Mix.Generator.CopyFile.CopyFileGenerator
   alias ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsShell
   alias ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand
   # alias ElixirScribe.Template.Options.BuildActions.BuildActionsFromOptions
@@ -17,6 +18,15 @@ defmodule ElixirScribe.MixAPI do
   Prompts to continue if any files exist.
   """
   def prompt_for_file_conflicts(files) when is_list(files), do: PromptForFileConflictsShell.prompt(files)
+
+  @doc """
+  Copies files from source dir to target dir according to the given map.
+
+  Files are evaluated against EEx according to the given binding.
+  """
+  def copy_file(apps, source_dir, binding, mapping) when is_list(mapping),
+    do: CopyFileGenerator.copy(apps, source_dir, binding, mapping)
+
 
   # def build_actions_from_options(opts) when is_list(opts), do: BuildActionsFromOptions.build(opts)
 

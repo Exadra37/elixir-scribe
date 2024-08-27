@@ -10,12 +10,17 @@ defmodule MixTestHelper do
     Path.expand("../tmp", __DIR__)
   end
 
+  def random_tmp_path(which) do
+    test_name = to_string(which) |> String.trim() |> String.replace(" ", "_")
+    Path.join([tmp_path(), random_string(10) <> "_" <> test_name])
+  end
+
   defp random_string(len) do
     len |> :crypto.strong_rand_bytes() |> Base.encode64() |> binary_part(0, len)
   end
 
   def in_tmp(which, function) do
-    path = Path.join([tmp_path(), random_string(10) <> to_string(which)])
+    path = random_tmp_path(which)
 
     try do
       File.rm_rf!(path)
@@ -28,7 +33,7 @@ defmodule MixTestHelper do
 
   def in_tmp_project(which, function) do
     conf_before = Application.get_env(:phoenix, :generators) || []
-    path = Path.join([tmp_path(), random_string(10) <> to_string(which)])
+    path = random_tmp_path(which)
 
     try do
       File.rm_rf!(path)
@@ -54,7 +59,7 @@ defmodule MixTestHelper do
 
   def in_tmp_umbrella_project(which, function) do
     conf_before = Application.get_env(:phoenix, :generators) || []
-    path = Path.join([tmp_path(), random_string(10) <> to_string(which)])
+    path = random_tmp_path(which)
 
     try do
       apps_path = Path.join(path, "apps")

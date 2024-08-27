@@ -26,16 +26,17 @@ defmodule ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsSh
 
       expected_info = """
       The following files conflict with new files to be generated:
-      * schema.ex
-      * api_file.ex
-      * create_resource.ex
+
+        * schema.ex
+        * api_file.ex
+        * create_resource.ex
 
       """
 
       send(self(), {:mix_shell_input, :yes?, true})
       MixAPI.prompt_for_file_conflicts(files)
 
-      assert_received {:mix_shell, :info, [expected_info]}
+      assert_received {:mix_shell, :info, [^expected_info]}
 
       assert_received {:mix_shell, :yes?, ["Proceed with interactive overwrite?" <> _]}
     end)

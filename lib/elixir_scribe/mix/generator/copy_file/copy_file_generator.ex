@@ -1,13 +1,17 @@
-defmodule ElixirScribe.Template.File.Copy.CopyFile do
+defmodule ElixirScribe.Mix.Generator.CopyFile.CopyFileGenerator do
   @moduledoc false
 
   alias ElixirScribe.TemplateBindingAPI
 
-  # All functions were copied from the Phoenix Framework, but only modified `copy_from/4`
+  # All functions were copied from the Phoenix Framework, but only modified `copy/4`
 
   @doc false
-  def copy_from(apps, source_dir, binding, mapping) when is_list(mapping) do
-    roots = Enum.map(apps, &to_app_source(&1, source_dir))
+  def copy(apps_and_paths, source_dir, binding, mapping) when is_list(mapping) do
+    dbg(apps_and_paths)
+    dbg(source_dir)
+    dbg(mapping)
+
+    roots = Enum.map(apps_and_paths, &to_app_source(&1, source_dir))
 
     binding =
       Keyword.merge(binding,
@@ -20,6 +24,7 @@ defmodule ElixirScribe.Template.File.Copy.CopyFile do
 
       source =
         Enum.find_value(roots, fn root ->
+          dbg(root)
           source = Path.join(root, source_file_path)
           if File.exists?(source), do: source
         end) || raise "could not find #{source_file_path} in any of the sources"

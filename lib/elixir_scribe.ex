@@ -85,8 +85,6 @@ defmodule ElixirScribe do
 
   """
 
-  # alias ElixirScribe.Generator.DomainContract
-
   @doc false
   def base_template_paths(), do: [".", :elixir_scribe, :phoenix]
 

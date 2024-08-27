@@ -232,7 +232,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
       TemplateBindingAPI.build_binding_template(context)
       |> Keyword.merge(inputs: inputs(context.schema))
 
-    TemplateFileAPI.copy_from(paths, ".", binding, files)
+    MixAPI.copy_file(paths, ".", binding, files)
 
     DomainResourceAPI.generate_new_files(context, prompt_for_conflicts?: false)
 
