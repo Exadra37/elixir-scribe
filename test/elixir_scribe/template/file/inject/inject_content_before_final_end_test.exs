@@ -2,7 +2,7 @@ Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeFinalEndTest do
   alias ElixirScribe.TemplateFileAPI
-  use ElixirScribe.BaseCase, async: true
+  use ElixirScribe.BaseCase
 
   import MixTestHelper
 

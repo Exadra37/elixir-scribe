@@ -17,6 +17,9 @@ defmodule ElixirScribe.TemplateFileAPI do
   def inject_content_before_final_end(content_to_inject, file_path),
     do: InjectContentBeforeFinalEnd.inject(content_to_inject, file_path)
 
-  def inject_eex_before_final_end(content_to_inject, file_path, binding),
-    do: InjectEexBeforeFinalEnd.inject(content_to_inject, file_path, binding)
+  # def inject_eex_before_final_end(content_to_inject, file_path, binding),
+  #   do: InjectEexBeforeFinalEnd.inject(content_to_inject, file_path, binding)
+
+   def inject_eex_before_final_end(base_template_paths, source_path, target_path, binding),
+    do: InjectEexBeforeFinalEnd.inject(base_template_paths, source_path, target_path, binding)
 end
