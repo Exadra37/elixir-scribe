@@ -1,5 +1,5 @@
 defmodule ElixirScribe.Template.Route.Scope.ScopeActionRoutesTest do
-  alias ElixirScribe.TemplateRouteAPI
+  alias ElixirScribe.Template.RouteAPI
   use ElixirScribe.BaseCase, async: true
 
   test "it builds the routes scope for all resource actions" do
@@ -22,6 +22,6 @@ defmodule ElixirScribe.Template.Route.Scope.ScopeActionRoutesTest do
         end
       """
 
-    assert TemplateRouteAPI.scope_routes(contract) == expected_scope
+    assert RouteAPI.scope_routes(contract) == expected_scope
   end
 end

@@ -1,4 +1,4 @@
-defmodule ElixirScribe.TemplateRouteAPI do
+defmodule ElixirScribe.Template.RouteAPI do
   @moduledoc false
 
   alias ElixirScribe.Generator.DomainContract

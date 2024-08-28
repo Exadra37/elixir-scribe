@@ -180,7 +180,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   """
   use Mix.Task
 
-  alias ElixirScribe.TemplateRouteAPI
+  alias ElixirScribe.Template.RouteAPI
   alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.MixAPI
   alias ElixirScribe.Generator.DomainContract
@@ -357,7 +357,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   @doc false
   def inject_routes(%DomainContract{context_app: ctx_app} = context) do
     router_file_path = Mix.Phoenix.web_path(ctx_app) |> Path.join("router.ex")
-    router_scope = TemplateRouteAPI.scope_routes(context)
+    router_scope = RouteAPI.scope_routes(context)
 
     FileAPI.inject_content_before_module_end(router_scope, router_file_path)
 
@@ -367,7 +367,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   @doc false
   def print_shell_instructions(%DomainContract{schema: schema, context_app: ctx_app} = context) do
     router_file_path = Mix.Phoenix.web_path(ctx_app) |> Path.join("router.ex")
-    router_scope = TemplateRouteAPI.scope_routes(context)
+    router_scope = RouteAPI.scope_routes(context)
 
     Mix.shell().info("""
 
