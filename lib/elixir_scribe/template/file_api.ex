@@ -22,7 +22,7 @@ defmodule ElixirScribe.Template.FileAPI do
         source_path,
         target_path,
         binding
-      ),
+      ) when is_list(base_template_paths) and is_binary(source_path) and is_binary(target_path) and is_list(binding),
       do:
         InjectEExTemplateBeforeModuleEnd.inject(
           base_template_paths,

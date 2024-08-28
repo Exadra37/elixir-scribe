@@ -54,4 +54,30 @@ defmodule ElixirScribe.TemplateFileAPIAsyncTest do
       end
     end
   end
+
+  describe "inject_eex_template_before_module_end/4" do
+    test "raises a FunctionClauseError when the first argument isn't a list" do
+      assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
+        FileAPI.inject_eex_template_before_module_end(%{}, "source.ex", "target.ex", [])
+      end
+    end
+
+    test "raises a FunctionClauseError when the second argument isn't a string" do
+      assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
+        FileAPI.inject_eex_template_before_module_end([], ["source.ex"], "target.ex", [])
+      end
+    end
+
+    test "raises a FunctionClauseError when the third argument isn't a string" do
+      assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
+        FileAPI.inject_eex_template_before_module_end([], "source.ex", ["target.ex"], [])
+      end
+    end
+
+    test "raises a FunctionClauseError when the fourth argument isn't a list" do
+      assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
+        FileAPI.inject_eex_template_before_module_end([], "source.ex", "target.ex", "")
+      end
+    end
+  end
 end

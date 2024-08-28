@@ -13,7 +13,7 @@ defmodule ElixirScribe.Template.File.Inject.InjectEExTemplateBeforeModuleEndTest
   end
 
   test "it injects an EEX template before the module end tag", config do
-    in_tmp(config.test, fn ->
+    in_tmp_project(config.test, fn ->
       api_content = """
       defmodule API do
       end
@@ -59,7 +59,7 @@ defmodule ElixirScribe.Template.File.Inject.InjectEExTemplateBeforeModuleEndTest
   end
 
   test "doesn't inject an EEX template when already exists in the module", config do
-    in_tmp(config.test, fn ->
+    in_tmp_project(config.test, fn ->
       function_template = """
         def <%= action %>(), do: :<%= action %>
       """
