@@ -359,7 +359,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     router_file_path = Mix.Phoenix.web_path(ctx_app) |> Path.join("router.ex")
     router_scope = TemplateRouteAPI.scope_routes(context)
 
-    TemplateFileAPI.inject_content_before_final_end(router_scope, router_file_path)
+    TemplateFileAPI.inject_content_before_module_end(router_scope, router_file_path)
 
     context
   end

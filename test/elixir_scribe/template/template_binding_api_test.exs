@@ -2,7 +2,7 @@ defmodule ElixirScribe.TemplateBindingAPITest do
   alias ElixirScribe.TemplateBindingAPI
   use ElixirScribe.BaseCase, async: true
 
-  # @INFO: Tests in the API module only care about testing the function can be invoked and that the API contract is respected (for now only guards and pattern matching). The unit tests for the functionality are done in their respective modules
+  # @INFO: Tests in the API module only care about testing the function can be invoked and that the API contract is respected for guards, pattern matching and expected return types. The unit tests for the functionality are done in their respective modules.
 
   describe "build_binding_template/1" do
     test "returns a list" do

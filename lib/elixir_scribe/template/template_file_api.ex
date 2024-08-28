@@ -14,7 +14,7 @@ defmodule ElixirScribe.TemplateFileAPI do
   def build_template_action_filename(%BuildFilenameForActionFileContract{} = contract),
     do: BuildFilenameForActionFile.build(contract)
 
-  def inject_content_before_final_end(content_to_inject, file_path),
+  def inject_content_before_module_end(content_to_inject, file_path) when is_binary(content_to_inject) and is_binary(file_path),
     do: InjectContentBeforeModuleEnd.inject(content_to_inject, file_path)
 
   def inject_eex_template_before_module_end(

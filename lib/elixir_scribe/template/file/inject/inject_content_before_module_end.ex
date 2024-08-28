@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeModuleEnd do
   @moduledoc false
 
-  def inject(content_to_inject, file_path) do
+  def inject(content_to_inject, file_path) when is_binary(content_to_inject) and is_binary(file_path) do
     file = File.read!(file_path)
 
     if String.contains?(file, content_to_inject) do
