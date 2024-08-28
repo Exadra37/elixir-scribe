@@ -3,7 +3,7 @@ defmodule ElixirScribe.TemplateFileAPITest do
   alias ElixirScribe.TemplateFileAPI
   use ElixirScribe.BaseCase, async: true
 
-  # @INFO: Tests in the API module only care about testing the function can be invoked and that the API contract is respected for guards, pattern matching and expected return types. The unit tests for the functionality are done in their respective modules.
+  # Tests in the API module only care about testing the function can be invoked and that the API contract is respected for guards, pattern matching and expected return types. The unit tests for the functionality are done in their respective modules.
 
   describe "build_dir_path_for_html_file/1" do
     test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (string)" do
@@ -40,7 +40,7 @@ defmodule ElixirScribe.TemplateFileAPITest do
     end
   end
 
-  # @INFO Check the SYNC tests at test/elixir_scribe/template/template_binding_api_sync_test.exs
+  # Check the SYNC tests at test/elixir_scribe/template/template_binding_api_sync_test.exs
   describe "inject_content_before_module_end/2" do
     test "raises a FunctionClauseError when the first argument isn't a string" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
