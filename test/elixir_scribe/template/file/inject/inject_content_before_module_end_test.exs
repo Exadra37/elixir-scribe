@@ -1,7 +1,7 @@
 Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeModuleEndTest do
-  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.FileAPI
   use ElixirScribe.BaseCase
 
   import MixTestHelper
@@ -34,7 +34,7 @@ defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeModuleEndTest do
       end
       """
 
-      assert :ok = TemplateFileAPI.inject_content_before_module_end(content_to_inject, "api.ex")
+      assert :ok = FileAPI.inject_content_before_module_end(content_to_inject, "api.ex")
 
       assert_received {:mix_shell, :info, ["* injecting api.ex"]}
 
@@ -62,7 +62,7 @@ defmodule ElixirScribe.Template.File.Inject.InjectContentBeforeModuleEndTest do
       File.write!("api.ex", expected_api_content)
 
       assert {:noop, :content_to_inject_already_exists} =
-               TemplateFileAPI.inject_content_before_module_end(content_to_inject, "api.ex")
+               FileAPI.inject_content_before_module_end(content_to_inject, "api.ex")
 
       refute_received {:mix_shell, :info, ["* injecting api.ex"]}
 

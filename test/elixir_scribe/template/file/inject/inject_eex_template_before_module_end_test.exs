@@ -2,7 +2,7 @@ Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.Template.File.Inject.InjectEExTemplateBeforeModuleEndTest do
   alias ElixirScribe.Template.BindingAPI
-  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.FileAPI
   use ElixirScribe.BaseCase
 
   import MixTestHelper
@@ -43,7 +43,7 @@ defmodule ElixirScribe.Template.File.Inject.InjectEExTemplateBeforeModuleEndTest
         )
 
       assert :ok =
-               TemplateFileAPI.inject_eex_template_before_module_end(
+               FileAPI.inject_eex_template_before_module_end(
                  base_template_paths,
                  "api_function_template.ex",
                  "api_existing_module.ex",
@@ -84,7 +84,7 @@ defmodule ElixirScribe.Template.File.Inject.InjectEExTemplateBeforeModuleEndTest
         )
 
       assert {:noop, :content_to_inject_already_exists} =
-               TemplateFileAPI.inject_eex_template_before_module_end(
+               FileAPI.inject_eex_template_before_module_end(
                  base_template_paths,
                  "api_function_template.ex",
                  "api_existing_module.ex",

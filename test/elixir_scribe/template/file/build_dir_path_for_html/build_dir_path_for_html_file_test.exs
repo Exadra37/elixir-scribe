@@ -1,5 +1,5 @@
 defmodule ElixirScribe.Template.File.BuildPathForHtml.BuildPathForHtmlFileTest do
-  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.FileAPI
 
   use ElixirScribe.BaseCase, async: true
 
@@ -7,7 +7,7 @@ defmodule ElixirScribe.Template.File.BuildPathForHtml.BuildPathForHtmlFileTest d
     args = ["Site.Blog", "Post", "posts", "name:string", "desc:string"]
     contract = domain_contract_fixture(args)
 
-    assert TemplateFileAPI.build_dir_path_for_html_file(contract) ===
+    assert FileAPI.build_dir_path_for_html_file(contract) ===
              "priv/templates/scribe.gen.html/html/default"
   end
 
@@ -24,7 +24,7 @@ defmodule ElixirScribe.Template.File.BuildPathForHtml.BuildPathForHtmlFileTest d
 
     contract = domain_contract_fixture(args)
 
-    assert TemplateFileAPI.build_dir_path_for_html_file(contract) ===
+    assert FileAPI.build_dir_path_for_html_file(contract) ===
              "priv/templates/scribe.gen.html/html/online_shop"
   end
 end

@@ -1,7 +1,7 @@
 Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.TemplateFileAPISyncTest do
-  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.FileAPI
   use ElixirScribe.BaseCase
 
   import MixTestHelper
@@ -27,7 +27,7 @@ defmodule ElixirScribe.TemplateFileAPISyncTest do
         def whatever, do: :whatever
         """
 
-        assert :ok = TemplateFileAPI.inject_content_before_module_end(content_to_inject, "api.ex")
+        assert :ok = FileAPI.inject_content_before_module_end(content_to_inject, "api.ex")
       end)
     end
 
@@ -44,7 +44,7 @@ defmodule ElixirScribe.TemplateFileAPISyncTest do
           def whatever, do: :whatever
         """
 
-        assert {:noop, :content_to_inject_already_exists} = TemplateFileAPI.inject_content_before_module_end(content_to_inject, "api.ex")
+        assert {:noop, :content_to_inject_already_exists} = FileAPI.inject_content_before_module_end(content_to_inject, "api.ex")
       end)
     end
   end

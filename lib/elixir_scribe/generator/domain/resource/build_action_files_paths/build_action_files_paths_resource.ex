@@ -3,7 +3,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
 
   alias ElixirScribe.Template.BuildFilenameForActionFileContract
   alias ElixirScribe.Generator.DomainContract
-  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.FileAPI
 
   def build(%DomainContract{generate?: false}), do: []
   def build(%DomainContract{generate?: true} = contract), do: build_files(contract)
@@ -44,7 +44,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
 
     contract = BuildFilenameForActionFileContract.new!(attrs)
 
-    TemplateFileAPI.build_template_action_filename(contract)
+    FileAPI.build_template_action_filename(contract)
   end
 
   defp build_template_action_filename(_action, false), do: "any_action.ex"

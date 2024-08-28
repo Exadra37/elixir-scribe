@@ -1,4 +1,4 @@
-defmodule ElixirScribe.TemplateFileAPI do
+defmodule ElixirScribe.Template.FileAPI do
   @moduledoc false
 
   alias ElixirScribe.Template.BuildFilenameForActionFileContract

@@ -5,7 +5,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.Template.BuildFilenameForActionFileContract
   alias ElixirScribe.Generator.DomainContract
-  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.FileAPI
   alias ElixirScribe.Generator.DomainResourceAPI
 
   def generate(%DomainContract{generate?: false}), do: []
@@ -57,7 +57,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
 
       api_action_template_path = build_api_action_template_path(action, contract.schema.generate?)
 
-      TemplateFileAPI.inject_eex_template_before_module_end(
+      FileAPI.inject_eex_template_before_module_end(
         base_template_paths,
         api_action_template_path,
         contract.api_file,
@@ -76,7 +76,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
 
     contract = BuildFilenameForActionFileContract.new!(attrs)
 
-    action_template_filename = TemplateFileAPI.build_template_action_filename(contract)
+    action_template_filename = FileAPI.build_template_action_filename(contract)
 
     ElixirScribe.domain_api_template_path() |> Path.join(action_template_filename)
   end

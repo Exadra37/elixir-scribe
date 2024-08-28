@@ -3,7 +3,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.Build
 
   alias ElixirScribe.Template.BuildFilenameForActionFileContract
   alias ElixirScribe.Generator.DomainContract
-  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.FileAPI
 
   @doc false
   def build(%DomainContract{generate?: false}), do: []
@@ -50,7 +50,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.Build
 
     contract = BuildFilenameForActionFileContract.new!(attrs)
 
-    TemplateFileAPI.build_template_action_filename(contract)
+    FileAPI.build_template_action_filename(contract)
   end
 
   defp build_template_action_filename(_action, false), do: "action_test_no_schema_access.exs"

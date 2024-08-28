@@ -3,7 +3,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
 
   alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.Generator.DomainContract
-  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.FileAPI
 
   def generate(%DomainContract{generate?: false} = contract), do: contract
 
@@ -52,7 +52,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
       fixtures_file_template_path =
         ElixirScribe.domain_tests_template_path() |> Path.join("fixtures.ex")
 
-      TemplateFileAPI.inject_eex_template_before_module_end(
+      FileAPI.inject_eex_template_before_module_end(
         base_template_paths,
         fixtures_file_template_path,
         test_fixtures_file,

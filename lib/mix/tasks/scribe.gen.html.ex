@@ -187,7 +187,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   alias ElixirScribe.Generator.SchemaContract
   alias Mix.Tasks.Scribe.Gen
   alias ElixirScribe.Generator.DomainResourceAPI
-  alias ElixirScribe.TemplateFileAPI
+  alias ElixirScribe.Template.FileAPI
 
   @doc false
   def run(args) do
@@ -265,7 +265,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   end
 
   defp build_files_without_action(context) do
-    html_template_path = TemplateFileAPI.build_dir_path_for_html_file(context)
+    html_template_path = FileAPI.build_dir_path_for_html_file(context)
 
     resource_form_source = Path.join([html_template_path, "resource_form.html.heex"])
 
@@ -325,7 +325,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
 
   defp build_html_action_files(files, context) do
     html_actions = ElixirScribe.resource_html_actions()
-    html_template_path = TemplateFileAPI.build_dir_path_for_html_file(context)
+    html_template_path = FileAPI.build_dir_path_for_html_file(context)
 
     for html_action <- html_actions, reduce: files do
       files ->
@@ -359,7 +359,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     router_file_path = Mix.Phoenix.web_path(ctx_app) |> Path.join("router.ex")
     router_scope = TemplateRouteAPI.scope_routes(context)
 
-    TemplateFileAPI.inject_content_before_module_end(router_scope, router_file_path)
+    FileAPI.inject_content_before_module_end(router_scope, router_file_path)
 
     context
   end
