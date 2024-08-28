@@ -1,4 +1,4 @@
-defmodule ElixirScribe.TemplateFileAPITest do
+defmodule ElixirScribe.TemplateFileAPIAsyncTest do
   alias ElixirScribe.Template.BuildFilenameForActionFileContract
   alias ElixirScribe.TemplateFileAPI
   use ElixirScribe.BaseCase, async: true

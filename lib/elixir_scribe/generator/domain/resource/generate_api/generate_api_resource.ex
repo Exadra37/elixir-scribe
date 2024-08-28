@@ -2,7 +2,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   @moduledoc false
 
   alias ElixirScribe.TemplateModuleAPI
-  alias ElixirScribe.TemplateBindingAPI
+  alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.Template.BuildFilenameForActionFileContract
   alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.TemplateFileAPI
@@ -12,7 +12,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
 
   def generate(%DomainContract{generate?: true} = contract) do
     base_template_paths = ElixirScribe.base_template_paths()
-    binding = TemplateBindingAPI.build_binding_template(contract)
+    binding = BindingAPI.build_binding_template(contract)
 
     contract
     |> ensure_api_file_exists(base_template_paths, binding)
@@ -53,7 +53,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
     for action <- resource_actions do
       binding =
         build_api_binding(contract, binding)
-        |> TemplateBindingAPI.rebuild_binding_template(action, file_type: :lib_core)
+        |> BindingAPI.rebuild_binding_template(action, file_type: :lib_core)
 
       api_action_template_path = build_api_action_template_path(action, contract.schema.generate?)
 

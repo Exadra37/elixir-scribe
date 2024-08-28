@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateSchema.GenerateSchemaResource do
   @moduledoc false
 
-  alias ElixirScribe.TemplateBindingAPI
+  alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.Generator.DomainContract
 
   def generate(%DomainContract{schema: %{generate?: false}}), do: []
@@ -18,7 +18,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateSchema.GenerateSchemaRe
 
   defp build_bindings(contract) do
     contract
-    |> TemplateBindingAPI.build_binding_template()
+    |> BindingAPI.build_binding_template()
     |> Keyword.merge(schema: contract.schema)
   end
 end

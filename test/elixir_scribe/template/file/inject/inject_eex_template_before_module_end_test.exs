@@ -1,6 +1,7 @@
 Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.Template.File.Inject.InjectEExTemplateBeforeModuleEndTest do
+  alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.TemplateFileAPI
   use ElixirScribe.BaseCase
 
@@ -36,8 +37,8 @@ defmodule ElixirScribe.Template.File.Inject.InjectEExTemplateBeforeModuleEndTest
 
       binding =
         domain_contract_fixture()
-        |> ElixirScribe.TemplateBindingAPI.build_binding_template()
-        |> ElixirScribe.TemplateBindingAPI.rebuild_binding_template("create",
+        |> BindingAPI.build_binding_template()
+        |> BindingAPI.rebuild_binding_template("create",
           file_type: :lib_core
         )
 
@@ -77,8 +78,8 @@ defmodule ElixirScribe.Template.File.Inject.InjectEExTemplateBeforeModuleEndTest
 
       binding =
         domain_contract_fixture()
-        |> ElixirScribe.TemplateBindingAPI.build_binding_template()
-        |> ElixirScribe.TemplateBindingAPI.rebuild_binding_template("create",
+        |> BindingAPI.build_binding_template()
+        |> BindingAPI.rebuild_binding_template("create",
           file_type: :lib_core
         )
 

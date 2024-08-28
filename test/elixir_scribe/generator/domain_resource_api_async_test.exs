@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Generator.DomainResourceAPITest do
+defmodule ElixirScribe.Generator.DomainResourceAPIAsyncTest do
   alias ElixirScribe.MixAPI
   alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Generator.DomainResourceAPI
@@ -97,7 +97,7 @@ defmodule ElixirScribe.Generator.DomainResourceAPITest do
     end
   end
 
-  # The SYNC tests for `generate_api/1` at test/elixir_scribe/generator/generate_test_fixture.exs
+  # The SYNC tests for `generate_test_fixture/1` at test/elixir_scribe/generator/domain_resource_api_sync_test.exs
   describe "generate_test_fixture/1" do
     test "raises a FunctionClauseError when isn't invoked with the correct argument type (%DomainContract{})" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
@@ -106,7 +106,7 @@ defmodule ElixirScribe.Generator.DomainResourceAPITest do
     end
   end
 
-  # The SYNC tests for `generate_new_files/1` at test/elixir_scribe/generator/generate_test_fixture.exs
+  # The SYNC tests for `generate_new_files/1` at test/elixir_scribe/generator/domain_resource_api_sync_test.exs
   describe "generate_new_files/1" do
     test "raises a FunctionClauseError when isn't invoked with the correct argument type (%DomainContract{})" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->

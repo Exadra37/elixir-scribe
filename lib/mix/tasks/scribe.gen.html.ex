@@ -181,7 +181,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   use Mix.Task
 
   alias ElixirScribe.TemplateRouteAPI
-  alias ElixirScribe.TemplateBindingAPI
+  alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.MixAPI
   alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Generator.SchemaContract
@@ -231,12 +231,12 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     prompt_for_conflicts(context, files)
 
     binding =
-      TemplateBindingAPI.build_binding_template(context)
+     BindingAPI.build_binding_template(context)
       |> Keyword.merge(inputs: inputs(context.schema))
 
     Enum.each(files, fn {format, file_type, source_file_path, target, action} ->
       opts = [file_type: file_type]
-      binding = TemplateBindingAPI.rebuild_binding_template(binding, action, opts)
+      binding = BindingAPI.rebuild_binding_template(binding, action, opts)
       mapping = [{format, source_file_path, target}]
       dbg(mapping)
       Mix.Phoenix.copy_from(paths, ".", binding, mapping)

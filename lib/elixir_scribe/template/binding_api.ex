@@ -1,4 +1,4 @@
-defmodule ElixirScribe.TemplateBindingAPI do
+defmodule ElixirScribe.Template.BindingAPI do
   @moduledoc false
 
   alias ElixirScribe.Generator.DomainContract

@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTestFixtureResource do
   @moduledoc false
 
-  alias ElixirScribe.TemplateBindingAPI
+  alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.TemplateFileAPI
 
@@ -13,7 +13,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTestFixture.GenerateTes
   @doc false
   def generate_test_fixture_file(contract) do
     base_template_paths = ElixirScribe.base_template_paths()
-    binding = TemplateBindingAPI.build_binding_template(contract)
+    binding = BindingAPI.build_binding_template(contract)
 
     contract
     |> ensure_test_fixtures_file_exists(base_template_paths, binding)

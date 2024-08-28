@@ -13,7 +13,7 @@ defmodule ElixirScribe.TemplateFileAPISyncTest do
 
   # Tests in the API module only care about testing the function can be invoked and that the API contract is respected for guards, pattern matching and expected return types. The unit tests for the functionality are done in their respective modules.
 
-  # Check the ASYNC tests at test/elixir_scribe/template/template_binding_api_test.exs
+  # Check the ASYNC tests at test/elixir_scribe/template/template_binding_api_async_test.exs
   describe "inject_content_before_module_end/2" do
     test "can be invoked with the correct arguments types (string, string) and returns the expected atom (:ok) for a successful operation", config do
       in_tmp(config.test, fn ->
