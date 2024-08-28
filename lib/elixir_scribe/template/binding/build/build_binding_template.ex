@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Template.Binding.Build.BuildBindingTemplate do
   @moduledoc false
 
-  alias ElixirScribe.TemplateModuleAPI
+  alias ElixirScribe.Template.ModuleAPI
   alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Utils.StringAPI
 
@@ -47,6 +47,6 @@ defmodule ElixirScribe.Template.Binding.Build.BuildBindingTemplate do
   end
 
   defp add_embeded_templates(binding) do
-    Keyword.put(binding, :embeded_templates, TemplateModuleAPI.build_embeded_templates())
+    Keyword.put(binding, :embeded_templates, ModuleAPI.build_embeded_templates())
   end
 end

@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Template.Binding.Rebuild.RebuildBindingTemplate do
   @moduledoc false
 
-  alias ElixirScribe.TemplateModuleAPI
+  alias ElixirScribe.Template.ModuleAPI
   alias ElixirScribe.Utils.StringAPI
 
   def rebuild(bindings, action, opts)
@@ -13,9 +13,9 @@ defmodule ElixirScribe.Template.Binding.Rebuild.RebuildBindingTemplate do
       action_first_word: StringAPI.first_word(action),
       action_capitalized: StringAPI.capitalize(action),
       action_human_capitalized: StringAPI.human_capitalize(action),
-      module_action_name: TemplateModuleAPI.build_module_action_name(contract, action),
+      module_action_name: ModuleAPI.build_module_action_name(contract, action),
       absolute_module_action_name:
-        TemplateModuleAPI.build_absolute_module_action_name(contract, action, opts)
+        ModuleAPI.build_absolute_module_action_name(contract, action, opts)
     )
   end
 end

@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource do
   @moduledoc false
 
-  alias ElixirScribe.TemplateModuleAPI
+  alias ElixirScribe.Template.ModuleAPI
   alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.Template.BuildFilenameForActionFileContract
   alias ElixirScribe.Generator.DomainContract
@@ -24,9 +24,9 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
   defp build_api_binding(contract, binding) do
     Keyword.merge(binding,
       absolute_module_name:
-        TemplateModuleAPI.build_absolute_module_name(contract, file_type: :lib_core),
+        ModuleAPI.build_absolute_module_name(contract, file_type: :lib_core),
       aliases:
-        TemplateModuleAPI.build_absolute_module_action_name_aliases(contract,
+        ModuleAPI.build_absolute_module_action_name_aliases(contract,
           file_type: :lib_core
         )
     )

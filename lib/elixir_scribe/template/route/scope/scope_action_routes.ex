@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Template.Route.Scope.ScopeActionRoutes do
   @moduledoc false
 
-  alias ElixirScribe.TemplateModuleAPI
+  alias ElixirScribe.Template.ModuleAPI
   alias ElixirScribe.Generator.DomainContract
 
   def scope(%DomainContract{schema: schema} = contract) do
@@ -71,7 +71,7 @@ defmodule ElixirScribe.Template.Route.Scope.ScopeActionRoutes do
 
   defp build_controller(contract, action, action_alias) do
     action_capitalized = String.capitalize(action_alias)
-    module_action_name = TemplateModuleAPI.build_module_action_name(contract, action)
+    module_action_name = ModuleAPI.build_module_action_name(contract, action)
 
     "#{action_capitalized}.#{module_action_name}Controller"
   end
