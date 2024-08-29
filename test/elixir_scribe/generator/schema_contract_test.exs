@@ -1,13 +1,11 @@
 defmodule ElixirScribe.Generator.SchemaContractTest do
   use ElixirScribe.BaseCase, async: true
 
+  alias ElixirScribe.Generator.BuildSchemaContract
   alias ElixirScribe.Generator.SchemaContract
 
   test "new!/4 Creates a Resource Schema Contract for a one level Domain" do
-    domain = "Blog"
-    schema_name = domain <> ".Post"
-    schema_plural = "posts"
-    cli_attrs = ["title:string", "desc:string"]
+    args = ["Blog", "Post", "posts", "title:string", "desc:string"]
     options = [web: "Blog", binary_id: true, schema: true]
 
     expected_contract = %{
@@ -54,7 +52,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
       timestamp_type: :naive_datetime,
       types: %{title: :string, desc: :string},
       uniques: [],
-      web_namespace: domain,
+      web_namespace: "Blog",
       web_path: "blog"
     }
 
@@ -63,7 +61,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
     expected_fixture_params = [{:desc, "\"some desc\""}, {:title, "\"some title\""}]
 
     expected_opts = [
-      {:web, domain},
+      {:web, "Blog"},
       {:schema, true},
       {:binary_id, true}
     ]
@@ -72,7 +70,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
 
     assert schema_contract =
              %SchemaContract{} =
-             SchemaContract.new!(schema_name, schema_plural, cli_attrs, options)
+             BuildSchemaContract.build!(args, options)
 
     contract = Map.from_struct(schema_contract)
     {attrs, contract} = Map.pop!(contract, :attrs)
@@ -86,11 +84,8 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
   end
 
   test "new!/4 Creates a Resource Schema Contract for a two level nested Domain" do
-    domain = "Blog.Site"
-    schema_name = domain <> ".Post"
-    schema_plural = "posts"
-    cli_attrs = ["title:string", "desc:string"]
-    options = [web: domain, binary_id: true, schema: true, context: true]
+    args = ["Blog.Site", "Post", "posts", "title:string", "desc:string"]
+    options = [web: "Blog.Site", binary_id: true, schema: true, context: true]
 
     expected_contract = %{
       alias: Post,
@@ -136,7 +131,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
       timestamp_type: :naive_datetime,
       types: %{title: :string, desc: :string},
       uniques: [],
-      web_namespace: domain,
+      web_namespace: "Blog.Site",
       web_path: "blog/site"
     }
 
@@ -145,7 +140,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
     expected_fixture_params = [{:desc, "\"some desc\""}, {:title, "\"some title\""}]
 
     expected_opts = [
-      {:web, domain},
+      {:web, "Blog.Site"},
       {:schema, true},
       {:context, true},
       {:binary_id, true}
@@ -153,9 +148,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
 
     expected_keys = Map.keys(expected_contract)
 
-    assert schema_contract =
-             %SchemaContract{} =
-             SchemaContract.new!(schema_name, schema_plural, cli_attrs, options)
+    assert schema_contract = %SchemaContract{} = BuildSchemaContract.build!(args, options)
 
     contract = Map.from_struct(schema_contract)
     {attrs, contract} = Map.pop!(contract, :attrs)
@@ -169,15 +162,12 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
   end
 
   test "new!/4 Creates a Resource Schema Contract for a three level nested Domain" do
-    domain = "Blog.Site.Admin"
-    schema_name = domain <> ".Post"
-    schema_plural = "posts"
-    cli_attrs = ["title:string", "desc:string"]
-    options = [web: "Blog", binary_id: true, schema: true]
+    args = ["Blog.Site.Admin", "Post", "posts", "title:string", "desc:string"]
+    options = [web: "Blog.Site.Admin", binary_id: true, schema: true]
 
     expected_contract = %{
       alias: Post,
-      api_route_prefix: "/api/blog/posts",
+      api_route_prefix: "/api/blog/site/admin/posts",
       assocs: [],
       binary_id: true,
       collection: "posts",
@@ -207,8 +197,8 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
       redacts: [],
       repo: ElixirScribe.Repo,
       repo_alias: "",
-      route_helper: "blog_post",
-      route_prefix: "/blog/posts",
+      route_helper: "blog_site_admin_post",
+      route_prefix: "/blog/site/admin/posts",
       sample_id: "11111111-1111-1111-1111-111111111111",
       self: ElixirScribe.Generator.SchemaContract,
       singular: "post",
@@ -219,8 +209,8 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
       timestamp_type: :naive_datetime,
       types: %{title: :string, desc: :string},
       uniques: [],
-      web_namespace: "Blog",
-      web_path: "blog"
+      web_namespace: "Blog.Site.Admin",
+      web_path: "blog/site/admin"
     }
 
     expected_attrs = [{:title, :string}, {:desc, :string}]
@@ -228,7 +218,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
     expected_fixture_params = [{:desc, "\"some desc\""}, {:title, "\"some title\""}]
 
     expected_opts = [
-      {:web, "Blog"},
+      {:web, "Blog.Site.Admin"},
       {:schema, true},
       {:binary_id, true}
     ]
@@ -237,7 +227,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
 
     assert schema_contract =
              %SchemaContract{} =
-             SchemaContract.new!(schema_name, schema_plural, cli_attrs, options)
+             BuildSchemaContract.build!(args, options)
 
     contract = Map.from_struct(schema_contract)
     {attrs, contract} = Map.pop!(contract, :attrs)

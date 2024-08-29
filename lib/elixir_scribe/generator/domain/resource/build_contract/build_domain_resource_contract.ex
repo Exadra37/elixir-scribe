@@ -5,6 +5,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
   # module of the Phoenix Framework and modified to suite ElixirScribe needs.
 
   alias ElixirScribe.Generator.DomainContract
+  alias ElixirScribe.Generator.BuildSchemaContract
   alias ElixirScribe.Generator.SchemaContract
   alias ElixirScribe.Utils.StringAPI
 
@@ -24,13 +25,18 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
 
   defp new(args, opts) when is_list(args) and is_list(opts) do
     with {:ok, args} <- validate_args!(args) do
-      [context_name, schema_name, plural | schema_args] = args
+      [context_name | _schema_args] = args
 
       opts = Keyword.put(opts, :web, context_name)
 
-      schema_module = context_name |> Module.concat(schema_name) |> inspect()
+      # args = [
+      #   schema_module: context_name |> Module.concat(schema_name) |> inspect(),
+      #   schema_plural: schema_plural,
+      #   schema
 
-      schema = SchemaContract.new!(schema_module, plural, schema_args, opts)
+      # ]
+      # schema = SchemaContract.new!(schema_module, plural, schema_args, opts)
+      schema = BuildSchemaContract.build!(args, opts)
 
       new(context_name, schema, opts)
     end
@@ -120,11 +126,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
     })
   end
 
-  defp validate_args!([context, schema, _plural | _] = args) do
+  defp validate_args!([domain_name, resource_name, _plural | _] = args) do
     cond do
-      not valid?(context) ->
+      not valid?(domain_name) ->
         build_error_with_help("""
-        Expected the Domain, #{inspect(context)}, to be a valid module name.
+        Expected the Domain, #{inspect(domain_name)}, to be a valid module name.
 
         Each Domain segment MUST start with a capital letter.
 
@@ -137,11 +143,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
         - sales.catalog
         """)
 
-      not SchemaContract.valid?(schema) ->
+      not valid?(resource_name) ->
         build_error_with_help("""
-        Expected the Schema, #{inspect(schema)}, to be a valid module name.
+        Expected the Resource, #{inspect(resource_name)}, to be a valid module name.
 
-        The Schema name MUST start with a capital letter.
+        The Resource name MUST start with a capital letter.
 
         Valid:
         - Category
@@ -150,17 +156,17 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
         - category
         """)
 
-      context == schema ->
-        build_error_with_help("The Domain and Schema should have different names")
+      domain_name == resource_name ->
+        build_error_with_help("The Domain and Resource should have different names")
 
-      context == Mix.Phoenix.base() ->
+      domain_name == Mix.Phoenix.base() ->
         build_error_with_help(
-          "Cannot generate Domain #{context} because it has the same name as the application"
+          "Cannot generate Domain #{domain_name} because it has the same name as the application"
         )
 
-      schema == Mix.Phoenix.base() ->
+      resource_name == Mix.Phoenix.base() ->
         build_error_with_help(
-          "Cannot generate Schema #{schema} because it has the same name as the application"
+          "Cannot generate Resource #{resource_name} because it has the same name as the application"
         )
 
       true ->
@@ -205,8 +211,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
     {:error, error}
   end
 
-  defp valid?(context) do
-    context =~ ~r/^[A-Z]\w*(\.[A-Z]\w*)*$/
+  defp valid?(module_name) do
+    module_name =~ ~r/^[A-Z]\w*(\.[A-Z]\w*)*$/
   end
 
   defp web_module do

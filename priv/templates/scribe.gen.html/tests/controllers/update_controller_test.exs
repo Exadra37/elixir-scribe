@@ -3,6 +3,8 @@ defmodule <%= absolute_module_action_name %>ControllerTest do
 
   import <%= contract.schema.module %>Fixtures
 
+  alias ElixirScribe.Generator.Schema.Helpers.SchemaHelpers
+
   @update_attrs <%= Mix.Phoenix.to_text contract.schema.params.update %>
   @invalid_attrs <%= Mix.Phoenix.to_text (for {key, _} <- contract.schema.params.create, into: %{}, do: {key, nil}) %>
 
@@ -16,7 +18,7 @@ defmodule <%= absolute_module_action_name %>ControllerTest do
     assert redirected_to(conn) == ~p"<%= contract.schema.route_prefix %>/#{<%= contract.schema.singular %>}"
 
     conn = get(conn, ~p"<%= contract.schema.route_prefix %>/#{<%= contract.schema.singular %>}")<%= if contract.schema.string_attr do %>
-    assert html_response(conn, 200) =~ <%= inspect ElixirScribe.Generator.SchemaContract.default_param(contract.schema, :update) %><% else %>
+    assert html_response(conn, 200) =~ <%= inspect SchemaHelpers.default_param(contract.schema, :update) %><% else %>
     assert html_response(conn, 200)<% end %>
   end
 

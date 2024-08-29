@@ -176,20 +176,20 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
                    fn -> BuildDomainResourceContract.build!(valid_args, opts) end
     end
 
-    test "when the Schema isn't a valid module name" do
+    test "when the Resource isn't a valid module name" do
       valid_args = ["Blog.Admin", "post", "posts"]
       opts = []
 
       assert_raise RuntimeError,
-                   ~r/^Expected the Schema, \"post\", to be a valid module name.*$/s,
+                   ~r/^Expected the Resource, \"post\", to be a valid module name.*$/s,
                    fn -> BuildDomainResourceContract.build!(valid_args, opts) end
     end
 
-    test "when the Domain and Schema have the same name" do
+    test "when the Domain and Resource have the same name" do
       valid_args = ["Blog", "Blog", "posts"]
       opts = []
 
-      assert_raise RuntimeError, ~r/^The Domain and Schema should have different name.*$/s, fn ->
+      assert_raise RuntimeError, ~r/^The Domain and Resource should have different name.*$/s, fn ->
         BuildDomainResourceContract.build!(valid_args, opts)
       end
     end
@@ -203,12 +203,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
                    fn -> BuildDomainResourceContract.build!(valid_args, opts) end
     end
 
-    test "when the Schema and the Application have the same name" do
+    test "when the Resource and the Application have the same name" do
       valid_args = ["Blog", "ElixirScribe", "posts"]
       opts = []
 
       assert_raise RuntimeError,
-                   ~r/^Cannot generate Schema ElixirScribe because it has the same name as the application.*$/s,
+                   ~r/^Cannot generate Resource ElixirScribe because it has the same name as the application.*$/s,
                    fn -> BuildDomainResourceContract.build!(valid_args, opts) end
     end
   end
