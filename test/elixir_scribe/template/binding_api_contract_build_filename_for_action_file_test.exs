@@ -1,3 +1,0 @@
-defmodule ElixirScribe.Template.BuildFilenameForActionFileContractTest do
-
-end

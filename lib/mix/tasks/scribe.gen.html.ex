@@ -254,8 +254,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     |> MixAPI.prompt_for_file_conflicts()
   end
 
-  @doc false
-  def files_to_be_generated(%DomainContract{schema: _schema, context_app: _context_app} = context) do
+  defp files_to_be_generated(%DomainContract{schema: _schema, context_app: _context_app} = context) do
     build_files_without_action(context)
     |> build_controller_action_files(context)
     |> build_controller_test_action_files(context)
@@ -352,8 +351,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     (action in ElixirScribe.resource_actions() && action) || "default"
   end
 
-  @doc false
-  def inject_routes(%DomainContract{context_app: ctx_app} = context) do
+  defp inject_routes(%DomainContract{context_app: ctx_app} = context) do
     router_file_path = Mix.Phoenix.web_path(ctx_app) |> Path.join("router.ex")
     router_scope = RouteAPI.scope_routes(context)
 
@@ -362,8 +360,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     context
   end
 
-  @doc false
-  def print_shell_instructions(%DomainContract{schema: schema, context_app: ctx_app} = context) do
+  defp print_shell_instructions(%DomainContract{schema: schema, context_app: ctx_app} = context) do
     router_file_path = Mix.Phoenix.web_path(ctx_app) |> Path.join("router.ex")
     router_scope = RouteAPI.scope_routes(context)
 
@@ -376,8 +373,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     if context.generate?, do: Gen.Domain.print_shell_instructions(context)
   end
 
-  @doc false
-  def inputs(%SchemaContract{} = schema) do
+  defp inputs(%SchemaContract{} = schema) do
     schema.attrs
     |> Enum.reject(fn {_key, type} -> type == :map end)
     |> Enum.map(fn
@@ -444,27 +440,4 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
   defp default_options({:array, _}), do: []
 
   defp label(key), do: Phoenix.Naming.humanize(to_string(key))
-
-  @doc false
-  def indent_inputs(inputs, column_padding) do
-    columns = String.duplicate(" ", column_padding)
-
-    inputs
-    |> Enum.map(fn input ->
-      lines = input |> String.split("\n") |> Enum.reject(&(&1 == ""))
-
-      case lines do
-        [] ->
-          []
-
-        [line] ->
-          [columns, line]
-
-        [first_line | rest] ->
-          rest = Enum.map_join(rest, "\n", &(columns <> &1))
-          [columns, first_line, "\n", rest]
-      end
-    end)
-    |> Enum.intersperse("\n")
-  end
 end

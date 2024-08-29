@@ -192,7 +192,7 @@ defmodule ElixirScribe do
   @doc false
   def app_path_types(), do: @app_path_types
 
-  # @TODO Remove once Mix.Phoenix.Schema is ported to ElixirScribe.Generator.SchemaContract
+  # @TODO Remove once `mix phx.gem.schema` is ported to `mix scribe.gen.schema`.
   @doc false
   def to_phoenix_schema(%ElixirScribe.Generator.SchemaContract{} = schema) do
     attrs = Map.from_struct(schema)

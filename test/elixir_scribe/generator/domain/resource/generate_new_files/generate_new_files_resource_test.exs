@@ -12,6 +12,25 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
     :ok
   end
 
+  test "doesn't generate files" do
+    args = [
+      "Blog",
+      "Post",
+      "posts",
+      "slug:unique",
+      "secret:redact",
+      "title:string",
+      "--no-context",
+    ]
+
+    domain_contract = domain_contract_fixture(args)
+    DomainResourceAPI.generate_new_files(domain_contract)
+
+    refute File.exists?("lib/elixir_scribe/domain/blog/post/post_schema.ex")
+
+    refute File.exists?("lib/elixir_scribe/domain/blog/post_api.ex")
+  end
+
   test "generate_new_files/1 creates all actions for a resource of a domain, including the schema, migration, tests and fixtures",
        config do
     in_tmp_project(config.test, fn ->

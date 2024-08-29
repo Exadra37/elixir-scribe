@@ -146,4 +146,22 @@ defmodule ElixirScribeTest do
       assert ElixirScribe.schema_template_folder_name(schema) === "no_schema_access"
     end
   end
+
+  describe "app_file_extensions/0" do
+    test "it returns a list with all app file extensions" do
+      assert ElixirScribe.app_file_extensions() === [".ex", ".exs", "html.heex"]
+    end
+  end
+
+  describe "app_file_types/0" do
+    test "it returns a list with all app file types" do
+      assert ElixirScribe.app_file_types() === ["", "controller", "controller_test", "test"]
+    end
+  end
+
+  describe "app_path_types/0" do
+    test "it returns a list with all file path types" do
+      assert ElixirScribe.app_path_types() === [:lib_core, :lib_web, :test_core, :test_web]
+    end
+  end
 end

@@ -23,7 +23,9 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
 
     {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
 
-    assert domain_contract =
+    assert {:ok, domain_contract = %DomainContract{}} = BuildDomainResourceContract.build(valid_args, opts)
+
+    assert ^domain_contract =
              %DomainContract{} = BuildDomainResourceContract.build!(valid_args, opts)
 
     contract = Map.from_struct(domain_contract)
