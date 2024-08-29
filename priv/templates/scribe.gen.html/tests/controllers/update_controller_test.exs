@@ -3,7 +3,7 @@ defmodule <%= absolute_module_action_name %>ControllerTest do
 
   import <%= contract.schema.module %>Fixtures
 
-  alias ElixirScribe.Generator.Schema.Helpers.SchemaHelpers
+  alias ElixirScribe.Generator.Schema.Resource.Helpers.SchemaHelpers
 
   @update_attrs <%= Mix.Phoenix.to_text contract.schema.params.update %>
   @invalid_attrs <%= Mix.Phoenix.to_text (for {key, _} <- contract.schema.params.create, into: %{}, do: {key, nil}) %>

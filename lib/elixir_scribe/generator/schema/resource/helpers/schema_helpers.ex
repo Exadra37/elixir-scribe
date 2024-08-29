@@ -1,4 +1,4 @@
-defmodule ElixirScribe.Generator.Schema.Helpers.SchemaHelpers do
+defmodule ElixirScribe.Generator.Schema.Resource.Helpers.SchemaHelpers do
   @moduledoc false
 
   alias Mix.Phoenix.Schema

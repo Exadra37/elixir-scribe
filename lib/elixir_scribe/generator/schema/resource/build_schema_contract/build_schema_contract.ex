@@ -1,6 +1,6 @@
-defmodule ElixirScribe.Generator.BuildSchemaContract do
+defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
   @moduledoc false
-alias ElixirScribe.Generator.SchemaContract
+  alias ElixirScribe.Generator.SchemaContract
 
   def build(args, opts) when is_list(args) and is_list(opts), do: new(args, opts)
 

@@ -4,8 +4,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
   # The logic to build the contract was borrowed from the Mix.Phoenix.Context
   # module of the Phoenix Framework and modified to suite ElixirScribe needs.
 
+  alias ElixirScribe.Generator.SchemaAPI
   alias ElixirScribe.Generator.DomainContract
-  alias ElixirScribe.Generator.BuildSchemaContract
   alias ElixirScribe.Generator.SchemaContract
   alias ElixirScribe.Utils.StringAPI
 
@@ -29,14 +29,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
 
       opts = Keyword.put(opts, :web, context_name)
 
-      # args = [
-      #   schema_module: context_name |> Module.concat(schema_name) |> inspect(),
-      #   schema_plural: schema_plural,
-      #   schema
-
-      # ]
-      # schema = SchemaContract.new!(schema_module, plural, schema_args, opts)
-      schema = BuildSchemaContract.build!(args, opts)
+      schema = SchemaAPI.build_schema_resource_contract!(args, opts)
 
       new(context_name, schema, opts)
     end

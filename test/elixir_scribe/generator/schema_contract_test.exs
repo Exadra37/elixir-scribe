@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Generator.SchemaContractTest do
   use ElixirScribe.BaseCase, async: true
 
-  alias ElixirScribe.Generator.BuildSchemaContract
+  alias ElixirScribe.Generator.SchemaAPI
   alias ElixirScribe.Generator.SchemaContract
 
   test "new!/4 Creates a Resource Schema Contract for a one level Domain" do
@@ -69,8 +69,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
     expected_keys = Map.keys(expected_contract)
 
     assert schema_contract =
-             %SchemaContract{} =
-             BuildSchemaContract.build!(args, options)
+             %SchemaContract{} = SchemaAPI.build_schema_resource_contract!(args, options)
 
     contract = Map.from_struct(schema_contract)
     {attrs, contract} = Map.pop!(contract, :attrs)
@@ -148,7 +147,8 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
 
     expected_keys = Map.keys(expected_contract)
 
-    assert schema_contract = %SchemaContract{} = BuildSchemaContract.build!(args, options)
+    assert schema_contract =
+             %SchemaContract{} = SchemaAPI.build_schema_resource_contract!(args, options)
 
     contract = Map.from_struct(schema_contract)
     {attrs, contract} = Map.pop!(contract, :attrs)
@@ -226,8 +226,7 @@ defmodule ElixirScribe.Generator.SchemaContractTest do
     expected_keys = Map.keys(expected_contract)
 
     assert schema_contract =
-             %SchemaContract{} =
-             BuildSchemaContract.build!(args, options)
+             %SchemaContract{} = SchemaAPI.build_schema_resource_contract!(args, options)
 
     contract = Map.from_struct(schema_contract)
     {attrs, contract} = Map.pop!(contract, :attrs)
