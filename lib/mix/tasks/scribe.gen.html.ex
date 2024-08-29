@@ -226,8 +226,6 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     paths = ElixirScribe.base_template_paths()
     files = files_to_be_generated(context)
 
-    dbg(files)
-
     prompt_for_conflicts(context, files)
 
     binding =
@@ -238,7 +236,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
       opts = [file_type: file_type]
       binding = BindingAPI.rebuild_binding_template(binding, action, opts)
       mapping = [{format, source_file_path, target}]
-      dbg(mapping)
+
       Mix.Phoenix.copy_from(paths, ".", binding, mapping)
     end)
 

@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Generator.Schema.Resource.Helpers.SchemaHelpers do
   @moduledoc false
 
-  alias Mix.Phoenix.Schema
+  alias ElixirScribe.Generator.SchemaContract
 
   @valid_types [
     :integer,
@@ -34,7 +34,7 @@ defmodule ElixirScribe.Generator.Schema.Resource.Helpers.SchemaHelpers do
   @doc """
   Returns the string value of the default schema param.
   """
-  def default_param(%Schema{} = schema, action) do
+  def default_param(%SchemaContract{} = schema, action) do
     schema.params
     |> Map.fetch!(action)
     |> Map.fetch!(schema.params.default_key)
