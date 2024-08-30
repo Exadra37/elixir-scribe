@@ -14,29 +14,25 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
 
     for {:eex, :resource_test, source_path, target_path, action} <-
           DomainResourceAPI.build_test_action_files_paths(contract) do
-      contract = %{contract | test_file: target_path}
+      binding =
+        BindingAPI.rebuild_binding_template(binding, action, file_type: :lib_core)
 
-      unless File.exists?(contract.test_file) do
-        binding =
-         BindingAPI.rebuild_binding_template(binding, action, file_type: :lib_core)
+      # When the file already exists we are asked if we want to overwrite it.
+      created_or_overwritten? =
+        create_test_action_module_file(
+          base_template_paths,
+          target_path,
+          binding,
+          contract.schema.generate?
+        )
 
-        # When the file already exists we are asked if we want to overwrite it.
-        created_or_overwritten? =
-          create_test_action_module_file(
-            base_template_paths,
-            target_path,
-            binding,
-            contract.schema.generate?
-          )
-
-        if created_or_overwritten? do
-          inject_action_function_into_module(
-            base_template_paths,
-            source_path,
-            target_path,
-            binding
-          )
-        end
+      if created_or_overwritten? do
+        inject_action_function_into_module(
+          base_template_paths,
+          source_path,
+          target_path,
+          binding
+        )
       end
     end
 
@@ -52,12 +48,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
 
   defp build_module_template_path(true) do
     ElixirScribe.resource_test_actions_template_path()
-    |> Path.join("action_test.exs")
+    |> Path.join("action_module_test.exs")
   end
 
   defp build_module_template_path(false) do
     ElixirScribe.resource_test_actions_template_path()
-    |> Path.join("action_test_no_schema_access.exs")
+    |> Path.join("action_module_test_no_schema_access.exs")
   end
 
   defp inject_action_function_into_module(base_template_paths, source_path, target_path, binding) do

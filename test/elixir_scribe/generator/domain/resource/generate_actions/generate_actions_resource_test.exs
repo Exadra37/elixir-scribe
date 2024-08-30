@@ -1,4 +1,4 @@
-Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
+Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActionsResourceTest do
   alias ElixirScribe.Generator.DomainResourceAPI
@@ -9,6 +9,46 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
   setup do
     Mix.Task.clear()
     :ok
+  end
+
+  test "doesn't generate test files with flag --no-context", config do
+    in_tmp_project(config.test, fn ->
+      args = [
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "title:string",
+        "--no-context"
+      ]
+
+      domain_contract = domain_contract_fixture(args)
+      DomainResourceAPI.generate_actions(domain_contract)
+
+      refute File.exists?("test/elixir_scribe/domain/blog/post")
+    end)
+  end
+
+  test "with flag --no-schema the resource action file is generated without the logic to access the schema", config do
+    in_tmp_project(config.test, fn ->
+      args = [
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "title:string",
+        "--no-schema"
+      ]
+
+      domain_contract = domain_contract_fixture(args)
+      DomainResourceAPI.generate_actions(domain_contract)
+
+      assert_file("lib/elixir_scribe/domain/blog/post/list/list_posts.ex", fn file ->
+        assert file =~ "defmodule ElixirScribe.Blog.Post.List.ListPosts do"
+        assert file =~ "def list()"
+        assert file =~ "raise \"TODO: Implement action `list` for `ListPosts`"
+      end)
+    end)
   end
 
   test "generates a file for each Resource Action", config do

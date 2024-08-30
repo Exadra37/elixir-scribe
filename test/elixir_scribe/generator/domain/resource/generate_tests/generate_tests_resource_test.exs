@@ -1,4 +1,4 @@
-Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
+Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsResourceTest do
   alias ElixirScribe.Generator.DomainResourceAPI
@@ -11,7 +11,47 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
     :ok
   end
 
-  test "generates a file for each Resource Action", config do
+  test "doesn't generate test files with flag --no-context", config do
+    in_tmp_project(config.test, fn ->
+      args = [
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "title:string",
+        "--no-context"
+      ]
+
+      domain_contract = domain_contract_fixture(args)
+      DomainResourceAPI.generate_tests(domain_contract)
+
+      refute File.exists?("test/elixir_scribe/domain/blog/post")
+    end)
+  end
+
+  test "with flag --no-schema the test file is generated without tests being implemented ", config do
+    in_tmp_project(config.test, fn ->
+      args = [
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "title:string",
+        "--no-schema"
+      ]
+
+      domain_contract = domain_contract_fixture(args)
+      DomainResourceAPI.generate_tests(domain_contract)
+
+      assert_file("test/elixir_scribe/domain/blog/post/list/list_posts_test.exs", fn file ->
+        assert file =~ "defmodule ElixirScribe.Blog.Post.List.ListPostsTest do"
+        assert file =~ "test \"list"
+        assert file =~ "raise \"TODO: Implement test for action `list` at `ListPosts`"
+      end)
+    end)
+  end
+
+  test "generates a test file for each Resource Action", config do
     in_tmp_project(config.test, fn ->
       args = [
         "Blog",

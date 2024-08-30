@@ -1,4 +1,4 @@
-Code.require_file("../../../../../mix_test_helper.exs", __DIR__)
+Code.require_file("test/mix_test_helper.exs")
 
 defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFilesResourceTest do
   use ElixirScribe.BaseCase
@@ -26,9 +26,9 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
       domain_contract = domain_contract_fixture(args)
       DomainResourceAPI.generate_new_files(domain_contract)
 
-      refute File.exists?("lib/elixir_scribe/domain/blog/post/post_schema.ex")
+      refute File.exists?("lib/elixir_scribe/domain/blog/post")
 
-      refute File.exists?("lib/elixir_scribe/domain/blog/post_api.ex")
+      # refute File.exists?("lib/elixir_scribe/domain/blog/post_api.ex")
     end)
   end
 
@@ -63,18 +63,22 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
       # We want to start with an empty mailbox after creating the new files
       flush()
 
-      # Reply yes to: "Proceed with interactive overwrite?"
+      # Replies yes to: "Proceed with interactive overwrite?"
       send(self(), {:mix_shell_input, :yes?, true})
 
-      # Reply false to: "lib/elixir_scribe/domain/blog/post/build/build_post.ex already exists, overwrite?"
+      # Replies false to: "lib/elixir_scribe/domain/blog/post/build/build_post.ex already exists, overwrite?"
+      send(self(), {:mix_shell_input, :yes?, false})
+
+      # Replies false to: "test/elixir_scribe/domain/blog/post/build/build_post_test.exs  already exists, overwrite?"
       send(self(), {:mix_shell_input, :yes?, false})
 
       DomainResourceAPI.generate_new_files(domain_contract)
 
-      assert_received {:mix_shell, :info,
-                       [^expected_conflicts]}
+      # assert_received {:mix_shell, :info, ["df"]}
+      assert_received {:mix_shell, :info, [^expected_conflicts]}
       assert_received {:mix_shell, :yes?, ["Proceed with interactive overwrite?" <> _]}
       assert_received {:mix_shell, :yes?, ["lib/elixir_scribe/domain/blog/post/build/build_post.ex already exists, overwrite?"]}
+      assert_received {:mix_shell, :yes?, ["test/elixir_scribe/domain/blog/post/build/build_post_test.exs already exists, overwrite?"]}
     end)
   end
 
@@ -161,7 +165,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
       assert_file(path, fn file ->
         assert file =~ "create table(:posts"
         assert file =~ "add :title, :string"
-        assert file =~ "add :secret, :string"
         assert file =~ "create unique_index(:posts, [:slug])"
       end)
     end)

@@ -1,4 +1,4 @@
-defmodule <%= module_action_name %>Test do
+defmodule <%= absolute_module_action_name %>Test do
   use <%= inspect contract.base_module %>.DataCase
 
   alias <%= module_action_name %>

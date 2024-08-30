@@ -53,5 +53,5 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.Build
     FileAPI.build_template_action_filename(contract)
   end
 
-  defp build_template_action_filename(_action, false), do: "action_test_no_schema_access.exs"
+  defp build_template_action_filename(_action, false), do: "module_any_action_test.exs"
 end
