@@ -11,9 +11,9 @@ defmodule ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsSh
       Enum.flat_map(generator_files, fn
         {:new_eex, _, _path} -> []
         {:new_eex, _, _path, _action} -> []
-        {_kind, _, path} -> [path]
-        {_kind, _, _, path} -> [path]
-        {_kind, _, _, path, _action} -> [path]
+        {_kind, _source_path, target_path} -> [target_path]
+        {_kind, _file_type, _source_path, target_path} -> [target_path]
+        {_kind, _file_type, _source_path, target_path, _action} -> [target_path]
       end)
 
     case Enum.filter(file_paths, &File.exists?(&1)) do

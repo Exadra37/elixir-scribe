@@ -13,7 +13,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
   defp generate_new_files(%DomainContract{} = contract, opts) when is_list(opts) do
     prompt_for_conflicts? = Keyword.get(opts, :prompt_for_conflicts?, true)
 
-    unless prompt_for_conflicts? do
+    if prompt_for_conflicts? do
       prompt_for_conflicts(contract)
     end
 

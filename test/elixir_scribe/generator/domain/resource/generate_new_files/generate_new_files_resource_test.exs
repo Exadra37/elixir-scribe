@@ -12,23 +12,70 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
     :ok
   end
 
-  test "doesn't generate files" do
-    args = [
-      "Blog",
-      "Post",
-      "posts",
-      "slug:unique",
-      "secret:redact",
-      "title:string",
-      "--no-context",
-    ]
+  test "generate_new_files/1 doesn't generate files with flag --no-context", config do
+    in_tmp_project(config.test, fn ->
+      args = [
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "title:string",
+        "--no-context"
+      ]
 
-    domain_contract = domain_contract_fixture(args)
-    DomainResourceAPI.generate_new_files(domain_contract)
+      domain_contract = domain_contract_fixture(args)
+      DomainResourceAPI.generate_new_files(domain_contract)
 
-    refute File.exists?("lib/elixir_scribe/domain/blog/post/post_schema.ex")
+      refute File.exists?("lib/elixir_scribe/domain/blog/post/post_schema.ex")
 
-    refute File.exists?("lib/elixir_scribe/domain/blog/post_api.ex")
+      refute File.exists?("lib/elixir_scribe/domain/blog/post_api.ex")
+    end)
+  end
+
+  test "generate_new_files/1 prompts for conflicts before creating a file", config do
+    in_tmp_project(config.test, fn ->
+
+      expected_conflicts = """
+      The following files conflict with new files to be generated:
+
+        * lib/elixir_scribe/domain/blog/post_api.ex
+        * lib/elixir_scribe/domain/blog/post/build/build_post.ex
+        * test/elixir_scribe/domain/blog/post/build/build_post_test.exs
+        * lib/elixir_scribe/domain/blog/post/post_schema.ex
+        * test/support/fixtures/domain/blog/post_fixtures.ex
+
+      """
+
+      args = [
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "title:string",
+        "--no-default-actions",
+        "--actions",
+        "build"
+      ]
+
+      domain_contract = domain_contract_fixture(args)
+      DomainResourceAPI.generate_new_files(domain_contract)
+
+      # We want to start with an empty mailbox after creating the new files
+      flush()
+
+      # Reply yes to: "Proceed with interactive overwrite?"
+      send(self(), {:mix_shell_input, :yes?, true})
+
+      # Reply false to: "lib/elixir_scribe/domain/blog/post/build/build_post.ex already exists, overwrite?"
+      send(self(), {:mix_shell_input, :yes?, false})
+
+      DomainResourceAPI.generate_new_files(domain_contract)
+
+      assert_received {:mix_shell, :info,
+                       [^expected_conflicts]}
+      assert_received {:mix_shell, :yes?, ["Proceed with interactive overwrite?" <> _]}
+      assert_received {:mix_shell, :yes?, ["lib/elixir_scribe/domain/blog/post/build/build_post.ex already exists, overwrite?"]}
+    end)
   end
 
   test "generate_new_files/1 creates all actions for a resource of a domain, including the schema, migration, tests and fixtures",
@@ -41,7 +88,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
         "Post",
         "posts",
         "slug:unique",
-        "secret:redact",
         "title:string",
         "--actions",
         "export,import"
