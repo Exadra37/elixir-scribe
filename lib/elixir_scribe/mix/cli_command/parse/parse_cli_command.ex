@@ -6,8 +6,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
     table: :string,
     web: :string,
     schema: :boolean,
-    # context: :boolean,
-    # context_app: :string,
+    context_app: :string,
     merge_with_existing_context: :boolean,
     prefix: :string,
     live: :boolean,
@@ -18,7 +17,6 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
 
   @default_opts [
     schema: true,
-    # context: true,
     no_default_actions: false,
     actions: nil,
     html_template: "default"
@@ -50,15 +48,15 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
   defp parse_options(opts) when is_list(opts) do
     @default_opts
     |> Keyword.merge(opts)
-    # |> put_context_app(opts[:context_app])
+    |> put_context_app(opts[:context_app])
     |> put_resource_actions()
   end
 
-  # defp put_context_app(opts, nil), do: opts
+  defp put_context_app(opts, nil), do: opts
 
-  # defp put_context_app(opts, string) do
-  #   Keyword.put(opts, :context_app, String.to_atom(string))
-  # end
+  defp put_context_app(opts, string) do
+    Keyword.put(opts, :context_app, String.to_atom(string))
+  end
 
   defp put_resource_actions(opts) do
     resource_actions = build_actions_from_options(opts)
