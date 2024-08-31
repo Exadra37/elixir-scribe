@@ -4,7 +4,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateSchema.GenerateSchemaRe
   alias ElixirScribe.Template.BindingAPI
   alias ElixirScribe.Generator.DomainContract
 
-  def generate(%DomainContract{schema: %{generate?: false}}), do: []
+  def generate(%DomainContract{schema: %{generate?: false}} = contract), do: contract
 
   def generate(%DomainContract{schema: %{generate?: true}} = contract) do
     schema = ElixirScribe.to_phoenix_schema(contract.schema)

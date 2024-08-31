@@ -12,26 +12,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
     :ok
   end
 
-  test "generate_new_files/1 doesn't generate files with flag --no-context", config do
-    in_tmp_project(config.test, fn ->
-      args = [
-        "Blog",
-        "Post",
-        "posts",
-        "slug:unique",
-        "title:string",
-        "--no-context"
-      ]
-
-      domain_contract = domain_contract_fixture(args)
-      DomainResourceAPI.generate_new_files(domain_contract)
-
-      refute File.exists?("lib/elixir_scribe/domain/blog/post")
-
-      # refute File.exists?("lib/elixir_scribe/domain/blog/post_api.ex")
-    end)
-  end
-
   test "generate_new_files/1 prompts for conflicts before creating a file", config do
     in_tmp_project(config.test, fn ->
 

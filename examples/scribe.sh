@@ -65,7 +65,7 @@ Scribe_Html_Criteria_3() {
 Todo_App() {
   Maybe_Create_App
 
-  mix scribe.gen.html Todo Task tasks title:string done:boolean
+  mix scribe.gen.html Todo Task tasks title:string done:boolean --no-schema
   mix scribe.gen.html Todo Tag tags title:string desc:string
   mix scribe.gen.html Acounts User users name:string email:string
 }
