@@ -79,7 +79,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
     test_fixtures_file =
       Path.join([test_fixtures_dir, basedir, resource_name_singular <> "_fixtures.ex"])
 
-    generate? = Keyword.get(opts, :context, true)
+    # generate? = Keyword.get(opts, :context, true)
     api_file = lib_resource_dir <> "_api.ex"
 
     DomainContract.new(%{
@@ -110,7 +110,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
       test_web_resource_dir_plural: test_web_resource_dir_plural,
       test_resource_dir: test_resource_dir,
       test_resource_dir_plural: test_resource_dir_plural,
-      generate?: generate?,
+      # generate?: generate?,
       context_app: ctx_app,
       resource_actions: Keyword.get(opts, :resource_actions),
       resource_name_singular: resource_name_singular,

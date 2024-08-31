@@ -3,12 +3,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.Build
 
   use ElixirScribe.BaseCase, async: true
 
-  test "returns an empty list when generate? is set to false in the Domain Contract" do
-    contract = domain_contract_fixture() |> Map.put(:generate?, false)
-
-    assert DomainResourceAPI.build_action_files_paths(contract) === []
-  end
-
   test "returns a list of all resource action test files paths" do
     expected_files = [
       {:eex, :resource_test,

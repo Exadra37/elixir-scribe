@@ -11,24 +11,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
     :ok
   end
 
-  test "doesn't generate test files with flag --no-context", config do
-    in_tmp_project(config.test, fn ->
-      args = [
-        "Blog",
-        "Post",
-        "posts",
-        "slug:unique",
-        "title:string",
-        "--no-context"
-      ]
-
-      domain_contract = domain_contract_fixture(args)
-      DomainResourceAPI.generate_actions(domain_contract)
-
-      refute File.exists?("test/elixir_scribe/domain/blog/post")
-    end)
-  end
-
   test "with flag --no-schema the resource action file is generated without the logic to access the schema", config do
     in_tmp_project(config.test, fn ->
       args = [

@@ -5,11 +5,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildTestActionFilesPaths.Build
   alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Template.FileAPI
 
-  @doc false
-  def build(%DomainContract{generate?: false}), do: []
-  def build(%DomainContract{generate?: true} = contract), do: build_files(contract)
-
-  defp build_files(%DomainContract{} = contract) do
+  def build(%DomainContract{} = contract) do
     resource_actions = contract.opts |> Keyword.get(:resource_actions)
 
     for action <- resource_actions do

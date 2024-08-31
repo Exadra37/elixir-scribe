@@ -15,7 +15,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
       expected_opts = [
         resource_actions: ["list", "new", "read", "edit", "create", "update", "delete"],
         schema: true,
-        context: true,
+        # context: true,
         no_default_actions: false,
         actions: nil,
         binary_id: true,
@@ -59,7 +59,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
           "export"
         ],
         schema: true,
-        context: true,
+        # context: true,
         no_default_actions: false,
         actions: "import,export",
         binary_id: true,

@@ -14,7 +14,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
       {:web, domain},
       {:resource_actions, expected_resource_actions},
       {:schema, true},
-      {:context, true},
       {:no_default_actions, false},
       {:actions, nil},
       {:binary_id, true},

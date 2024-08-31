@@ -11,24 +11,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
     :ok
   end
 
-  test "doesn't generate test files with flag --no-context", config do
-    in_tmp_project(config.test, fn ->
-      args = [
-        "Blog",
-        "Post",
-        "posts",
-        "slug:unique",
-        "title:string",
-        "--no-context"
-      ]
-
-      domain_contract = domain_contract_fixture(args)
-      DomainResourceAPI.generate_tests(domain_contract)
-
-      refute File.exists?("test/elixir_scribe/domain/blog/post")
-    end)
-  end
-
   test "with flag --no-schema the test file is generated without tests being implemented ", config do
     in_tmp_project(config.test, fn ->
       args = [

@@ -6,9 +6,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
   alias ElixirScribe.Generator.DomainContract
   alias ElixirScribe.Template.FileAPI
 
-  def generate(%DomainContract{generate?: false} = contract), do: contract
-
-  def generate(%DomainContract{generate?: true} = contract) do
+  def generate(%DomainContract{} = contract) do
     base_template_paths = ElixirScribe.base_template_paths()
     binding = BindingAPI.build_binding_template(contract)
 

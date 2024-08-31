@@ -6,9 +6,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
   alias ElixirScribe.Generator.DomainResourceAPI
   alias ElixirScribe.Generator.DomainContract
 
-  def generate(%DomainContract{generate?: false}), do: []
-
-  def generate(%DomainContract{generate?: true} = contract) do
+  def generate(%DomainContract{} = contract) do
     base_template_paths = ElixirScribe.base_template_paths()
 
     binding = BindingAPI.build_binding_template(contract)
@@ -42,7 +40,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
   end
 
   defp build_module_template_path(true) do
-    ElixirScribe.resource_actions_template_path() |> Path.join("action_module.ex")
+    ElixirScribe.resource_actions_template_path()
+    |> Path.join("action_module.ex")
   end
 
   defp build_module_template_path(false) do

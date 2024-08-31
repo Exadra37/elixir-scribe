@@ -6,7 +6,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
     table: :string,
     web: :string,
     schema: :boolean,
-    context: :boolean,
+    # context: :boolean,
     # context_app: :string,
     merge_with_existing_context: :boolean,
     prefix: :string,
@@ -18,7 +18,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
 
   @default_opts [
     schema: true,
-    context: true,
+    # context: true,
     no_default_actions: false,
     actions: nil,
     html_template: "default"
