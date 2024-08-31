@@ -3,7 +3,7 @@ defmodule ElixirScribe.Utils.String.FirstWord.FirstWordStringTest do
 
   alias ElixirScribe.Utils.StringAPI
 
-  describe "first_word/1" do
+  describe "first_word/2" do
     test "returns first word in a string with more then one word" do
       assert "This is a string" |> StringAPI.first_word() === "This"
     end
@@ -18,6 +18,10 @@ defmodule ElixirScribe.Utils.String.FirstWord.FirstWordStringTest do
 
     test "returns an empty string when a string with white spaces is given" do
       assert " " |> StringAPI.first_word() === ""
+    end
+
+    test "returns the first word in a string when word separators are given as the second argument" do
+      assert "This|is a string" |> StringAPI.first_word(["|"]) === "This"
     end
   end
 end

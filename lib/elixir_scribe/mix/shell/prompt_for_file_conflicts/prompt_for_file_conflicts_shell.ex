@@ -10,7 +10,6 @@ defmodule ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsSh
     file_paths =
       Enum.flat_map(generator_files, fn
         {:new_eex, _, _path} -> []
-        {:new_eex, _, _path, _action} -> []
         {_kind, _source_path, target_path} -> [target_path]
         {_kind, _file_type, _source_path, target_path} -> [target_path]
         {_kind, _file_type, _source_path, target_path, _action} -> [target_path]

@@ -28,7 +28,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
       assert_file("lib/elixir_scribe/domain/blog/post/list/list_posts.ex", fn file ->
         assert file =~ "defmodule ElixirScribe.Blog.Post.List.ListPosts do"
         assert file =~ "def list()"
-        assert file =~ "raise \"TODO: Implement action `list` for `ListPosts`"
+        assert file =~ "raise \"TODO: Implement the action `list` for the module `ListPosts`"
       end)
     end)
   end

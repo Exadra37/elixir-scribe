@@ -1,4 +1,4 @@
 
   def <%= action_first_word %>() do
-    raise "TODO: Implement action `<%= action_first_word %>` for `<%= module_action_name %>`"
+    raise "TODO: Implement the action `<%= action_first_word %>` for the module `<%= module_action_name %>`"
   end

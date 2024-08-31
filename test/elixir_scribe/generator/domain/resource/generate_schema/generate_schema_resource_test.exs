@@ -22,4 +22,16 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateSchema.GenerateSchemaRe
       end)
     end)
   end
+
+  test "doesn't generate the Resource Schema file when the flag --no-schema is used", config do
+    in_tmp_project(config.test, fn ->
+      args = ["Blog", "Post", "posts", "title:string", "desc:string", "--no-schema"]
+
+      contract = domain_contract_fixture(args)
+
+      DomainResourceAPI.generate_schema(contract)
+
+      refute File.exists?("lib/elixir_scribe/domain/site/blog/post/post_schema.ex")
+    end)
+  end
 end

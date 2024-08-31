@@ -71,7 +71,7 @@ defmodule ElixirScribe.Utils.StringAPITest do
 
     test "raises a FunctionClauseError when the second argument (word_separators) isn't a list" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        StringAPI.first_word(:whatever_word)
+        StringAPI.first_word(:whatever_word, "")
       end
     end
   end
