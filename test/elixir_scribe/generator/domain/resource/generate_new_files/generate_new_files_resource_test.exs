@@ -14,7 +14,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
 
   test "generate_new_files/1 prompts for conflicts before creating a file", config do
     in_tmp_project(config.test, fn ->
-
       expected_conflicts = """
       The following files conflict with new files to be generated:
 
@@ -57,8 +56,16 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
       # assert_received {:mix_shell, :info, ["df"]}
       assert_received {:mix_shell, :info, [^expected_conflicts]}
       assert_received {:mix_shell, :yes?, ["Proceed with interactive overwrite?" <> _]}
-      assert_received {:mix_shell, :yes?, ["lib/elixir_scribe/domain/blog/post/build/build_post.ex already exists, overwrite?"]}
-      assert_received {:mix_shell, :yes?, ["test/elixir_scribe/domain/blog/post/build/build_post_test.exs already exists, overwrite?"]}
+
+      assert_received {:mix_shell, :yes?,
+                       [
+                         "lib/elixir_scribe/domain/blog/post/build/build_post.ex already exists, overwrite?"
+                       ]}
+
+      assert_received {:mix_shell, :yes?,
+                       [
+                         "test/elixir_scribe/domain/blog/post/build/build_post_test.exs already exists, overwrite?"
+                       ]}
     end)
   end
 

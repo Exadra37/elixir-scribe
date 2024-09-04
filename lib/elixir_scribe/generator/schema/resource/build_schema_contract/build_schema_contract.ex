@@ -22,7 +22,6 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
     resource_name = domain_name |> Module.concat(resource_name) |> inspect()
 
     with :ok <- validate_args!(domain_name, resource_name) do
-
       opts = Keyword.put(opts, :web, domain_name)
 
       ctx_app = opts[:context_app] || Mix.Phoenix.context_app()

@@ -11,7 +11,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateActions.GenerateActions
     :ok
   end
 
-  test "with flag --no-schema the resource action file is generated without the logic to access the schema", config do
+  test "with flag --no-schema the resource action file is generated without the logic to access the schema",
+       config do
     in_tmp_project(config.test, fn ->
       args = [
         "Blog",

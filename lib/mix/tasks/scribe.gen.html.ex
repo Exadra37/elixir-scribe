@@ -206,9 +206,9 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
         |> inject_routes()
         |> print_shell_instructions()
 
-      {:error, reasons} when is_list(reasons) ->
+      {:error, reasons} ->
         Mix.raise("""
-        The contract doesn't conform with the specification:
+        The command doesn't conform with the specification:
 
         #{inspect(reasons)}
         """)
@@ -229,7 +229,7 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     prompt_for_conflicts(context, files)
 
     binding =
-     BindingAPI.build_binding_template(context)
+      BindingAPI.build_binding_template(context)
       |> Keyword.merge(inputs: inputs(context.schema))
 
     Enum.each(files, fn {format, file_type, source_file_path, target, action} ->
@@ -254,7 +254,9 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
     |> MixAPI.prompt_for_file_conflicts()
   end
 
-  defp files_to_be_generated(%DomainContract{schema: _schema, context_app: _context_app} = context) do
+  defp files_to_be_generated(
+         %DomainContract{schema: _schema, context_app: _context_app} = context
+       ) do
     build_files_without_action(context)
     |> build_controller_action_files(context)
     |> build_controller_test_action_files(context)

@@ -44,7 +44,7 @@ defmodule ElixirScribe.Mix.Shell.PromptForFileConflicts.PromptForFileConflictsSh
   test "doesn't prompt for file conflicts when the file is :new_eex", config do
     in_tmp_project(config.test, fn ->
       files = [
-        {:new_eex, "from/some_template", "new_eex_ignored.ex"},
+        {:new_eex, "from/some_template", "new_eex_ignored.ex"}
       ]
 
       File.touch("new_eex_ignored.ex")

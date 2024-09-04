@@ -21,8 +21,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateApi.GenerateApiResource
 
   defp build_api_binding(contract, binding) do
     Keyword.merge(binding,
-      absolute_module_name:
-        ModuleAPI.build_absolute_module_name(contract, file_type: :lib_core),
+      absolute_module_name: ModuleAPI.build_absolute_module_name(contract, file_type: :lib_core),
       aliases:
         ModuleAPI.build_absolute_module_action_name_aliases(contract,
           file_type: :lib_core

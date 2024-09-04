@@ -3,7 +3,11 @@ defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
 
   require Assertions
 
-  alias Mix.Tasks.Scribe.Gen.Html
+  test "It raises when no arguments are provided" do
+    assert_raise Mix.Error, ~r/No arguments were provided.*$/s, fn ->
+      Mix.Tasks.Scribe.Gen.Html.run([])
+    end
+  end
 
   # describe "files_to_be_generated/1" do
   #   test "returns files for core, web and related tests" do

@@ -22,7 +22,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
 
     {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
 
-    assert {:ok, domain_contract = %DomainContract{}} = BuildDomainResourceContract.build(valid_args, opts)
+    assert {:ok, domain_contract = %DomainContract{}} =
+             BuildDomainResourceContract.build(valid_args, opts)
 
     assert ^domain_contract =
              %DomainContract{} = BuildDomainResourceContract.build!(valid_args, opts)
@@ -159,11 +160,20 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
   end
 
   describe "Doesn't build the contract" do
-    test "when is missing required args" do
+    test "when is missing some of the required args" do
       valid_args = ["Blog.Site.Admin", "Post"]
       opts = []
 
-      assert_raise RuntimeError, ~r/^Invalid arguments.*$/s, fn ->
+      assert_raise RuntimeError, ~r/^Not enough arguments.*$/s, fn ->
+        BuildDomainResourceContract.build!(valid_args, opts)
+      end
+    end
+
+    test "when is all the required args" do
+      valid_args = []
+      opts = []
+
+      assert_raise RuntimeError, ~r/^No arguments were provided.*$/s, fn ->
         BuildDomainResourceContract.build!(valid_args, opts)
       end
     end
@@ -190,9 +200,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
       valid_args = ["Blog", "Blog", "posts"]
       opts = []
 
-      assert_raise RuntimeError, ~r/^The Domain and Resource should have different name.*$/s, fn ->
-        BuildDomainResourceContract.build!(valid_args, opts)
-      end
+      assert_raise RuntimeError,
+                   ~r/^The Domain and Resource should have different name.*$/s,
+                   fn ->
+                     BuildDomainResourceContract.build!(valid_args, opts)
+                   end
     end
 
     test "when the Domain and the Application have the same name" do

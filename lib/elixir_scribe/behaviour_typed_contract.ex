@@ -286,7 +286,8 @@ defmodule ElixirScribe.Behaviour.TypedContract do
 
       @contract_spec Keyword.get(opts, :keys, %{required: [], optional: []})
 
-      @contract_keys @contract_spec.required ++ @contract_spec.optional
+      @contract_keys Map.get(@contract_spec, :required, []) ++
+                       Map.get(@contract_spec, :optional, [])
 
       @struct_keys @contract_spec |> Map.put(:extra, self: __MODULE__)
 

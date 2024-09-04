@@ -12,7 +12,8 @@ defmodule ElixirScribe.Template.ModuleAPITest do
     test "can be invoked with the correct arguments type (%DomainContract{}, string, list) and returns the expected type (string)" do
       contract = domain_contract_fixture()
 
-      assert ModuleAPI.build_absolute_module_action_name(contract, "read", [file_type: :lib_core]) |> is_binary()
+      assert ModuleAPI.build_absolute_module_action_name(contract, "read", file_type: :lib_core)
+             |> is_binary()
     end
 
     test "raises a FunctionClauseError when isn't invoked with the correct first argument type (%DomainContract{})" do
@@ -38,7 +39,8 @@ defmodule ElixirScribe.Template.ModuleAPITest do
     test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (string)" do
       contract = domain_contract_fixture()
 
-      assert ModuleAPI.build_absolute_module_action_name_aliases(contract, [file_type: :lib_core]) |> is_binary()
+      assert ModuleAPI.build_absolute_module_action_name_aliases(contract, file_type: :lib_core)
+             |> is_binary()
     end
 
     test "raises a FunctionClauseError when isn't invoked with the correct first argument type (%DomainContract{})" do
@@ -59,7 +61,7 @@ defmodule ElixirScribe.Template.ModuleAPITest do
     test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (atom)" do
       contract = domain_contract_fixture()
 
-      assert ModuleAPI.build_absolute_module_name(contract, [file_type: :lib_core]) |> is_atom()
+      assert ModuleAPI.build_absolute_module_name(contract, file_type: :lib_core) |> is_atom()
     end
 
     test "raises a FunctionClauseError when isn't invoked with the correct first argument type (%DomainContract{})" do

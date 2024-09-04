@@ -26,8 +26,7 @@ defmodule ElixirScribe.Template.Binding.Rebuild.RebuildBindingTemplateTest do
       absolute_module_action_name: "ElixirScribe.Site.Blog.Post.BatchUpdate.BatchUpdatePost"
     ]
 
-    assert BindingAPI.rebuild_binding_template(bindings, "batch_update",
-             file_type: :resource
-           ) === expected_bindings
+    assert BindingAPI.rebuild_binding_template(bindings, "batch_update", file_type: :resource) ===
+             expected_bindings
   end
 end

@@ -13,6 +13,9 @@ defmodule ElixirScribe.Utils.StringAPI do
   def human_capitalize(string) when is_binary(string),
     do: HumanCapitalizeString.capitalize(string)
 
-  def first_word(string, word_separators \\ ["_", "-", " "]) when is_binary(string) when is_list(word_separators),
+  def first_word(string) when is_binary(string),
+    do: FirstWordString.first(string)
+
+  def first_word(string, word_separators) when is_binary(string) when is_list(word_separators),
     do: FirstWordString.first(string, word_separators)
 end

@@ -167,8 +167,12 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
     end
   end
 
-  defp validate_args!(_) do
-    build_error_with_help("Invalid arguments")
+  defp validate_args!(args) when length(args) > 0 do
+    build_error_with_help("Not enough arguments")
+  end
+
+  defp validate_args!(_args) do
+    build_error_with_help("No arguments were provided")
   end
 
   defp build_error_with_help(msg) do

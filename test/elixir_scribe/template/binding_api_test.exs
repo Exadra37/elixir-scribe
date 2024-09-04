@@ -13,7 +13,7 @@ defmodule ElixirScribe.Template.BindingAPITest do
 
     test "raises a FunctionClauseError when isn't invoked with the correct argument type (%DomainContract{})" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-       BindingAPI.build_binding_template(%{})
+        BindingAPI.build_binding_template(%{})
       end
     end
   end
@@ -34,19 +34,19 @@ defmodule ElixirScribe.Template.BindingAPITest do
 
     test "raises a FunctionClauseError when isn't invoked with the correct first argument type (list)" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-       BindingAPI.rebuild_binding_template(%{}, "", [])
+        BindingAPI.rebuild_binding_template(%{}, "", [])
       end
     end
 
     test "raises a FunctionClauseError when isn't invoked with the correct second argument type (list)" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-       BindingAPI.rebuild_binding_template([], 1, [])
+        BindingAPI.rebuild_binding_template([], 1, [])
       end
     end
 
     test "raises a FunctionClauseError when isn't invoked with the correct third argument type (list)" do
       assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-       BindingAPI.rebuild_binding_template([], "", %{})
+        BindingAPI.rebuild_binding_template([], "", %{})
       end
     end
   end

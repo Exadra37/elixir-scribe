@@ -11,7 +11,8 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateTests.GenerateTestsReso
     :ok
   end
 
-  test "with flag --no-schema the test file is generated without tests being implemented ", config do
+  test "with flag --no-schema the test file is generated without tests being implemented ",
+       config do
     in_tmp_project(config.test, fn ->
       args = [
         "Blog",

@@ -16,7 +16,8 @@ defmodule ElixirScribe.Generator.DomainResourceAPISyncTest do
 
   # Check the ASYNC tests for `generate_actions/1` at test/elixir_scribe/generator/domain_resource_api_async_test.exs
   describe "generate_actions/1" do
-    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})" , config do
+    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})",
+         config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
@@ -27,7 +28,8 @@ defmodule ElixirScribe.Generator.DomainResourceAPISyncTest do
 
   # Check the ASYNC tests for `generate_tests/1` at test/elixir_scribe/generator/domain_resource_api_async_test.exs
   describe "generate_tests/1" do
-    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})", config do
+    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})",
+         config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
@@ -38,7 +40,8 @@ defmodule ElixirScribe.Generator.DomainResourceAPISyncTest do
 
   # Check the ASYNC tests for `generate_api/1` at test/elixir_scribe/generator/domain_resource_api_async_test.exs
   describe "generate_api/1" do
-    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})", config do
+    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})",
+         config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
@@ -49,7 +52,8 @@ defmodule ElixirScribe.Generator.DomainResourceAPISyncTest do
 
   # Check the ASYNC tests for `generate_test_fixture/1` at test/elixir_scribe/generator/domain_resource_api_async_test.exs
   describe "generate_test_fixture/1" do
-    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})", config do
+    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})",
+         config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 
@@ -60,7 +64,8 @@ defmodule ElixirScribe.Generator.DomainResourceAPISyncTest do
 
   # Check the ASYNC tests for `generate_new_files/1` at test/elixir_scribe/generator/domain_resource_api_async_test.exs
   describe "generate_new_files/1" do
-    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})", config do
+    test "can be invoked with the correct argument type (%DomainContract{}) and returns the expected type (%DomainContract{})",
+         config do
       in_tmp_project(config.test, fn ->
         domain_contract = domain_contract_fixture()
 

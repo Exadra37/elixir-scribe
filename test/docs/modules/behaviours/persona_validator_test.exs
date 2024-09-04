@@ -40,5 +40,4 @@ defmodule PersonaValidatorTest do
       refute PersonaValidator.role?(:dev)
     end
   end
-
 end
