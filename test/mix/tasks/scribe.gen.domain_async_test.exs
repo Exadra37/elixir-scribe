@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Scribe.Gen.DomainTest do
+defmodule Mix.Tasks.Scribe.Gen.DomainAsyncTest do
   use ElixirScribe.BaseCase, async: true
 
   require Assertions

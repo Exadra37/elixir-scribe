@@ -17,11 +17,16 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
   end
 
   defp new(args, opts) do
-    [domain_name | schema_args] = args
-    [resource_name, schema_plural | cli_attrs] = schema_args
-    resource_name = domain_name |> Module.concat(resource_name) |> inspect()
+    # [domain_name | schema_args] = args
+    # [resource_name, schema_plural | cli_attrs] = schema_args
+    # resource_name = domain_name |> Module.concat(resource_name) |> inspect()
 
-    with :ok <- validate_args!(domain_name, resource_name) do
+    # with :ok <- validate_args!(domain_name, resource_name) do
+    with :ok <- validate_args!(args) do
+      [domain_name | schema_args] = args
+      [resource_name, schema_plural | cli_attrs] = schema_args
+      resource_name = domain_name |> Module.concat(resource_name) |> inspect()
+
       opts = Keyword.put(opts, :web, domain_name)
 
       ctx_app = opts[:context_app] || Mix.Phoenix.context_app()
@@ -118,7 +123,8 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
     end
   end
 
-  defp validate_args!(domain_name, resource_name) do
+  # defp validate_args!(domain_name, resource_name) do
+  defp validate_args!([domain_name, resource_name, _schema_plural | _] = args) do
     cond do
       not valid?(domain_name) ->
         build_error_with_help("""
@@ -164,6 +170,14 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
       true ->
         :ok
     end
+  end
+
+  defp validate_args!(args) when length(args) > 0 do
+    build_error_with_help("Not enough arguments")
+  end
+
+  defp validate_args!(_args) do
+    build_error_with_help("No arguments were provided")
   end
 
   defp valid?(module_name) do

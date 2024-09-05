@@ -119,7 +119,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
     })
   end
 
-  defp validate_args!([domain_name, resource_name, _plural | _] = args) do
+  defp validate_args!([domain_name, resource_name, _schema_plural | _] = args) do
     cond do
       not valid?(domain_name) ->
         build_error_with_help("""

@@ -161,68 +161,68 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
 
   describe "Doesn't build the contract" do
     test "when is missing some of the required args" do
-      valid_args = ["Blog.Site.Admin", "Post"]
+      args = ["Blog.Site.Admin", "Post"]
       opts = []
 
       assert_raise RuntimeError, ~r/^Not enough arguments.*$/s, fn ->
-        BuildDomainResourceContract.build!(valid_args, opts)
+        BuildDomainResourceContract.build!(args, opts)
       end
     end
 
-    test "when is all the required args" do
-      valid_args = []
+    test "when is missing all the required args" do
+      args = []
       opts = []
 
       assert_raise RuntimeError, ~r/^No arguments were provided.*$/s, fn ->
-        BuildDomainResourceContract.build!(valid_args, opts)
+        BuildDomainResourceContract.build!(args, opts)
       end
     end
 
     test "when the Domain isn't a valid module name" do
-      valid_args = ["Blog.Site.admin", "Post", "posts"]
+      args = ["Blog.Site.admin", "Post", "posts"]
       opts = []
 
       assert_raise RuntimeError,
                    ~r/^Expected the Domain, \"Blog.Site.admin\", to be a valid module name.*$/s,
-                   fn -> BuildDomainResourceContract.build!(valid_args, opts) end
+                   fn -> BuildDomainResourceContract.build!(args, opts) end
     end
 
     test "when the Resource isn't a valid module name" do
-      valid_args = ["Blog.Admin", "post", "posts"]
+      args = ["Blog.Admin", "post", "posts"]
       opts = []
 
       assert_raise RuntimeError,
                    ~r/^Expected the Resource, \"post\", to be a valid module name.*$/s,
-                   fn -> BuildDomainResourceContract.build!(valid_args, opts) end
+                   fn -> BuildDomainResourceContract.build!(args, opts) end
     end
 
     test "when the Domain and Resource have the same name" do
-      valid_args = ["Blog", "Blog", "posts"]
+      args = ["Blog", "Blog", "posts"]
       opts = []
 
       assert_raise RuntimeError,
                    ~r/^The Domain and Resource should have different name.*$/s,
                    fn ->
-                     BuildDomainResourceContract.build!(valid_args, opts)
+                     BuildDomainResourceContract.build!(args, opts)
                    end
     end
 
     test "when the Domain and the Application have the same name" do
-      valid_args = ["ElixirScribe", "Blog", "posts"]
+      args = ["ElixirScribe", "Blog", "posts"]
       opts = []
 
       assert_raise RuntimeError,
                    ~r/^Cannot generate Domain ElixirScribe because it has the same name as the application.*$/s,
-                   fn -> BuildDomainResourceContract.build!(valid_args, opts) end
+                   fn -> BuildDomainResourceContract.build!(args, opts) end
     end
 
     test "when the Resource and the Application have the same name" do
-      valid_args = ["Blog", "ElixirScribe", "posts"]
+      args = ["Blog", "ElixirScribe", "posts"]
       opts = []
 
       assert_raise RuntimeError,
                    ~r/^Cannot generate Resource ElixirScribe because it has the same name as the application.*$/s,
-                   fn -> BuildDomainResourceContract.build!(valid_args, opts) end
+                   fn -> BuildDomainResourceContract.build!(args, opts) end
     end
   end
 end
