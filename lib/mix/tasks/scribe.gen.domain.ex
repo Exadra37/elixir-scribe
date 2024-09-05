@@ -169,7 +169,7 @@ defmodule Mix.Tasks.Scribe.Gen.Domain do
 
   @doc false
   def run(args) do
-    if Mix.Project.umbrella?() |> dbg() do
+    if Mix.Project.umbrella?() do
       Mix.raise(
         "mix scribe.gen.domain must be invoked from within your *_web application root directory"
       )

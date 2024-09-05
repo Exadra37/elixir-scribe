@@ -111,5 +111,14 @@ alias ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract
         BuildSchemaResourceContract.build!(args, opts)
       end
     end
+
+    test "table name omitted", config do
+        assert_raise RuntimeError, fn ->
+          args = ["Blog", "Post"]
+          opts = []
+
+          BuildSchemaResourceContract.build!(args, opts)
+        end
+      end
   end
 end
