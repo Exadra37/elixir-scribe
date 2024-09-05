@@ -124,7 +124,7 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
   end
 
   # defp validate_args!(domain_name, resource_name) do
-  defp validate_args!([domain_name, resource_name, _schema_plural | _] = args) do
+  defp validate_args!([domain_name, resource_name, schema_plural | _] = args) do
     cond do
       not valid?(domain_name) ->
         build_error_with_help("""
@@ -165,6 +165,11 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
       resource_name == Mix.Phoenix.base() ->
         build_error_with_help(
           "Cannot generate Resource #{resource_name} because it has the same name as the application"
+        )
+
+      String.contains?(schema_plural, ":") or schema_plural != Phoenix.Naming.underscore(schema_plural) ->
+        build_error_with_help(
+          "Expected the schema plural argument, #{inspect(schema_plural)}, to be all lowercase using snake_case convention"
         )
 
       true ->

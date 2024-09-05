@@ -37,7 +37,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
     assert_lists_equal(expected_opts, opts)
   end
 
-  describe "Builds the contract successfully" do
+  describe "builds the contract successfully" do
     test "with one Domain" do
       args = ["Blog", "Post", "posts", "title:string", "desc:string"]
 
@@ -159,7 +159,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
     end
   end
 
-  describe "Doesn't build the contract" do
+  describe "doesn't build the contract" do
     test "when is missing some of the required args" do
       args = ["Blog.Site.Admin", "Post"]
       opts = []

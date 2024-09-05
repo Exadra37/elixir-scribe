@@ -3,7 +3,7 @@ alias ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract
 
   use ElixirScribe.BaseCase, async: true
 
-  describe "Doesn't build the Schema contract" do
+  describe "doesn't build the Schema contract" do
     test "when is missing some of the required args" do
       args = ["Blog.Site.Admin", "Post"]
       opts = []
@@ -71,11 +71,45 @@ alias ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract
 
     test "table name missing from references", config do
         assert_raise Mix.Error, ~r/expect the table to be given to user_id:references/, fn ->
-          args = ["Blog.Post", "posts", "user_id:references"]
+          args = ["Blog", "Post", "posts", "user_id:references"]
           opts = []
 
           BuildSchemaResourceContract.build!(args, opts)
         end
       end
+
+    test "type missing from array", config do
+        assert_raise Mix.Error, ~r/expect the type of the array to be given to settings:array/, fn ->
+          args = ["Blog", "Post", "posts", "settings:array"]
+          opts = []
+
+          BuildSchemaResourceContract.build!(args, opts)
+        end
+    end
+
+    # test "plural can't contain a colon" do
+    #   assert_raise Mix.Error, ~r/what/, fn ->
+    #     args = ["Blog", "Post", "title:string"]
+    #     opts = []
+
+    #       BuildSchemaResourceContract.build!(args, opts)
+    #   end
+    # end
+
+    test "plural can't have uppercased characters or camelized format" do
+      assert_raise RuntimeError, fn ->
+        args = ["Blog", "Post", "Posts", "title:string"]
+        opts = []
+
+        BuildSchemaResourceContract.build!(args, opts)
+      end
+
+      assert_raise RuntimeError, fn ->
+        args = ["Blog", "Post", "BlogPosts", "title:string"]
+        opts = []
+
+        BuildSchemaResourceContract.build!(args, opts)
+      end
+    end
   end
 end
