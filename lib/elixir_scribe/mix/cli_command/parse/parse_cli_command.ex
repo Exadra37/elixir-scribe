@@ -2,7 +2,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
   @moduledoc false
 
   @supported_options [
-    binary_id: :boolean,
+    # binary_id: :boolean,
     table: :string,
     web: :string,
     schema: :boolean,
@@ -25,7 +25,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
   def parse(args) when is_list(args) do
     {opts, parsed_args, invalid_opts} =
       args
-      |> maybe_add_binary_id_option()
+      # |> maybe_add_binary_id_option()
       |> extract_args_and_opts()
 
     all_opts = opts |> parse_options()
@@ -33,13 +33,13 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
     {parsed_args, all_opts, invalid_opts}
   end
 
-  defp maybe_add_binary_id_option(args) when is_list(args) do
-    cond do
-      "--no-binary-id" in args -> args
-      "--binary-id" in args -> args
-      args -> args |> List.insert_at(-1, "--binary-id")
-    end
-  end
+  # defp maybe_add_binary_id_option(args) when is_list(args) do
+  #   cond do
+  #     "--no-binary-id" in args -> args
+  #     "--binary-id" in args -> args
+  #     args -> args |> List.insert_at(-1, "--binary-id")
+  #   end
+  # end
 
   defp extract_args_and_opts(args) do
     OptionParser.parse(args, strict: @supported_options)
@@ -77,6 +77,6 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommand do
   defp actions(actions) when is_binary(actions) and byte_size(actions) > 0,
     do: actions |> String.split(",")
 
-  defp actions(actions) when is_list(actions) and length(actions) > 0, do: actions
+  # defp actions(actions) when is_list(actions) and length(actions) > 0, do: actions
   defp actions(_actions), do: []
 end

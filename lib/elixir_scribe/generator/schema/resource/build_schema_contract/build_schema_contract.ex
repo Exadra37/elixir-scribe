@@ -93,7 +93,7 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
         indexes: indexes(table, assocs, uniques),
         human_singular: Phoenix.Naming.humanize(singular),
         human_plural: Phoenix.Naming.humanize(schema_plural),
-        binary_id: opts[:binary_id],
+        binary_id: true,
         timestamp_type: opts[:timestamp_type] || :naive_datetime,
         migration_defaults: migration_defaults(attrs),
         string_attr: string_attr,
@@ -172,12 +172,16 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
     end
   end
 
-  defp validate_args!(args) when length(args) > 0 do
-    build_error_with_help("Not enough arguments")
+  defp validate_args!(args) when length(args) == 2 do
+    build_error_with_help("Missing the schema table name for the resource. Needs to be lowercase and in the plural form.")
+  end
+
+  defp validate_args!(args) when length(args) == 1 do
+    build_error_with_help("Missing the resource name and schema table name. Resource name needs to capitalized and the schema name needs to be lowercase and in the plural form.")
   end
 
   defp validate_args!(_args) do
-    build_error_with_help("No arguments were provided")
+    build_error_with_help("No arguments were provided.")
   end
 
   defp valid?(module_name) do
@@ -524,11 +528,11 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
   end
 
   defp sample_id(opts) do
-    if Keyword.get(opts, :binary_id, false) do
-      Keyword.get(opts, :sample_binary_id, "11111111-1111-1111-1111-111111111111")
-    else
-      -1
-    end
+    # if Keyword.get(opts, :binary_id, false) do
+    Keyword.get(opts, :sample_binary_id, "11111111-1111-1111-1111-111111111111")
+    # else
+      # -1
+    # end
   end
 
   defp route_helper(web_path, singular) do

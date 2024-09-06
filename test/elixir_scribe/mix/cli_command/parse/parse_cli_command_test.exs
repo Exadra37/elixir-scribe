@@ -18,7 +18,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
         # context: true,
         no_default_actions: false,
         actions: nil,
-        binary_id: true,
+        # binary_id: true,
         html_template: "default"
       ]
 
@@ -62,7 +62,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
         # context: true,
         no_default_actions: false,
         actions: "import,export",
-        binary_id: true,
+        # binary_id: true,
         html_template: "default"
       ]
 
@@ -127,34 +127,34 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
     #   end
   end
 
-  describe ":binary_id option" do
-    test "its set to true by default" do
-      args = [
-        "Blog",
-        "Post",
-        "posts",
-        "slug:unique"
-      ]
+  # describe ":binary_id option" do
+    # test "its set to true by default" do
+    #   args = [
+    #     "Blog",
+    #     "Post",
+    #     "posts",
+    #     "slug:unique"
+    #   ]
 
-      assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
+    #   assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
 
-      assert {:binary_id, true} in all_opts
-    end
+    #   assert {:binary_id, true} in all_opts
+    # end
 
-    test "can be set to false by using --no-binary-id" do
-      args = [
-        "Blog",
-        "Post",
-        "posts",
-        "slug:unique",
-        "--no-binary-id"
-      ]
+    # test "can be set to false by using --no-binary-id" do
+    #   args = [
+    #     "Blog",
+    #     "Post",
+    #     "posts",
+    #     "slug:unique",
+    #     "--no-binary-id"
+    #   ]
 
-      assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
+    #   assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
 
-      assert {:binary_id, false} in all_opts
-    end
-  end
+    #   assert {:binary_id, false} in all_opts
+    # end
+  # end
 
   describe ":resource_actions option" do
     test "by default is set to the ElixirScribe.resource_actions()" do
@@ -163,7 +163,6 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
         "Post",
         "posts",
         "slug:unique",
-        "--no-binary-id"
       ]
 
       assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
@@ -205,5 +204,22 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
 
       assert {:resource_actions, expected_actions} in all_opts
     end
+  end
+
+  describe ":context_app option" do
+    test "it converts from string to atom" do
+        args = [
+            "Blog",
+            "Post",
+            "posts",
+            "slug:unique",
+            "--context-app",
+            "marketing"
+          ]
+
+        assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
+
+        assert :marketing = Keyword.get(all_opts, :context_app)
+      end
   end
 end
