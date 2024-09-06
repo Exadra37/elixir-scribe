@@ -104,6 +104,18 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContractTest
                    end
     end
 
+
+    test "when the type missing from the enum" do
+      assert_raise Mix.Error,
+                   ~r/^Enum type requires at least one value/,
+                   fn ->
+                     args = ["Blog", "Post", "posts", "status:enum"]
+                     opts = []
+
+                     BuildSchemaResourceContract.build!(args, opts)
+                   end
+    end
+
     test "when a schema field definition is used in place of the schema table name" do
       assert_raise RuntimeError,
                    ~r/Expected the schema plural argument, \"title:string\", to be all lowercase using snake_case convention.*/,
@@ -271,7 +283,7 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContractTest
       expected_contract = %{
         types: %{title: :string, slug: Ecto.UUID},
         sample_id: "11111111-1111-1111-1111-111111111111",
-        attrs: [title: :string, slug: :uuid],
+        attrs: [title: :string, slug: :uuid]
       }
 
       args = ~w(Blog Post posts title slug:uuid)
@@ -311,13 +323,21 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContractTest
       assert_schema_contract(args, expected_contract)
     end
 
-    test "with array type" do
+    test "with array types" do
       expected_contract = %{
-        attrs: [settings: {:array, :string}],
-        types: %{settings: {:array, :string}}
+        attrs: [
+          {:settings, {:array, :string}},
+          {:counts, {:array, :integer}},
+          {:averages, {:array, :float}}
+        ],
+        types: %{
+          counts: {:array, :integer},
+          settings: {:array, :string},
+          averages: {:array, :float}
+        }
       }
 
-      args = ~w(Blog Post posts settings:array:string)
+      args = ~w(Blog Post posts settings:array:string counts:array:integer averages:array:float)
 
       assert_schema_contract(args, expected_contract)
     end
@@ -329,6 +349,17 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContractTest
       }
 
       args = ~w(Blog Post posts tags:map)
+
+      assert_schema_contract(args, expected_contract)
+    end
+
+    test "with float type" do
+      expected_contract = %{
+        attrs: [rating: :float],
+        types: %{rating: :float}
+      }
+
+      args = ~w(Blog Post posts rating:float)
 
       assert_schema_contract(args, expected_contract)
     end
