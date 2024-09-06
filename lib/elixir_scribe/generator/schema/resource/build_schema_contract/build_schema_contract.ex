@@ -24,7 +24,7 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
 
       opts = Keyword.put(opts, :web, domain_name)
 
-      ctx_app = opts[:context_app] || Mix.Phoenix.context_app()
+      ctx_app = extract_option_context_app(opts)
       otp_app = Mix.Phoenix.otp_app()
       opts = Keyword.merge(Application.get_env(otp_app, :generators, []), opts)
       base = Mix.Phoenix.context_base(ctx_app)
@@ -37,8 +37,8 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
         |> List.last()
         |> Phoenix.Naming.underscore()
 
-      repo = opts[:repo] || Module.concat([base, "Repo"])
-      repo_alias = if String.ends_with?(Atom.to_string(repo), ".Repo"), do: "", else: ", as: Repo"
+      repo = extract_option_repo(opts, base)
+      repo_alias = build_repo_module_alias(repo)
 
       schema_file_path = Path.join(["domain", basename, singular <> "_schema.ex"])
       file = Mix.Phoenix.context_lib_path(ctx_app, schema_file_path)
@@ -72,7 +72,6 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
 
       SchemaContract.new(%{
         opts: opts,
-        migration?: Keyword.get(opts, :migration, true),
         module: module,
         repo: repo,
         repo_alias: repo_alias,
@@ -110,7 +109,9 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
         sample_id: sample_id(opts),
         context_app: ctx_app,
         generate?: generate?,
+        migration?: Keyword.get(opts, :migration, true),
         migration_module: migration_module(),
+        migration_dir: extract_option_migration_dir(opts),
         fixture_unique_functions: Enum.sort(fixture_unique_functions),
         fixture_params: fixture_params(attrs, fixture_unique_functions),
         prefix: opts[:prefix]
@@ -225,6 +226,44 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
       """
 
     {:error, error}
+  end
+
+  defp extract_option_context_app(opts) when is_list(opts) do
+    opts
+    |> Keyword.get(:context_app)
+    |> extract_option_context_app()
+  end
+
+  defp extract_option_context_app(nil), do: Mix.Phoenix.context_app()
+  defp extract_option_context_app(app_name) when is_atom(app_name), do: app_name
+  defp extract_option_context_app(app_name) when is_binary(app_name), do: app_name |> String.to_existing_atom()
+
+
+  defp extract_option_repo(opts, base) when is_list(opts) and is_binary(base) do
+    opts
+    |> Keyword.get(:repo)
+    |> extract_option_repo(base)
+  end
+
+  defp extract_option_repo(nil, base), do: Module.concat([base, "Repo"])
+
+  # defp extract_option_repo(module_name, _base) when is_atom(module_name), do: module_name
+
+  defp extract_option_repo(module_name, _base), do: Module.concat([module_name])
+
+  defp build_repo_module_alias(repo) when is_atom(repo) do
+    repo
+    |> Atom.to_string()
+    |> build_repo_module_alias()
+  end
+
+  defp build_repo_module_alias(repo) when is_binary(repo) do
+    if String.ends_with?(repo, ".Repo"), do: "", else: ", as: Repo"
+  end
+
+  defp extract_option_migration_dir(opts) do
+    opts
+    |> Keyword.get(:migrations_dir, "priv/repo/migrations")
   end
 
   defp extract_attr_flags(cli_attrs) do

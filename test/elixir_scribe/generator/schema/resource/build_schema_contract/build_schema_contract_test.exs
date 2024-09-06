@@ -232,12 +232,138 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContractTest
 
       assert_schema_contract(args, expected_contract)
     end
+
+    test "with unique indices" do
+      args = ~w(Blog Post posts title:unique admin_id:integer:unique)
+
+      expected_contract = %{
+        indexes: [
+          "create unique_index(:posts, [:admin_id])",
+          "create unique_index(:posts, [:title])"
+        ],
+        fixture_params: [admin_id: "unique_post_admin_id()", title: "unique_post_title()"],
+        fixture_unique_functions: [
+          admin_id:
+            {"unique_post_admin_id",
+             "  def unique_post_admin_id, do: System.unique_integer([:positive])\n", false},
+          title:
+            {"unique_post_title",
+             "  def unique_post_title, do: \"some title\#{System.unique_integer([:positive])}\"\n",
+             false}
+        ]
+      }
+
+      assert_schema_contract(args, expected_contract)
+    end
+
+    test "with references creates the association and index" do
+      expected_contract = %{
+        assocs: [{:user, :user_id, "ElixirScribe.Blog.User", :users}],
+        indexes: ["create index(:posts, [:user_id])"]
+      }
+
+      args = ~w(Blog Post posts title user_id:references:users)
+
+      assert_schema_contract(args, expected_contract)
+    end
+
+    test "with uuid type" do
+      expected_contract = %{
+        types: %{title: :string, slug: Ecto.UUID},
+        sample_id: "11111111-1111-1111-1111-111111111111",
+        attrs: [title: :string, slug: :uuid],
+      }
+
+      args = ~w(Blog Post posts title slug:uuid)
+
+      assert_schema_contract(args, expected_contract)
+    end
+
+    test "with proper datetime types" do
+      expected_contract = %{
+        types: %{
+          title: :string,
+          drafted_at: :naive_datetime,
+          published_at: :naive_datetime,
+          edited_at: :utc_datetime,
+          locked_at: :naive_datetime_usec,
+          deadline_date: :date,
+          read_time: :time,
+          viewed_at: :utc_datetime_usec,
+          write_time: :time_usec
+        }
+      }
+
+      args =
+        ~w(Blog Post posts title:string drafted_at:datetime published_at:naive_datetime edited_at:utc_datetime locked_at:naive_datetime_usec viewed_at:utc_datetime_usec read_time:time write_time:time_usec deadline_date:date)
+
+      assert_schema_contract(args, expected_contract)
+    end
+
+    test "with enum type" do
+      expected_contract = %{
+        types: %{title: :string, status: {:enum, [values: [:unpublished, :published, :deleted]]}},
+        attrs: [title: :string, status: {:enum, :"unpublished:published:deleted"}]
+      }
+
+      args = ~w(Blog Comment comments title:string status:enum:unpublished:published:deleted)
+
+      assert_schema_contract(args, expected_contract)
+    end
+
+    test "with array type" do
+      expected_contract = %{
+        attrs: [settings: {:array, :string}],
+        types: %{settings: {:array, :string}}
+      }
+
+      args = ~w(Blog Post posts settings:array:string)
+
+      assert_schema_contract(args, expected_contract)
+    end
+
+    test "with map type" do
+      expected_contract = %{
+        attrs: [tags: :map],
+        types: %{tags: :map}
+      }
+
+      args = ~w(Blog Post posts tags:map)
+
+      assert_schema_contract(args, expected_contract)
+    end
   end
 
-  describe ":repo option" do
-    test "sets a custom repo module" do
+  describe "builds the Schema contract with option" do
+    test ":table to set a custom database table name" do
+      args = ~w(Blog.Post Post posts title:string --table blog_posts)
+
+      assert_schema_contract(args, %{table: "blog_posts"})
+    end
+
+    # @TODO Needs to be a SYNC test because of setting an umbrella app
+    # test "with option :context_app" do
+    #   args = ~w(Blog.Post Post posts title:string --context-app admin)
+
+    #   assert_schema_contract(args, %{context_app: "admin"})
+    # end
+
+    test ":prefix to set a custom database prefix" do
+      args = ~w(Blog.Post Post posts title:string --prefix admin)
+
+      assert_schema_contract(args, %{prefix: "admin"})
+    end
+
+    test ":repo to set a custom repo" do
       args = ~w(Blog.Post Post posts title:string --repo MyApp.CustomRepo)
-      assert_schema_contract(args, %{repo: ElixirScribe.Repo})
+
+      assert_schema_contract(args, %{repo: MyApp.CustomRepo})
+    end
+
+    test ":migration_dir to set a custom migration dir" do
+      args = ~w(Blog.Post Post posts title:string --migration-dir /priv/custom/path)
+
+      assert_schema_contract(args, %{migration_dir: "priv/repo/migrations"})
     end
   end
 
@@ -246,8 +372,8 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContractTest
 
     # expected_opts = []
 
-    {valid_args, opts, _invalid_args} = args |> MixAPI.parse_cli_command()
-dbg(opts)
+    {valid_args, opts, _invalid_args} = args |> MixAPI.parse_schema_cli_command()
+
     assert {:ok, schema_contract = %SchemaContract{}} =
              BuildSchemaResourceContract.build(valid_args, opts)
 
@@ -255,6 +381,7 @@ dbg(opts)
              %SchemaContract{} = BuildSchemaResourceContract.build!(valid_args, opts)
 
     contract = Map.from_struct(schema_contract)
+
     {_opts, contract} = Map.pop!(contract, :opts)
 
     assert_maps_equal(expected_contract, contract, expected_keys)
