@@ -1,6 +1,6 @@
 defmodule ElixirScribe.Generator.SchemaAPITest do
   alias ElixirScribe.MixAPI
-  alias ElixirScribe.Generator.SchemaAPI
+  alias ElixirScribe.Generator.SchemaResourceAPI
   alias ElixirScribe.Generator.SchemaContract
   use ElixirScribe.BaseCase, async: true
 

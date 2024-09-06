@@ -1,7 +1,7 @@
 defmodule ElixirScribe.Generator.SchemaContractTest do
   use ElixirScribe.BaseCase, async: true
 
-  alias ElixirScribe.Generator.SchemaAPI
+  alias ElixirScribe.Generator.SchemaResourceAPI
   alias ElixirScribe.Generator.SchemaContract
 
   test "new!/4 Creates a Resource Schema Contract for a one level Domain" do
