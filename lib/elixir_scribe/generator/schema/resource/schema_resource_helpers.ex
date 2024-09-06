@@ -34,7 +34,7 @@ defmodule ElixirScribe.Generator.Schema.Resource.SchemaResourceHelpers do
   @doc """
   Returns the string value of the default schema param.
   """
-  def default_param(%SchemaContract{} = schema, action) do
+  def default_param(%SchemaContract{} = schema, action) when is_atom(action) do
     schema.params
     |> Map.fetch!(action)
     |> Map.fetch!(schema.params.default_key)

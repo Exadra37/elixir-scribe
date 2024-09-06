@@ -29,7 +29,7 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
 
       opts = Keyword.put(opts, :web, context_name)
 
-      schema = SchemaAPI.build_schema_resource_contract!(args, opts)
+      schema = SchemaResourceAPI.build_schema_resource_contract!(args, opts)
 
       new(context_name, schema, opts)
     end

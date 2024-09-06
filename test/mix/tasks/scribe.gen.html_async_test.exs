@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Scribe.Gen.HtmlTest do
+defmodule Mix.Tasks.Scribe.Gen.HtmlAsyncTest do
   use ElixirScribe.BaseCase, async: true
 
   require Assertions
