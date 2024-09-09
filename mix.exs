@@ -16,7 +16,7 @@ defmodule ElixirScribe.MixProject do
     [
       app: :elixir_scribe,
       name: "Elixir Scribe",
-      version: "0.2.0",
+      version: "0.2.1",
       elixir: @elixir_requirement,
       start_permanent: Mix.env() == :prod,
       homepage_url: @scm_url,
