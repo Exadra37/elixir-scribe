@@ -27,5 +27,5 @@ defmodule PersonaValidator do
     String.length(role) >= 3
   end
 
-  def role?(_age), do: false
+  def role?(_role), do: false
 end

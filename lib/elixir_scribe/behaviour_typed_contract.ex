@@ -21,9 +21,9 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   > - All specs defined with `PersonaValidator.*` are custom ones.
 
 
-  > ### Required and Optional Keys {: .warning}
-  > - A typed contract needs to declare the required and optional keys, plus a type spec for them.
-  > - The optional keys **MUST** have a default value.
+  > ### Required and Optional Fields {: .warning}
+  > - A typed contract **MUST** declare a type spec for the required and optional fields.
+  > - The optional fields **MUST** have a default value.
 
   > ### Contract Guarantees {: .error}
   > - To take advantage of the safety guarantees offered by the Elixir Scribe Typed Contract, you **MUST** not create or update it directly, as allowed by Elixir. Instead, you need to use the built-in functions `new/1`, `new!/1`, `update/3`, or `update!/3` that will guarantee it conforms with the type specs when one is created or updated.
@@ -41,14 +41,14 @@ defmodule ElixirScribe.Behaviour.TypedContract do
 
   ### With Valid Data Types
 
-  To create a new Person:
+  To create a new Persona:
 
   ```
   iex> Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
   %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
   ```
 
-  To update the Person:
+  To update the Persona:
 
   ```
   iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
@@ -60,15 +60,6 @@ defmodule ElixirScribe.Behaviour.TypedContract do
     role: "Elixir Scribe Engineer",
     self: Persona
   }
-  ```
-
-  Later, some layers deep in the code we can confirm that the Persona still conforms with the type spec defined in the contract:
-
-  ```
-  iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
-  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
-  iex> persona.self.conforms? persona
-  true
   ```
 
   Alternatively, you can use `new/1` and `update/3` which will return a `{:ok, result}` or `{:error, reason}` tuple.
@@ -83,19 +74,12 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   {:error, [%{input: :cto, path: [:role], spec: "PersonaValidator.role?()"}]}
   ```
 
-  The same as above, but using `new!/1` which will raise:
+  The same as above, but using `new!/1` that will raise:
 
   ```
-  Persona.new! %{name: "Paulo", email: "exadra37@company.com", role: :cto}
-  ```
-
-  It will raise the following:
-
-  ```
+  iex> Persona.new! %{name: "Paulo", email: "exadra37@company.com", role: :cto}
   ** (Norm.MismatchError) Could not conform input:
   val: :cto in: :role fails: PersonaValidator.role?()
-      (norm 0.13.0) lib/norm.ex:65: Norm.conform!/2
-      iex:6: (file)
   ```
 
   Invoking `update/3` and `update!/3` will output similar results.
@@ -104,6 +88,59 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   > - The Elixir Scribe typed contract acts as a contract for the businesse rules to guarantee data correctness at anypoint it's used in the code base.
   > - Now the developer only needs to test that a Persona complies with this business rules in the test for this contract, because everywhere the Persona contract is used it's guaranteed that the data is in the expected shape.
   > - This translates to fewer bugs, less technical debt creeping in and a more robust code base.
+
+
+  ### Validation
+
+  When using an Elixir Typed Contract through your code base you may want to ensure that the contract still conforms with the type spec, because it may have been directly manipulated, which may break it's guarantees. This is a limitation of the Elixir language, not of the typed contract implementation.
+
+  Let's create a valid Persona typed contract and then check if it still conforms:
+
+  ```
+  iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
+  iex> # Some layers deeper on your code you can ensure it still conforms:
+  iex> persona.self.conforms? persona
+  true
+  iex> # If you prefer the result as an ok tuple:
+  iex> persona.self.conforms persona
+  {:ok,
+   %Persona{
+     name: "Paulo",
+     email: "exadra37@company.com",
+     role: nil,
+     self: Persona
+   }}
+  iex> # Or if you prefer you can use the bang function:
+  iex> persona.self.conforms! persona
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
+  ```
+
+  This time let's create again a valid Persona typed contract, manipulated it directly with an invalid value and then check if it still conforms:
+
+  ```
+  iex> persona = Persona.new! %{name: "Paulo", email: "exadra37@company.com"}
+  %Persona{name: "Paulo", email: "exadra37@company.com", role: nil, self: Persona}
+  iex> # Manipulating the struct directly with the invalid value `:dev` for the `:role` field:
+  iex> persona = %{persona | role: :dev}
+  %Persona{
+    name: "Paulo",
+    email: "exadra37@company.com",
+    role: :dev,
+    self: Persona
+  }
+  iex> # The direct manipulation of a struct allows to update it with invalid values for the contract
+  iex> # To mitigate the contract violation we just need to check it still conforms:
+  iex> persona.self.conforms? persona
+  false
+  iex> # If you need to know the reason then use instead:
+  iex> persona.self.conforms persona
+  {:error, [%{input: :dev, path: [:role], spec: "PersonaValidator.role?()"}]}
+  iex> # If you prefer to let it crash, then use:
+  iex> persona.self.conforms! persona
+  ** (Norm.MismatchError) Could not conform input:
+  val: :dev in: :role fails: PersonaValidator.role?()
+  ```
 
   ### Introspection
 
@@ -156,32 +193,46 @@ defmodule ElixirScribe.Behaviour.TypedContract do
   @callback fields() :: map()
 
   @doc """
-  Accepts a map with the attributes to create an Elixir Scribe Typed Contract.
+  Accepts a map with the required and optional fields to create an Elixir Scribe Typed Contract.
 
   Returns `{:ok, struct}` on successful creation, otherwise returns `{:error, reason}`.
   """
   @callback new(map()) :: {:ok, struct()} | {:error, list(map())}
 
   @doc """
-  Accepts a map with the attributes to create an ELixir Scribe Typed Contract.
+  Accepts a map with the required and optional fields to create an Elixir Scribe Typed Contract.
 
   Returns the typed contract on successful creation, otherwise raises an error.
   """
   @callback new!(map()) :: struct()
 
   @doc """
-  Updates the Elixir Scribe Typed Contract for the given key and value.
+  Updates the Elixir Scribe Typed Contract for the given field and value.
 
   Returns `{:ok, struct}` on successful update, otherwise returns `{:error, reason}`.
   """
   @callback update(struct(), atom(), any()) :: {:ok, struct()} | {:error, list(map())}
 
   @doc """
-  Updates the Elixir Scribe Typed Contract for the given key and value.
+  Updates the Elixir Scribe Typed Contract for the given field and value.
 
   Returns the typed contract on successful update, otherwise raises an error.
   """
   @callback update!(struct(), atom(), any()) :: struct()
+
+  @doc """
+  Accepts the Elixir Scribe Typed Contract itself to check it still conforms with the specs.
+
+  Returns `{:ok, struct}` on success, otherwise returns `{:error, reason}`.
+  """
+  @callback conforms(struct()) :: {:ok, struct()} | {:error, list(map())}
+
+  @doc """
+  Accepts the Elixir Scribe Typed Contract itself to check it still conforms with the specs.
+
+  Returns the typed contract on success, otherwise raises an error.
+  """
+  @callback conforms!(struct()) :: struct()
 
   @doc """
   Accepts the Elixir Scribe Typed Contract itself to check it still conforms with the specs.
@@ -230,7 +281,10 @@ defmodule ElixirScribe.Behaviour.TypedContract do
 
       @behaviour ElixirScribe.Behaviour.TypedContract
 
-      @struct_keys Keyword.get(opts, :keys, %{}) |> Map.put(:extra, self: __MODULE__)
+      @contract_spec Keyword.get(opts, :fields, %{required: [], optional: []})
+                     |> Map.put_new(:optional, [])
+
+      @struct_keys @contract_spec |> Map.put(:extra, self: __MODULE__)
 
       @enforce_keys @struct_keys.required
 
@@ -246,18 +300,51 @@ defmodule ElixirScribe.Behaviour.TypedContract do
       def fields(), do: @fields
 
       @impl true
+      @doc """
+      Accepts a map with the required and optional fields to create an Elixir Scribe Typed Contract.
+
+      Required attributes: #{inspect(@contract_spec.required)}.
+
+      Optional attributes: #{inspect(@contract_spec.optional)}.
+
+      Success response: {:ok, %#{__MODULE__}{}}
+
+      Error response: {:error, list(map())}
+      """
       def new(attrs) when is_map(attrs) do
         struct(__MODULE__, attrs)
         |> conform(type_spec())
       end
 
       @impl true
+      @doc """
+      Accepts a map with the required and optional fields to create an Elixir Scribe Typed Contract.
+
+      Required attributes: #{inspect(@contract_spec.required)}.
+
+      Optional attributes: #{inspect(@contract_spec.optional)}.
+
+      Success response: %#{__MODULE__}{}
+
+      Raises an error when it fails to create the contract.
+      """
       def new!(attrs) when is_map(attrs) do
         struct(__MODULE__, attrs)
         |> conform!(type_spec())
       end
 
       @impl true
+      @doc """
+      Updates the Elixir Scribe Typed Contract for the given attribute and value.
+
+      Required attributes: #{inspect(@contract_spec.required)}.
+
+      Optional attributes: #{inspect(@contract_spec.optional)}.
+
+      Success response: {:ok, %#{__MODULE__}{}}
+
+      Error response: {:error, list(map())}
+      """
       def update(%__MODULE__{} = typed_contract, key, value) do
         typed_contract
         |> Map.put(key, value)
@@ -265,6 +352,17 @@ defmodule ElixirScribe.Behaviour.TypedContract do
       end
 
       @impl true
+      @doc """
+      Updates the Elixir Scribe Typed Contract for the given attribute and value.
+
+      Required attributes: #{inspect(@contract_spec.required)}.
+
+      Optional attributes: #{inspect(@contract_spec.optional)}.
+
+      Success response: {:ok, %#{__MODULE__}{}}
+
+      Raises an error when it fails to update the contract.
+      """
       def update!(%__MODULE__{} = typed_contract, key, value) do
         typed_contract
         |> Map.put(key, value)
@@ -272,10 +370,20 @@ defmodule ElixirScribe.Behaviour.TypedContract do
       end
 
       @impl true
+      def conforms(%__MODULE__{} = typed_contract) do
+        typed_contract |> conform(type_spec())
+      end
+
+      @impl true
+      def conforms!(%__MODULE__{} = typed_contract) do
+        typed_contract |> conform!(type_spec())
+      end
+
+      @impl true
       def conforms?(%__MODULE__{} = typed_contract), do: typed_contract |> valid?(type_spec())
       def conforms?(_), do: false
 
-      defoverridable new: 1, new!: 1, update: 3, update!: 3, conforms?: 1
+      defoverridable new: 1, new!: 1, update: 3, update!: 3
     end
   end
 end

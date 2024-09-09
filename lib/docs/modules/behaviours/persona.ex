@@ -3,12 +3,12 @@ defmodule Persona do
 
   require PersonaValidator
 
-  @keys %{
+  @fields %{
     required: [:name, :email],
     optional: [role: nil]
   }
 
-  use ElixirScribe.Behaviour.TypedContract, keys: @keys
+  use ElixirScribe.Behaviour.TypedContract, fields: @fields
 
   @impl true
   def type_spec() do
