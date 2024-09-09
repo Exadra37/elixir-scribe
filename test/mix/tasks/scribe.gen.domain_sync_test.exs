@@ -5,8 +5,6 @@ defmodule Mix.Tasks.Scribe.Gen.DomainSyncTest do
 
   import MixTestHelper
 
-  require Assertions
-
   setup do
     Mix.Task.clear()
     :ok

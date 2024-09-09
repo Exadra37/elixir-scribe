@@ -5,8 +5,6 @@ defmodule Mix.Tasks.Scribe.Gen.HtmlSyncTest do
 
   import MixTestHelper
 
-  require Assertions
-
   setup do
     Mix.Task.clear()
     :ok
