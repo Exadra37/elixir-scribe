@@ -1,6 +1,5 @@
 defmodule ElixirScribe.Generator.SchemaResourceAPI do
 
-  alias ElixirScribe.Generator.SchemaResourceAPI
   alias ElixirScribe.Generator.SchemaContract
   alias ElixirScribe.Generator.Schema.Resource.SchemaResourceHelpers
   alias ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract

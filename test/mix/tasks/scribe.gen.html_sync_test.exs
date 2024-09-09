@@ -1,81 +1,172 @@
-defmodule Mix.Tasks.Scribe.Gen.HtmlAsyncTest do
-  use ElixirScribe.BaseCase, async: true
+Code.require_file("test/mix_test_helper.exs")
+
+defmodule Mix.Tasks.Scribe.Gen.HtmlSyncTest do
+  use ElixirScribe.BaseCase
+
+  import MixTestHelper
 
   require Assertions
 
-  test "It raises when no arguments are provided" do
-    assert_raise Mix.Error, ~r/No arguments were provided.*$/s, fn ->
-      Mix.Tasks.Scribe.Gen.Html.run([])
-    end
+  setup do
+    Mix.Task.clear()
+    :ok
   end
 
-  # describe "files_to_be_generated/1" do
-  #   test "returns files for core, web and related tests" do
-  #     domain_contract = domain_contract_fixture()
+  test "it generates the lib and test domain resources for my_app_web and my_app",
+       config do
+    in_tmp_project(config.test, fn ->
+      args = ~w(Blog Post posts
+        title:string
+        slug:unique
+        votes:integer
+        cost:decimal
+        tags:array:text
+        popular:boolean
+        drafted_at:datetime
+        status:enum:unpublished:published:deleted
+        published_at:utc_datetime
+        published_at_usec:utc_datetime_usec
+        deleted_at:naive_datetime
+        deleted_at_usec:naive_datetime_usec
+        alarm:time
+        alarm_usec:time_usec
+        secret:uuid:redact
+        announcement_date:date
+        alarm:time
+        metadata:map
+        weight:float
+        user_id:references:users)
 
-  #     expected_files = [
-  #       {:eex, :html, "priv/templates/scribe.gen.html/html/default/list.html.heex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/list/list_posts.html.heex", "list"},
-  #       {:eex, :html, "priv/templates/scribe.gen.html/html/default/edit.html.heex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/edit/edit_post.html.heex", "edit"},
-  #       {:eex, :html, "priv/templates/scribe.gen.html/html/default/new.html.heex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/new/new_post.html.heex", "new"},
-  #       {:eex, :html, "priv/templates/scribe.gen.html/html/default/read.html.heex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/read/read_post.html.heex", "read"},
-  #       {:eex, :controller_test,
-  #        "priv/templates/scribe.gen.html/tests/controllers/delete_controller_test.exs",
-  #        "test/elixir_scribe_web/domain/site/blog/post/delete/delete_post_controller_test.exs",
-  #        "delete"},
-  #       {:eex, :controller_test,
-  #        "priv/templates/scribe.gen.html/tests/controllers/update_controller_test.exs",
-  #        "test/elixir_scribe_web/domain/site/blog/post/update/update_post_controller_test.exs",
-  #        "update"},
-  #       {:eex, :controller_test,
-  #        "priv/templates/scribe.gen.html/tests/controllers/create_controller_test.exs",
-  #        "test/elixir_scribe_web/domain/site/blog/post/create/create_post_controller_test.exs",
-  #        "create"},
-  #       {:eex, :controller_test,
-  #        "priv/templates/scribe.gen.html/tests/controllers/edit_controller_test.exs",
-  #        "test/elixir_scribe_web/domain/site/blog/post/edit/edit_post_controller_test.exs",
-  #        "edit"},
-  #       {:eex, :controller_test,
-  #        "priv/templates/scribe.gen.html/tests/controllers/read_controller_test.exs",
-  #        "test/elixir_scribe_web/domain/site/blog/post/read/read_post_controller_test.exs",
-  #        "read"},
-  #       {:eex, :controller_test,
-  #        "priv/templates/scribe.gen.html/tests/controllers/new_controller_test.exs",
-  #        "test/elixir_scribe_web/domain/site/blog/post/new/new_post_controller_test.exs", "new"},
-  #       {:eex, :controller_test,
-  #        "priv/templates/scribe.gen.html/tests/controllers/list_controller_test.exs",
-  #        "test/elixir_scribe_web/domain/site/blog/post/list/list_posts_controller_test.exs",
-  #        "list"},
-  #       {:eex, :controller, "priv/templates/scribe.gen.html/controllers/delete_controller.ex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/delete/delete_post_controller.ex",
-  #        "delete"},
-  #       {:eex, :controller, "priv/templates/scribe.gen.html/controllers/update_controller.ex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/update/update_post_controller.ex",
-  #        "update"},
-  #       {:eex, :controller, "priv/templates/scribe.gen.html/controllers/create_controller.ex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/create/create_post_controller.ex",
-  #        "create"},
-  #       {:eex, :controller, "priv/templates/scribe.gen.html/controllers/edit_controller.ex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/edit/edit_post_controller.ex", "edit"},
-  #       {:eex, :controller, "priv/templates/scribe.gen.html/controllers/read_controller.ex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/read/read_post_controller.ex", "read"},
-  #       {:eex, :controller, "priv/templates/scribe.gen.html/controllers/new_controller.ex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/new/new_post_controller.ex", "new"},
-  #       {:eex, :controller, "priv/templates/scribe.gen.html/controllers/list_controller.ex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/list/list_posts_controller.ex", "list"},
-  #       {:eex, :html, "priv/templates/scribe.gen.html/html/default/resource_form.html.heex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/post_form.html.heex", ""},
-  #       {:eex, :html, "priv/templates/scribe.gen.html/html/default/html.ex",
-  #        "lib/elixir_scribe_web/domain/site/blog/post/post_html.ex", ""}
-  #     ]
+      assert :ok = Mix.Tasks.Scribe.Gen.Html.run(args)
 
-  #     files = Html.files_to_be_generated(domain_contract)
+      assert File.exists?(
+               "lib/elixir_scribe_web/domain/blog/post/create/create_post_controller.ex"
+             )
 
-  #     assert length(files) === length(expected_files)
-  #     Assertions.assert_lists_equal(expected_files, files)
-  #   end
-  # end
+      assert File.exists?(
+               "test/elixir_scribe_web/domain/blog/post/create/create_post_controller_test.exs"
+             )
+
+      assert File.exists?(
+               "lib/elixir_scribe_web/domain/blog/post/delete/delete_post_controller.ex"
+             )
+
+      assert File.exists?(
+               "test/elixir_scribe_web/domain/blog/post/delete/delete_post_controller_test.exs"
+             )
+
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/edit/edit_post_controller.ex")
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/edit/edit_post.html.heex")
+
+      assert File.exists?(
+               "test/elixir_scribe_web/domain/blog/post/edit/edit_post_controller_test.exs"
+             )
+
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/list/list_posts_controller.ex")
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/list/list_posts.html.heex")
+
+      assert File.exists?(
+               "test/elixir_scribe_web/domain/blog/post/list/list_posts_controller_test.exs"
+             )
+
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/new/new_post_controller.ex")
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/new/new_post.html.heex")
+
+      assert File.exists?(
+               "test/elixir_scribe_web/domain/blog/post/new/new_post_controller_test.exs"
+             )
+
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/read/read_post_controller.ex")
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/read/read_post.html.heex")
+
+      assert File.exists?(
+               "test/elixir_scribe_web/domain/blog/post/read/read_post_controller_test.exs"
+             )
+
+      assert File.exists?(
+               "lib/elixir_scribe_web/domain/blog/post/update/update_post_controller.ex"
+             )
+
+      assert File.exists?(
+               "test/elixir_scribe_web/domain/blog/post/update/update_post_controller_test.exs"
+             )
+
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/post_form.html.heex")
+      assert File.exists?("lib/elixir_scribe_web/domain/blog/post/post_html.ex")
+
+      ### LIB CORE - DOMAIN RESOURCE ACTIONS ####
+      # The domain generator is also invoked by mix scribe.gen.html
+
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/post_schema.ex")
+
+      assert File.exists?("lib/elixir_scribe/domain/blog/post_api.ex")
+
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/list/list_posts.ex")
+
+      assert File.exists?("test/elixir_scribe/domain/blog/post/list/list_posts_test.exs")
+
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/new/new_post.ex")
+
+      assert File.exists?("test/elixir_scribe/domain/blog/post/new/new_post_test.exs")
+
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/read/read_post.ex")
+
+      assert File.exists?("test/elixir_scribe/domain/blog/post/read/read_post_test.exs")
+
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/edit/edit_post.ex")
+
+      assert File.exists?("test/elixir_scribe/domain/blog/post/edit/edit_post_test.exs")
+
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/create/create_post.ex")
+
+      assert File.exists?("test/elixir_scribe/domain/blog/post/create/create_post_test.exs") ===
+               true
+
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/update/update_post.ex")
+
+      assert File.exists?("test/elixir_scribe/domain/blog/post/update/update_post_test.exs") ===
+               true
+
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/delete/delete_post.ex")
+
+      assert File.exists?("test/elixir_scribe/domain/blog/post/delete/delete_post_test.exs") ===
+               true
+
+      ### TEST FIXTURES ###
+
+      assert File.exists?("test/support/fixtures/domain/blog/post_fixtures.ex")
+
+      ### MIGRATIONS ###
+
+      assert Path.wildcard("priv/repo/migrations/*_create_posts.exs") |> length() === 1
+
+      expected_routes = """
+
+      Your Blog :browser scope in lib/elixir_scribe_web/router.ex should now look like this:
+
+        scope "/blog/posts", ElixirScribeWeb.Blog.Post, as: :blog_posts do
+          pipe_through :browser
+
+          get "/", List.ListPostsController, :list
+          get "/new", New.NewPostController, :new
+          get "/:id", Read.ReadPostController, :read
+          get "/:id/edit", Edit.EditPostController, :edit
+          post "/", Create.CreatePostController, :create
+          patch "/:id", Update.UpdatePostController, :update
+          put "/:id", Update.UpdatePostController, :update
+          delete "/:id", Delete.DeletePostController, :delete
+        end
+      """
+
+      expected_migrations_info = """
+
+      Remember to update your repository by running migrations:
+
+          $ mix ecto.migrate
+      """
+
+      assert_receive {:mix_shell, :info, [^expected_routes]}
+      assert_receive {:mix_shell, :info, [^expected_migrations_info]}
+    end)
+  end
 end

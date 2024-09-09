@@ -89,11 +89,11 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
 
       ### RESOURCE SCHEMA ###
 
-      assert File.exists?("lib/elixir_scribe/domain/blog/post/post_schema.ex") === true
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/post_schema.ex")
 
       ### RESOURCE API ###
 
-      assert File.exists?("lib/elixir_scribe/domain/blog/post_api.ex") === true
+      assert File.exists?("lib/elixir_scribe/domain/blog/post_api.ex")
 
       # @TODO Uncomment when the domain generator creates the API test file
       # assert_file("test/elixir_scribe/domain/blog/post_api_test.exs", fn file ->
@@ -110,40 +110,40 @@ defmodule ElixirScribe.Generator.Domain.Resource.GenerateNewFiles.GenerateNewFil
 
       ### RESOURCE ACTIONS ####
 
-      assert File.exists?("lib/elixir_scribe/domain/blog/post/list/list_posts.ex") === true
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/list/list_posts.ex")
 
-      assert File.exists?("test/elixir_scribe/domain/blog/post/list/list_posts_test.exs") === true
+      assert File.exists?("test/elixir_scribe/domain/blog/post/list/list_posts_test.exs")
 
-      assert File.exists?("lib/elixir_scribe/domain/blog/post/new/new_post.ex") === true
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/new/new_post.ex")
 
-      assert File.exists?("test/elixir_scribe/domain/blog/post/new/new_post_test.exs") === true
+      assert File.exists?("test/elixir_scribe/domain/blog/post/new/new_post_test.exs")
 
-      assert File.exists?("lib/elixir_scribe/domain/blog/post/read/read_post.ex") === true
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/read/read_post.ex")
 
-      assert File.exists?("test/elixir_scribe/domain/blog/post/read/read_post_test.exs") === true
+      assert File.exists?("test/elixir_scribe/domain/blog/post/read/read_post_test.exs")
 
-      assert File.exists?("lib/elixir_scribe/domain/blog/post/edit/edit_post.ex") === true
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/edit/edit_post.ex")
 
-      assert File.exists?("test/elixir_scribe/domain/blog/post/edit/edit_post_test.exs") === true
+      assert File.exists?("test/elixir_scribe/domain/blog/post/edit/edit_post_test.exs")
 
-      assert File.exists?("lib/elixir_scribe/domain/blog/post/create/create_post.ex") === true
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/create/create_post.ex")
 
       assert File.exists?("test/elixir_scribe/domain/blog/post/create/create_post_test.exs") ===
                true
 
-      assert File.exists?("lib/elixir_scribe/domain/blog/post/update/update_post.ex") === true
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/update/update_post.ex")
 
       assert File.exists?("test/elixir_scribe/domain/blog/post/update/update_post_test.exs") ===
                true
 
-      assert File.exists?("lib/elixir_scribe/domain/blog/post/delete/delete_post.ex") === true
+      assert File.exists?("lib/elixir_scribe/domain/blog/post/delete/delete_post.ex")
 
       assert File.exists?("test/elixir_scribe/domain/blog/post/delete/delete_post_test.exs") ===
                true
 
       ### TEST FIXTURES ###
 
-      assert File.exists?("test/support/fixtures/domain/blog/post_fixtures.ex") === true
+      assert File.exists?("test/support/fixtures/domain/blog/post_fixtures.ex")
 
       ### MIGRATIONS ###
 

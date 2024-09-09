@@ -364,12 +364,13 @@ defmodule Mix.Tasks.Scribe.Gen.Html do
 
   defp print_shell_instructions(%DomainContract{schema: schema, context_app: ctx_app} = context) do
     router_file_path = Mix.Phoenix.web_path(ctx_app) |> Path.join("router.ex")
-    router_scope = RouteAPI.scope_routes(context)
+    router_scope = RouteAPI.scope_routes(context) |> String.trim()
 
     Mix.shell().info("""
 
-     Your #{schema.web_namespace} :browser scope in #{router_file_path} should now look like this:
-     #{router_scope}
+    Your #{schema.web_namespace} :browser scope in #{router_file_path} should now look like this:
+
+      #{router_scope}
     """)
 
     if context.generate?, do: Gen.Domain.print_shell_instructions(context)

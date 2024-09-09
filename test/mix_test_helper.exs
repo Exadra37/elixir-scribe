@@ -42,6 +42,15 @@ defmodule MixTestHelper do
       File.cd!(path, fn ->
         File.touch!("mix.exs")
 
+        File.mkdir_p!("lib/elixir_scribe_web/")
+
+        File.write!("lib/elixir_scribe_web/router.ex", """
+        defmodule ElixirScribeAppWeb.Router do
+          use ElixirScribeAppWeb, :router
+
+        end
+        """)
+
         File.write!(".formatter.exs", """
         [
           import_deps: [:phoenix, :ecto, :ecto_sql],

@@ -1,5 +1,5 @@
 defmodule ElixirScribe.Generator.Schema.Resource.SchemaResourceHelpersTest do
-  alias ElixirScribe.Generator.SchemaResourceAPI
+  # alias ElixirScribe.Generator.SchemaResourceAPI
   use ElixirScribe.BaseCase, async: true
 
 

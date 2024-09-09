@@ -83,10 +83,9 @@ defmodule ElixirScribe.Generator.SchemaResourceAPITest do
       assert SchemaResourceAPI.live_form_value(naive_datetime) === "2024-09-06T09:12:25"
     end
 
-    test "raises a FunctionClauseError when isn't invoked with the correct first argument type (%Date{}, %Time{}, %DateTime{} or %NaiveDateTime{})" do
-      assert_raise FunctionClauseError, ~r/^no function clause matching in.*$/s, fn ->
-        SchemaResourceAPI.live_form_value(%{})
-      end
+    test "when isn't invoked with the correct first argument type (%Date{}, %Time{}, %DateTime{} or %NaiveDateTime{}) it returns the same unchanged value" do
+
+      assert SchemaResourceAPI.live_form_value("whatever") === "whatever"
     end
 end
 end
