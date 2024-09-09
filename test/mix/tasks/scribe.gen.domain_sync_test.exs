@@ -22,7 +22,10 @@ defmodule Mix.Tasks.Scribe.Gen.DomainSyncTest do
     in_tmp_project(config.test, fn ->
       assert :ok = Mix.Tasks.Scribe.Gen.Domain.run(~w(Blog Post posts title:string))
 
-      assert_received {:mix_shell, :info, ["\nRemember to update your repository by running migrations:\n\n    $ mix ecto.migrate\n"]}
+      assert_received {:mix_shell, :info,
+                       [
+                         "\nRemember to update your repository by running migrations:\n\n    $ mix ecto.migrate\n"
+                       ]}
     end)
   end
 end

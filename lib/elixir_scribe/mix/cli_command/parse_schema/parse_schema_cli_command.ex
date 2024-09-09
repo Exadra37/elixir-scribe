@@ -12,7 +12,7 @@ defmodule ElixirScribe.Mix.CLICommand.ParseSchema.ParseSchemaCLICommand do
   ]
 
   @default_opts [
-    migration: true,
+    migration: true
   ]
 
   def parse(args) when is_list(args) do
@@ -32,6 +32,7 @@ defmodule ElixirScribe.Mix.CLICommand.ParseSchema.ParseSchemaCLICommand do
   defp parse_options(opts) when is_list(opts) do
     @default_opts
     |> Keyword.merge(opts)
+
     # |> put_context_app(opts[:context_app])
   end
 

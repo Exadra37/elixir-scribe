@@ -128,32 +128,32 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
   end
 
   # describe ":binary_id option" do
-    # test "its set to true by default" do
-    #   args = [
-    #     "Blog",
-    #     "Post",
-    #     "posts",
-    #     "slug:unique"
-    #   ]
+  # test "its set to true by default" do
+  #   args = [
+  #     "Blog",
+  #     "Post",
+  #     "posts",
+  #     "slug:unique"
+  #   ]
 
-    #   assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
+  #   assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
 
-    #   assert {:binary_id, true} in all_opts
-    # end
+  #   assert {:binary_id, true} in all_opts
+  # end
 
-    # test "can be set to false by using --no-binary-id" do
-    #   args = [
-    #     "Blog",
-    #     "Post",
-    #     "posts",
-    #     "slug:unique",
-    #     "--no-binary-id"
-    #   ]
+  # test "can be set to false by using --no-binary-id" do
+  #   args = [
+  #     "Blog",
+  #     "Post",
+  #     "posts",
+  #     "slug:unique",
+  #     "--no-binary-id"
+  #   ]
 
-    #   assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
+  #   assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
 
-    #   assert {:binary_id, false} in all_opts
-    # end
+  #   assert {:binary_id, false} in all_opts
+  # end
   # end
 
   describe ":resource_actions option" do
@@ -162,7 +162,7 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
         "Blog",
         "Post",
         "posts",
-        "slug:unique",
+        "slug:unique"
       ]
 
       assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
@@ -208,18 +208,18 @@ defmodule ElixirScribe.Mix.CLICommand.Parse.ParseCLICommandTest do
 
   describe ":context_app option" do
     test "it converts from string to atom" do
-        args = [
-            "Blog",
-            "Post",
-            "posts",
-            "slug:unique",
-            "--context-app",
-            "marketing"
-          ]
+      args = [
+        "Blog",
+        "Post",
+        "posts",
+        "slug:unique",
+        "--context-app",
+        "marketing"
+      ]
 
-        assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
+      assert {_valid_args, all_opts, _invalid_args} = MixAPI.parse_cli_command(args)
 
-        assert :marketing = Keyword.get(all_opts, :context_app)
-      end
+      assert :marketing = Keyword.get(all_opts, :context_app)
+    end
   end
 end

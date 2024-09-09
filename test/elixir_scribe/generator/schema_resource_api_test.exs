@@ -33,7 +33,6 @@ defmodule ElixirScribe.Generator.SchemaResourceAPITest do
 
   describe "default_param_value/2" do
     test "can be invoked with the correct arguments types (%SchemaContract{}, atom) and returns the expected string" do
-
       contract = domain_contract_fixture()
 
       assert SchemaResourceAPI.default_param_value(contract.schema, :create) === "some name"
@@ -55,14 +54,12 @@ defmodule ElixirScribe.Generator.SchemaResourceAPITest do
 
   describe "live_form_value/2" do
     test "can be invoked with the correct first argument type (%Date{}) and returns the expected string format %Y-%m-%d" do
-
       date = Date.new!(2024, 9, 6)
 
       assert SchemaResourceAPI.live_form_value(date) === "2024-09-06"
     end
 
     test "can be invoked with the correct first argument type (%Time{}) and returns the expected string format %H:%M" do
-
       time = Time.new!(9, 12, 25)
 
       assert SchemaResourceAPI.live_form_value(time) === "09:12"
@@ -77,15 +74,13 @@ defmodule ElixirScribe.Generator.SchemaResourceAPITest do
     end
 
     test "can be invoked with the correct first argument type (%NaiveDateTime{}) and returns the expected string format %Y-%m-%dT%H:%M" do
-
       naive_datetime = NaiveDateTime.new!(2024, 9, 6, 9, 12, 25)
 
       assert SchemaResourceAPI.live_form_value(naive_datetime) === "2024-09-06T09:12:25"
     end
 
     test "when isn't invoked with the correct first argument type (%Date{}, %Time{}, %DateTime{} or %NaiveDateTime{}) it returns the same unchanged value" do
-
       assert SchemaResourceAPI.live_form_value("whatever") === "whatever"
     end
-end
+  end
 end

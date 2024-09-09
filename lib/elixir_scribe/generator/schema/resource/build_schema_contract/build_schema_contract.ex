@@ -163,7 +163,8 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
           "Cannot generate Resource #{resource_name} because it has the same name as the application"
         )
 
-      String.contains?(schema_plural, ":") or schema_plural != Phoenix.Naming.underscore(schema_plural) ->
+      String.contains?(schema_plural, ":") or
+          schema_plural != Phoenix.Naming.underscore(schema_plural) ->
         build_error_with_help(
           "Expected the schema plural argument, #{inspect(schema_plural)}, to be all lowercase using snake_case convention"
         )
@@ -174,11 +175,15 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
   end
 
   defp validate_args!(args) when length(args) == 2 do
-    build_error_with_help("Missing the schema table name for the resource. Needs to be lowercase and in the plural form.")
+    build_error_with_help(
+      "Missing the schema table name for the resource. Needs to be lowercase and in the plural form."
+    )
   end
 
   defp validate_args!(args) when length(args) == 1 do
-    build_error_with_help("Missing the resource name and schema table name. Resource name needs to capitalized and the schema name needs to be lowercase and in the plural form.")
+    build_error_with_help(
+      "Missing the resource name and schema table name. Resource name needs to capitalized and the schema name needs to be lowercase and in the plural form."
+    )
   end
 
   defp validate_args!(_args) do
@@ -236,8 +241,9 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
 
   defp extract_option_context_app(nil), do: Mix.Phoenix.context_app()
   defp extract_option_context_app(app_name) when is_atom(app_name), do: app_name
-  defp extract_option_context_app(app_name) when is_binary(app_name), do: app_name |> String.to_existing_atom()
 
+  defp extract_option_context_app(app_name) when is_binary(app_name),
+    do: app_name |> String.to_existing_atom()
 
   defp extract_option_repo(opts, base) when is_list(opts) and is_binary(base) do
     opts
@@ -570,7 +576,7 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContract do
     # if Keyword.get(opts, :binary_id, false) do
     Keyword.get(opts, :sample_binary_id, "11111111-1111-1111-1111-111111111111")
     # else
-      # -1
+    # -1
     # end
   end
 

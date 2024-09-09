@@ -104,7 +104,6 @@ defmodule ElixirScribe.Generator.Schema.Resource.BuildSchemaResourceContractTest
                    end
     end
 
-
     test "when the type missing from the enum" do
       assert_raise Mix.Error,
                    ~r/^Enum type requires at least one value/,
