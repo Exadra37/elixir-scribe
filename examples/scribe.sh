@@ -65,9 +65,10 @@ Scribe_Html_Criteria_3() {
 Todo_App() {
   Maybe_Create_App
 
-  mix scribe.gen.html Todo Task tasks title:string done:boolean --no-schema
-  mix scribe.gen.html Todo Tag tags title:string desc:string
-  mix scribe.gen.html Acounts User users name:string email:string
+  # mix scribe.gen.html Todo Task tasks title:string done:boolean --no-schema
+  # mix scribe.gen.html Todo Tag tags title:string desc:string
+  mix scribe.gen.html Accounts User users name:string email:string
+  mix scribe.gen.html Accounts Admin admins name:string email:string --actions add_admin,update_admin_account
 }
 
 Shop_App() {

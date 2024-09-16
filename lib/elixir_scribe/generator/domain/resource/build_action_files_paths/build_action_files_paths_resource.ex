@@ -17,15 +17,43 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
   end
 
   defp build_target_path(contract, action) do
+    filename =
+      action
+      |> maybe_add_resource_name(contract)
+      |> maybe_add_domain_name(contract)
+      |> Kernel.<>("_handler.ex")
+
+    Path.join([contract.lib_resource_dir, action, filename])
+  end
+
+  defp maybe_add_resource_name(action, contract) do
     plural_actions = ElixirScribe.resource_plural_actions()
 
     resource_name =
       (action in plural_actions && contract.resource_name_plural) ||
         contract.resource_name_singular
 
-    filename = "#{action}_" <> resource_name <> ".ex"
+    case action |> String.contains?(resource_name) do
+      true ->
+        action
 
-    Path.join([contract.lib_resource_dir, action, filename])
+      false ->
+        "#{action}_#{resource_name}"
+    end
+  end
+
+  defp maybe_add_domain_name(action_filename, contract) do
+    domain_name = contract.name |> String.split(".") |> List.last() |> String.downcase()
+
+    domain_name = domain_name |> String.trim_trailing("s")
+
+    case action_filename |> String.contains?(domain_name) do
+      true ->
+        action_filename
+
+      false ->
+        "#{action_filename}_#{domain_name}"
+    end
   end
 
   defp build_source_path(schema, action) do
