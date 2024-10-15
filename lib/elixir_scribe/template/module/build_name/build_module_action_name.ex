@@ -9,7 +9,6 @@ defmodule ElixirScribe.Template.Module.BuildName.BuildModuleActionName do
     action
     |> maybe_add_resource_name(contract)
     |> maybe_add_domain_name(contract)
-    |> Kernel.<>("Handler")
   end
 
   defp maybe_add_resource_name(action, contract) do

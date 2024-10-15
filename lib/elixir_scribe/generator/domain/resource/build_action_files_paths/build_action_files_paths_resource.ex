@@ -16,14 +16,25 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
     end
   end
 
+  defp build_source_path(schema, action) do
+    resource_action_path = ElixirScribe.resource_actions_template_path()
+    schema_folder = ElixirScribe.schema_template_folder_name(schema)
+    action_template_filename = build_template_action_filename(action, schema.generate?)
+
+    Path.join([resource_action_path, schema_folder, action_template_filename])
+  end
+
   defp build_target_path(contract, action) do
-    filename =
+    action_name =
       action
       |> maybe_add_resource_name(contract)
       |> maybe_add_domain_name(contract)
+
+    filename =
+      action_name
       |> Kernel.<>("_handler.ex")
 
-    Path.join([contract.lib_resource_dir, action, filename])
+    Path.join([contract.lib_resource_dir, action_name, filename])
   end
 
   defp maybe_add_resource_name(action, contract) do
@@ -54,14 +65,6 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildActionFilesPaths.BuildActi
       false ->
         "#{action_filename}_#{domain_name}"
     end
-  end
-
-  defp build_source_path(schema, action) do
-    resource_action_path = ElixirScribe.resource_actions_template_path()
-    schema_folder = ElixirScribe.schema_template_folder_name(schema)
-    action_template_filename = build_template_action_filename(action, schema.generate?)
-
-    Path.join([resource_action_path, schema_folder, action_template_filename])
   end
 
   defp build_template_action_filename(action, true) do

@@ -12,7 +12,7 @@ defmodule ElixirScribe.Template.Module.BuildName.BuildAbsoluteModuleActionNameAl
       aliases ->
         aliases <>
           "\n  alias " <>
-          ModuleAPI.build_absolute_module_action_name(context, action, opts)
+          ModuleAPI.build_absolute_module_action_name(context, action, opts) <> "Handler"
     end
   end
 end

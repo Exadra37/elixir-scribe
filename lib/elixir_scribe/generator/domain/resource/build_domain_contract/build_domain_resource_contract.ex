@@ -46,15 +46,21 @@ defmodule ElixirScribe.Generator.Domain.Resource.BuildContract.BuildDomainResour
     base_web = web_module()
 
     module = Module.concat(base, context_name)
-    resource_module = Module.concat(module, schema.alias)
-    resource_module_plural = Module.concat(module, resource_name_plural_capitalized)
+    domain_name = module |> Module.split() |> List.last()
+    domain = Module.concat([domain_name])
+    resource_module = module |> Module.concat("#{schema.alias}#{domain_name}")
+    resource_module_plural = module |> Module.concat(resource_name_plural_capitalized) |> Module.concat(domain)
     web_domain_module = Module.concat(base_web, context_name)
     web_resource_module = Module.concat([web_domain_module, schema.alias])
+
+    dbg("#{domain}")
+    dbg(module)
+    dbg(schema.alias)
+    dbg(resource_module)
 
     web_resource_module_plural =
       Module.concat([web_domain_module, resource_name_plural_capitalized])
 
-    domain = Module.concat([module |> Module.split() |> List.last()])
     basedir = Path.join(["domain", Phoenix.Naming.underscore(context_name)])
     basename = Path.basename(basedir)
 
